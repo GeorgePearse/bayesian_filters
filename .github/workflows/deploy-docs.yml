@@ -8,10 +8,19 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,22 +30,21 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
-        with:
-          version: "latest"
 
-      - name: Install package and dependencies
-        run: |
-          uv pip install --system -e .
-          uv pip install --system mkdocs-material mkdocstrings[python] pymdown-extensions
+      - name: Install dependencies
+        run: uv sync --extra docs
+
+      - name: Build documentation
+        run: uv run mkdocs build --strict
 
       - name: Configure git
         run: |
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
 
-      - name: Deploy documentation
-        run: mkdocs gh-deploy --force
+      - name: Deploy to GitHub Pages
+        run: uv run mkdocs gh-deploy --force
