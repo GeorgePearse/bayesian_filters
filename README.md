@@ -6,10 +6,10 @@
 
 For people new to Kalman filters, they're well explained here https://www.youtube.com/watch?v=IFeCIbljreY (credit for the above image)
 
-[![PyPI version](https://img.shields.io/pypi/v/filterpy.svg)](https://pypi.python.org/pypi/filterpy)
-[![Documentation Status](https://readthedocs.org/projects/pip/badge/?version=latest&style=flat)](https://filterpy.readthedocs.io/en/latest/)
+[![PyPI version](https://img.shields.io/pypi/v/bayesian-filters.svg)](https://pypi.org/project/bayesian-filters/)
+[![Documentation Status](https://img.shields.io/badge/docs-online-brightgreen)](https://georgepearse.github.io/bayesian_filters)
 
-> **Note**: This is a personal fork of the original FilterPy library. The original project can be found at https://github.com/rlabbe/filterpy
+> **Note**: This is a personal fork of the original FilterPy library (now renamed to Bayesian Filters). The original project can be found at https://github.com/rlabbe/filterpy
 
 This library provides Kalman filtering and various related optimal and non-optimal filtering software written in Python. It contains Kalman filters, Extended Kalman filters, Unscented Kalman filters, Kalman smoothers, Least Squares filters, fading memory filters, g-h filters, discrete Bayes, and more.
 
@@ -23,25 +23,28 @@ All computations use NumPy and SciPy.
 
 ## Documentation
 
-Sphinx generated documentation lives at http://filterpy.readthedocs.org/.
+Documentation is available at https://georgepearse.github.io/bayesian_filters
 
 ## Installation
 
 ```bash
-uv pip install filterpy
+uv pip install bayesian-filters
 ```
 
 
 ## Basic Usage
 
-Full documentation is at https://filterpy.readthedocs.io/en/latest/
+Full documentation is at https://georgepearse.github.io/bayesian_filters
 
 ### Import the filters
 
 ```python
 import numpy as np
-from filterpy.kalman import KalmanFilter
-from filterpy.common import Q_discrete_white_noise
+import bayesian_filters as bf
+
+# Or import specific modules
+from bayesian_filters.kalman import KalmanFilter
+from bayesian_filters.common import Q_discrete_white_noise
 ```
 
 ### Create the filter
@@ -112,6 +115,8 @@ The tests include both unit tests and visual verification. Visual plots are ofte
 
 ## References
 
+### Books
+
 The original author uses three main reference texts:
 
 1. **Paul Zarchan's 'Fundamentals of Kalman Filtering: A Practical Approach'** - Excellent for practical applications rather than theoretical thesis work.
@@ -120,9 +125,13 @@ The original author uses three main reference texts:
 
 3. **Bar-Shalom's 'Estimation with Applications to Tracking and Navigation'** - More mathematical than the previous two. Recommended after gaining some background in control theory or optimal estimation. Every sentence is crystal clear with precise language, and abstract mathematical statements are followed with practical explanations.
 
+### Online Resources
+
+- **[Kalman Filter Background](https://kalmanfilter.net/background.html)** - Comprehensive background and theory on Kalman filtering
+
 ## License
 
-[![License](https://anaconda.org/rlabbe/filterpy/badges/license.svg)](https://anaconda.org/rlabbe/filterpy)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/GeorgePearse/bayesian_filters/blob/master/LICENSE)
 
 The MIT License (MIT)
 

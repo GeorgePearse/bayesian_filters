@@ -6,10 +6,10 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 """Copyright 2015 Roger R Labbe Jr.
 
 FilterPy library.
-http://github.com/rlabbe/filterpy
+https://github.com/GeorgePearse/bayesian_filters
 
 Documentation at:
-https://filterpy.readthedocs.org
+https://georgepearse.github.io/bayesian_filters
 
 Supporting book at:
 https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python

@@ -104,10 +104,10 @@ book cited below. In it I both teach Kalman filtering from basic
 principles, and teach the use of this library in great detail.
 
 FilterPy library.
-http://github.com/rlabbe/filterpy
+https://github.com/GeorgePearse/bayesian_filters
 
 Documentation at:
-https://filterpy.readthedocs.org
+https://georgepearse.github.io/bayesian_filters
 
 Supporting book at:
 https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python
@@ -359,7 +359,7 @@ class KalmanFilter(object):
         pseudo inverse, set it to that instead: kf.inv = np.linalg.pinv
 
         This is only used to invert self.S. If you know it is diagonal, you
-        might choose to set it to filterpy.common.inv_diagonal, which is
+        might choose to set it to bayesian_filters.common.inv_diagonal, which is
         several times faster than numpy.linalg.inv for diagonal matrices.
 
     alpha : float
@@ -896,8 +896,8 @@ class KalmanFilter(object):
              controls whether the order of operations is update followed by
              predict, or predict followed by update. Default is predict->update.
 
-         saver : filterpy.common.Saver, optional
-             filterpy.common.Saver object. If provided, saver.save() will be
+         saver : bayesian_filters.common.Saver, optional
+             bayesian_filters.common.Saver object. If provided, saver.save() will be
              called after every epoch
 
          Returns
@@ -1685,8 +1685,8 @@ def batch_filter(x, P, zs, Fs, Qs, Hs, Rs, Bs=None, us=None, update_first=False,
         controls whether the order of operations is update followed by
         predict, or predict followed by update. Default is predict->update.
 
-        saver : filterpy.common.Saver, optional
-            filterpy.common.Saver object. If provided, saver.save() will be
+        saver : bayesian_filters.common.Saver, optional
+            bayesian_filters.common.Saver object. If provided, saver.save() will be
             called after every epoch
 
     Returns

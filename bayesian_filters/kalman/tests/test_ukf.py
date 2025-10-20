@@ -7,10 +7,10 @@
 """Copyright 2015 Roger R Labbe Jr.
 
 FilterPy library.
-http://github.com/rlabbe/filterpy
+https://github.com/GeorgePearse/bayesian_filters
 
 Documentation at:
-https://filterpy.readthedocs.org
+https://georgepearse.github.io/bayesian_filters
 
 Supporting book at:
 https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python
@@ -1007,7 +1007,7 @@ def test_vhartman():
     """
     Code provided by vhartman on github #172
 
-    https://github.com/rlabbe/filterpy/issues/172
+    https://github.com/GeorgePearse/bayesian_filters/issues/172
     """
 
     def fx(x, dt):
