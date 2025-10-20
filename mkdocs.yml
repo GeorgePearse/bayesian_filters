@@ -1,11 +1,13 @@
 site_name: Bayesian Filters
 site_description: Kalman filtering and optimal estimation library
 site_author: Roger Labbe
-site_url: https://georgepearse.github.io/filterpy
+site_url: https://georgepearse.github.io/bayesian_filters
 
-repo_name: GeorgePearse/filterpy
-repo_url: https://github.com/GeorgePearse/filterpy
-edit_uri: edit/master/docs/
+repo_name: GeorgePearse/bayesian_filters
+repo_url: https://github.com/GeorgePearse/bayesian_filters
+edit_uri: edit/master/docs-mkdocs/
+
+docs_dir: docs-mkdocs
 
 theme:
   name: material
