@@ -12,22 +12,28 @@
         <meta name="author" content="Roger Labbe">
       
       
+        <link rel="canonical" href="https://georgepearse.github.io/bayesian_filters/algorithms/least-squares/">
       
       
+        <link rel="prev" href="../discrete-bayes/">
       
-      <link rel="icon" href="/bayesian_filters/assets/images/favicon.png">
+      
+        <link rel="next" href="../monte-carlo/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
     
     
       
-        <title>Bayesian Filters</title>
+        <title>Least Squares - Bayesian Filters</title>
       
     
     
-      <link rel="stylesheet" href="/bayesian_filters/assets/stylesheets/main.84d31ad4.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
       
         
-        <link rel="stylesheet" href="/bayesian_filters/assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -46,9 +52,9 @@
       
     
     
-      <link rel="stylesheet" href="/bayesian_filters/assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("/bayesian_filters/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -73,6 +79,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#least-squares-filters" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -83,7 +94,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/bayesian_filters/." title="Bayesian Filters" class="md-header__button md-logo" aria-label="Bayesian Filters" data-md-component="logo">
+    <a href="../.." title="Bayesian Filters" class="md-header__button md-logo" aria-label="Bayesian Filters" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -103,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Least Squares
             
           </span>
         </div>
@@ -216,7 +227,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/bayesian_filters/." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -237,7 +248,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/bayesian_filters/getting-started/installation/" class="md-tabs__link">
+        <a href="../../getting-started/installation/" class="md-tabs__link">
           
   
   
@@ -257,7 +268,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/bayesian_filters/filters/kalman-filter/" class="md-tabs__link">
+        <a href="../../filters/kalman-filter/" class="md-tabs__link">
           
   
   
@@ -273,11 +284,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="/bayesian_filters/algorithms/gh-filter/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../gh-filter/" class="md-tabs__link">
           
   
   
@@ -297,7 +310,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/bayesian_filters/api/kalman/" class="md-tabs__link">
+        <a href="../../api/kalman/" class="md-tabs__link">
           
   
   
@@ -315,7 +328,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/bayesian_filters/examples/" class="md-tabs__link">
+      <a href="../../examples/" class="md-tabs__link">
         
   
   
@@ -334,7 +347,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/bayesian_filters/contributing/" class="md-tabs__link">
+      <a href="../../contributing/" class="md-tabs__link">
         
   
   
@@ -353,7 +366,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/bayesian_filters/changelog/" class="md-tabs__link">
+      <a href="../../changelog/" class="md-tabs__link">
         
   
   
@@ -388,7 +401,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/bayesian_filters/." title="Bayesian Filters" class="md-nav__button md-logo" aria-label="Bayesian Filters" data-md-component="logo">
+    <a href="../.." title="Bayesian Filters" class="md-nav__button md-logo" aria-label="Bayesian Filters" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -418,7 +431,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -483,7 +496,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/getting-started/installation/" class="md-nav__link">
+      <a href="../../getting-started/installation/" class="md-nav__link">
         
   
   
@@ -506,7 +519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/getting-started/quick-start/" class="md-nav__link">
+      <a href="../../getting-started/quick-start/" class="md-nav__link">
         
   
   
@@ -579,7 +592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/filters/kalman-filter/" class="md-nav__link">
+      <a href="../../filters/kalman-filter/" class="md-nav__link">
         
   
   
@@ -602,7 +615,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/filters/extended-kalman-filter/" class="md-nav__link">
+      <a href="../../filters/extended-kalman-filter/" class="md-nav__link">
         
   
   
@@ -625,7 +638,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/filters/unscented-kalman-filter/" class="md-nav__link">
+      <a href="../../filters/unscented-kalman-filter/" class="md-nav__link">
         
   
   
@@ -648,7 +661,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/filters/ensemble-kalman-filter/" class="md-nav__link">
+      <a href="../../filters/ensemble-kalman-filter/" class="md-nav__link">
         
   
   
@@ -671,7 +684,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/filters/information-filter/" class="md-nav__link">
+      <a href="../../filters/information-filter/" class="md-nav__link">
         
   
   
@@ -694,7 +707,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/filters/square-root-filter/" class="md-nav__link">
+      <a href="../../filters/square-root-filter/" class="md-nav__link">
         
   
   
@@ -717,7 +730,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/filters/fading-kalman-filter/" class="md-nav__link">
+      <a href="../../filters/fading-kalman-filter/" class="md-nav__link">
         
   
   
@@ -740,7 +753,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/filters/h-infinity-filter/" class="md-nav__link">
+      <a href="../../filters/h-infinity-filter/" class="md-nav__link">
         
   
   
@@ -763,7 +776,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/filters/imm-estimator/" class="md-nav__link">
+      <a href="../../filters/imm-estimator/" class="md-nav__link">
         
   
   
@@ -786,7 +799,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/filters/mmae-filter-bank/" class="md-nav__link">
+      <a href="../../filters/mmae-filter-bank/" class="md-nav__link">
         
   
   
@@ -813,26 +826,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   
@@ -845,7 +863,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Other Algorithms
@@ -859,7 +877,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/algorithms/gh-filter/" class="md-nav__link">
+      <a href="../gh-filter/" class="md-nav__link">
         
   
   
@@ -882,7 +900,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/algorithms/discrete-bayes/" class="md-nav__link">
+      <a href="../discrete-bayes/" class="md-nav__link">
         
   
   
@@ -902,10 +920,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/bayesian_filters/algorithms/least-squares/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Least Squares
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -916,6 +956,53 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Reference
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Further Reading
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -928,7 +1015,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/algorithms/monte-carlo/" class="md-nav__link">
+      <a href="../monte-carlo/" class="md-nav__link">
         
   
   
@@ -1001,7 +1088,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/api/kalman/" class="md-nav__link">
+      <a href="../../api/kalman/" class="md-nav__link">
         
   
   
@@ -1024,7 +1111,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/api/common/" class="md-nav__link">
+      <a href="../../api/common/" class="md-nav__link">
         
   
   
@@ -1047,7 +1134,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/api/stats/" class="md-nav__link">
+      <a href="../../api/stats/" class="md-nav__link">
         
   
   
@@ -1070,7 +1157,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/api/gh/" class="md-nav__link">
+      <a href="../../api/gh/" class="md-nav__link">
         
   
   
@@ -1093,7 +1180,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/api/discrete-bayes/" class="md-nav__link">
+      <a href="../../api/discrete-bayes/" class="md-nav__link">
         
   
   
@@ -1116,7 +1203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/api/leastsq/" class="md-nav__link">
+      <a href="../../api/leastsq/" class="md-nav__link">
         
   
   
@@ -1139,7 +1226,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/api/monte-carlo/" class="md-nav__link">
+      <a href="../../api/monte-carlo/" class="md-nav__link">
         
   
   
@@ -1169,7 +1256,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/examples/" class="md-nav__link">
+      <a href="../../examples/" class="md-nav__link">
         
   
   
@@ -1191,7 +1278,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/contributing/" class="md-nav__link">
+      <a href="../../contributing/" class="md-nav__link">
         
   
   
@@ -1213,7 +1300,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/bayesian_filters/changelog/" class="md-nav__link">
+      <a href="../../changelog/" class="md-nav__link">
         
   
   
@@ -1245,6 +1332,43 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Reference
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Further Reading
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1256,8 +1380,35 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="least-squares-filters">Least Squares Filters<a class="headerlink" href="#least-squares-filters" title="Permanent link">&para;</a></h1>
+<p>Least Squares filters provide an alternative approach to estimation that minimizes the sum of squared errors.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>Least squares estimation finds the parameters that minimize the sum of the squared differences between observed and predicted values. This technique is foundational to many filtering approaches.</p>
+<h2 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h2>
+<p>For detailed API documentation, see the <a href="../../api/leastsq/">Least Squares API reference</a>.</p>
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
+<p>For comprehensive examples and theory, see the companion book:
+<a href="https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/">Kalman and Bayesian Filters in Python</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -1332,12 +1483,12 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "/bayesian_filters/", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "/bayesian_filters/assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/bayesian_filters/assets/javascripts/bundle.f55a23d4.min.js"></script>
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
       
-        <script src="/bayesian_filters/javascripts/mathjax.js"></script>
+        <script src="../../javascripts/mathjax.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       
