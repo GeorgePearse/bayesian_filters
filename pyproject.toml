@@ -10,11 +10,11 @@ readme = "README.md"
 authors = [
     { name = "Roger Labbe", email = "rlabbejr@gmail.com" }
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 dependencies = [
-    "numpy",
-    "scipy",
-    "matplotlib",
+    "numpy>=2.3.0",
+    "scipy>=1.16.0",
+    "matplotlib>=3.10.0",
 ]
 keywords = ["Kalman", "filters", "filtering", "optimal", "estimation", "tracking", "Bayesian"]
 license = { text = "MIT" }
@@ -29,10 +29,10 @@ classifiers = [
     "Topic :: Utilities",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX",
     "Operating System :: Unix",
@@ -47,13 +47,13 @@ Documentation = "https://georgepearse.github.io/bayesian_filters"
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8.0.0",
-    "pytest-cov>=4.0.0",
+    "pytest>=8.4.0",
+    "pytest-cov>=7.0.0",
 ]
 docs = [
-    "mkdocs>=1.5.0",
-    "mkdocs-material>=9.0.0",
-    "mkdocstrings[python]>=0.24.0",
+    "mkdocs>=1.6.0",
+    "mkdocs-material>=9.6.0",
+    "mkdocstrings[python]>=0.30.0",
 ]
 
 [tool.hatch.version]
