@@ -33,9 +33,6 @@ github repo:
 read online:
     http://nbviewer.ipython.org/github/rlabbe/Kalman-and-Bayesian-Filters-in-Python/blob/master/table_of_contents.ipynb
 
-PDF version (often lags the two sources above)
-    https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/blob/master/Kalman_and_Bayesian_Filters_in_Python.pdf
-
 -------
 
 ## API Reference
