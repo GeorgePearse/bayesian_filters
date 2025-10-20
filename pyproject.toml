@@ -1,6 +1,10 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "bayesian-filters"
-version = "1.4.5"
+dynamic = ["version"]
 description = "Kalman filtering and optimal estimation library"
 readme = "README.rst"
 authors = [
@@ -43,9 +47,8 @@ Homepage = "https://github.com/GeorgePearse/filterpy"
 Repository = "https://github.com/GeorgePearse/filterpy"
 "Original Project" = "https://github.com/rlabbe/filterpy"
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+[tool.hatch.version]
+path = "bayesian_filters/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["bayesian_filters"]
