@@ -16,7 +16,7 @@ This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
 
-from __future__ import (absolute_import, division)
+from __future__ import absolute_import, division
 
 from copy import deepcopy
 from math import log, exp, sqrt
@@ -281,11 +281,21 @@ class UnscentedKalmanFilter(object):
            Inference in Dynamic State-Space Models" (Doctoral dissertation)
     """
 
-    def __init__(self, dim_x, dim_z, dt, hx, fx, points,
-                 sqrt_fn=None, x_mean_fn=None, z_mean_fn=None,
-                 residual_x=None,
-                 residual_z=None,
-                 state_add=None):
+    def __init__(
+        self,
+        dim_x,
+        dim_z,
+        dt,
+        hx,
+        fx,
+        points,
+        sqrt_fn=None,
+        x_mean_fn=None,
+        z_mean_fn=None,
+        residual_x=None,
+        residual_z=None,
+        state_add=None,
+    ):
         """
         Create a Kalman filter. You are responsible for setting the
         various state variables to reasonable values; the defaults below will
@@ -293,7 +303,7 @@ class UnscentedKalmanFilter(object):
 
         """
 
-        #pylint: disable=too-many-arguments
+        # pylint: disable=too-many-arguments
 
         self.x = zeros(dim_x)
         self.P = eye(dim_x)
@@ -345,11 +355,11 @@ class UnscentedKalmanFilter(object):
         self.sigmas_f = zeros((self._num_sigmas, self._dim_x))
         self.sigmas_h = zeros((self._num_sigmas, self._dim_z))
 
-        self.K = np.zeros((dim_x, dim_z))    # Kalman gain
-        self.y = np.zeros((dim_z))           # residual
-        self.z = np.array([[None]*dim_z]).T  # measurement
-        self.S = np.zeros((dim_z, dim_z))    # system uncertainty
-        self.SI = np.zeros((dim_z, dim_z))   # inverse system uncertainty
+        self.K = np.zeros((dim_x, dim_z))  # Kalman gain
+        self.y = np.zeros((dim_z))  # residual
+        self.z = np.array([[None] * dim_z]).T  # measurement
+        self.S = np.zeros((dim_z, dim_z))  # system uncertainty
+        self.SI = np.zeros((dim_z, dim_z))  # inverse system uncertainty
 
         self.inv = np.linalg.inv
 
@@ -399,9 +409,8 @@ class UnscentedKalmanFilter(object):
         # calculate sigma points for given mean and covariance
         self.compute_process_sigmas(dt, fx, **fx_args)
 
-        #and pass sigmas through the unscented transform to compute prior
-        self.x, self.P = UT(self.sigmas_f, self.Wm, self.Wc, self.Q,
-                            self.x_mean, self.residual_x)
+        # and pass sigmas through the unscented transform to compute prior
+        self.x, self.P = UT(self.sigmas_f, self.Wm, self.Wc, self.Q, self.x_mean, self.residual_x)
 
         # update sigma points to reflect the new variance of the points
         self.sigmas_f = self.points_fn.sigma_points(self.x, self.P)
@@ -440,7 +449,7 @@ class UnscentedKalmanFilter(object):
         """
 
         if z is None:
-            self.z = np.array([[None]*self._dim_z]).T
+            self.z = np.array([[None] * self._dim_z]).T
             self.x_post = self.x.copy()
             self.P_post = self.P.copy()
             return
@@ -472,9 +481,8 @@ class UnscentedKalmanFilter(object):
         # compute cross variance of the state and the measurements
         Pxz = self.cross_variance(self.x, zp, self.sigmas_f, self.sigmas_h)
 
-
-        self.K = dot(Pxz, self.SI)        # Kalman gain
-        self.y = self.residual_z(z, zp)   # residual
+        self.K = dot(Pxz, self.SI)  # Kalman gain
+        self.y = self.residual_z(z, zp)  # residual
 
         # update Gaussian state estimate (x, P)
         self.x = self.state_add(self.x, dot(self.K, self.y))
@@ -588,20 +596,19 @@ class UnscentedKalmanFilter(object):
             (xs, Ps, Ks) = ukf.rts_smoother(mu, cov)
 
         """
-        #pylint: disable=too-many-arguments
+        # pylint: disable=too-many-arguments
 
         try:
             z = zs[0]
         except TypeError:
-            raise TypeError('zs must be list-like')
+            raise TypeError("zs must be list-like")
 
         if self._dim_z == 1:
-            if not(isscalar(z) or (z.ndim == 1 and len(z) == 1)):
-                raise TypeError('zs must be a list of scalars or 1D, 1 element arrays')
+            if not (isscalar(z) or (z.ndim == 1 and len(z) == 1)):
+                raise TypeError("zs must be a list of scalars or 1D, 1 element arrays")
         else:
             if len(z) != self._dim_z:
-                raise TypeError(
-                    'each element in zs must be a 1D array of length {}'.format(self._dim_z))
+                raise TypeError("each element in zs must be a 1D array of length {}".format(self._dim_z))
 
         z_n = len(zs)
 
@@ -685,10 +692,10 @@ class UnscentedKalmanFilter(object):
             (mu, cov, _, _) = kalman.batch_filter(zs)
             (x, P, K) = rts_smoother(mu, cov, fk.F, fk.Q)
         """
-        #pylint: disable=too-many-locals, too-many-arguments
+        # pylint: disable=too-many-locals, too-many-arguments
 
         if len(Xs) != len(Ps):
-            raise ValueError('Xs and Ps must have the same length')
+            raise ValueError("Xs and Ps must have the same length")
 
         n, dim_x = Xs.shape
 
@@ -711,15 +718,13 @@ class UnscentedKalmanFilter(object):
         xs, ps = Xs.copy(), Ps.copy()
         sigmas_f = zeros((num_sigmas, dim_x))
 
-        for k in reversed(range(n-1)):
+        for k in reversed(range(n - 1)):
             # create sigma points from state estimate, pass through state func
             sigmas = self.points_fn.sigma_points(xs[k], ps[k])
             for i in range(num_sigmas):
                 sigmas_f[i] = self.fx(sigmas[i], dts[k])
 
-            xb, Pb = UT(
-                sigmas_f, self.Wm, self.Wc, self.Q,
-                self.x_mean, self.residual_x)
+            xb, Pb = UT(sigmas_f, self.Wm, self.Wc, self.Q, self.x_mean, self.residual_x)
 
             # compute cross variance
             Pxb = 0
@@ -732,8 +737,8 @@ class UnscentedKalmanFilter(object):
             K = dot(Pxb, self.inv(Pb))
 
             # update the smoothed estimates
-            xs[k] += dot(K, self.residual_x(xs[k+1], xb))
-            ps[k] += dot(K, ps[k+1] - Pb).dot(K.T)
+            xs[k] += dot(K, self.residual_x(xs[k + 1], xb))
+            ps[k] += dot(K, ps[k + 1] - Pb).dot(K.T)
             Ks[k] = K
 
         return (xs, ps, Ks)
@@ -764,7 +769,7 @@ class UnscentedKalmanFilter(object):
 
     @property
     def mahalanobis(self):
-        """"
+        """ "
         Mahalanobis distance of measurement. E.g. 3 means measurement
         was 3 standard deviations away from the predicted value.
 
@@ -777,29 +782,31 @@ class UnscentedKalmanFilter(object):
         return self._mahalanobis
 
     def __repr__(self):
-        return '\n'.join([
-            'UnscentedKalmanFilter object',
-            pretty_str('x', self.x),
-            pretty_str('P', self.P),
-            pretty_str('x_prior', self.x_prior),
-            pretty_str('P_prior', self.P_prior),
-            pretty_str('Q', self.Q),
-            pretty_str('R', self.R),
-            pretty_str('S', self.S),
-            pretty_str('K', self.K),
-            pretty_str('y', self.y),
-            pretty_str('log-likelihood', self.log_likelihood),
-            pretty_str('likelihood', self.likelihood),
-            pretty_str('mahalanobis', self.mahalanobis),
-            pretty_str('sigmas_f', self.sigmas_f),
-            pretty_str('h', self.sigmas_h),
-            pretty_str('Wm', self.Wm),
-            pretty_str('Wc', self.Wc),
-            pretty_str('residual_x', self.residual_x),
-            pretty_str('residual_z', self.residual_z),
-            pretty_str('msqrt', self.msqrt),
-            pretty_str('hx', self.hx),
-            pretty_str('fx', self.fx),
-            pretty_str('x_mean', self.x_mean),
-            pretty_str('z_mean', self.z_mean)
-            ])
+        return "\n".join(
+            [
+                "UnscentedKalmanFilter object",
+                pretty_str("x", self.x),
+                pretty_str("P", self.P),
+                pretty_str("x_prior", self.x_prior),
+                pretty_str("P_prior", self.P_prior),
+                pretty_str("Q", self.Q),
+                pretty_str("R", self.R),
+                pretty_str("S", self.S),
+                pretty_str("K", self.K),
+                pretty_str("y", self.y),
+                pretty_str("log-likelihood", self.log_likelihood),
+                pretty_str("likelihood", self.likelihood),
+                pretty_str("mahalanobis", self.mahalanobis),
+                pretty_str("sigmas_f", self.sigmas_f),
+                pretty_str("h", self.sigmas_h),
+                pretty_str("Wm", self.Wm),
+                pretty_str("Wc", self.Wc),
+                pretty_str("residual_x", self.residual_x),
+                pretty_str("residual_z", self.residual_z),
+                pretty_str("msqrt", self.msqrt),
+                pretty_str("hx", self.hx),
+                pretty_str("fx", self.fx),
+                pretty_str("x_mean", self.x_mean),
+                pretty_str("z_mean", self.z_mean),
+            ]
+        )

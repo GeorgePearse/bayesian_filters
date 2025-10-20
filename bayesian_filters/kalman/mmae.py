@@ -15,6 +15,7 @@ https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python
 This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
+
 from __future__ import absolute_import, division
 
 from copy import deepcopy
@@ -104,10 +105,10 @@ class MMAEFilterBank(object):
 
     def __init__(self, filters, p, dim_x, H=None):
         if len(filters) != len(p):
-            raise ValueError('length of filters and p must be the same')
+            raise ValueError("length of filters and p must be the same")
 
         if dim_x < 1:
-            raise ValueError('dim_x must be >= 1')
+            raise ValueError("dim_x must be >= 1")
 
         self.filters = filters
         self.p = np.asarray(p)
@@ -135,7 +136,6 @@ class MMAEFilterBank(object):
         # these will always be a copy of x,P after update() is called
         self.x_post = self.x.copy()
         self.P_post = self.P.copy()
-
 
     def predict(self, u=0):
         """
@@ -185,13 +185,13 @@ class MMAEFilterBank(object):
             f.update(z, R, H)
             self.p[i] *= f.likelihood
 
-        self.p /= sum(self.p) # normalize
+        self.p /= sum(self.p)  # normalize
 
         # compute estimated state and covariance of the bank of filters.
         self.P = np.zeros(self.filters[0].P.shape)
 
         # state can be in form [x,y,z,...] or [[x, y, z,...]].T
-        is_row_vector = (self.filters[0].x.ndim == 1)
+        is_row_vector = self.filters[0].x.ndim == 1
         if is_row_vector:
             self.x = np.zeros(self.dim_x)
             for f, p in zip(self.filters, self.p):
@@ -203,8 +203,7 @@ class MMAEFilterBank(object):
 
         for x, f, p in zip(self.x, self.filters, self.p):
             y = f.x - x
-            self.P += p*(np.outer(y, y) + f.P)
-
+            self.P += p * (np.outer(y, y) + f.P)
 
         # save measurement and posterior state
         self.z = deepcopy(z)
@@ -212,10 +211,12 @@ class MMAEFilterBank(object):
         self.P_post = self.P.copy()
 
     def __repr__(self):
-        return '\n'.join([
-            'MMAEFilterBank object',
-            pretty_str('dim_x', self.dim_x),
-            pretty_str('x', self.x),
-            pretty_str('P', self.P),
-            pretty_str('log-p', self.p),
-            ])
+        return "\n".join(
+            [
+                "MMAEFilterBank object",
+                pretty_str("dim_x", self.dim_x),
+                pretty_str("x", self.x),
+                pretty_str("P", self.P),
+                pretty_str("log-p", self.p),
+            ]
+        )

@@ -14,10 +14,9 @@ This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
 
-#pylint: disable=wildcard-import
+# pylint: disable=wildcard-import
 
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 __all__ = ["fading_memory"]
 

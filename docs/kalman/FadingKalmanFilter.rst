@@ -1,7 +1,7 @@
 FadingKalmanFilter
 ==================
 
-Implements a fading memory Kalman filter. 
+Implements a fading memory Kalman filter.
 
 
 -------

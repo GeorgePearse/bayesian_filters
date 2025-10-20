@@ -14,9 +14,7 @@ This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
 
-
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 
 from math import sqrt
@@ -29,12 +27,11 @@ from bayesian_filters.gh import GHFilter
 from bayesian_filters.leastsq import LeastSquaresFilter
 
 
-def near_equal(x, y, e=1.e-14):
-    return abs(x-y) < e
+def near_equal(x, y, e=1.0e-14):
+    return abs(x - y) < e
 
 
 class LSQ(object):
-
     def __init__(self, dim_x):
         self.dim_x = dim_x
 
@@ -43,19 +40,19 @@ class LSQ(object):
         self.x = np.zeros((dim_x, 1))
         self.k = 0
 
-    def update(self,Z):
+    def update(self, Z):
         self.x += 1
         self.k += 1
-        print('k=', self.k, 1/self.k, 1/(self.k+1))
+        print("k=", self.k, 1 / self.k, 1 / (self.k + 1))
 
         S = dot(self.H, self.P).dot(self.H.T) + self.R
         K1 = dot(self.P, self.H.T).dot(inv(S))
 
-        print('K1=', K1[0, 0])
+        print("K1=", K1[0, 0])
 
         I_KH = self.I - dot(K1, self.H)
         y = Z - dot(self.H, self.x)
-        print('y=', y)
+        print("y=", y)
         self.x = self.x + dot(K1, y)
         self.P = dot(I_KH, self.P)
         print(self.P)
@@ -105,8 +102,8 @@ class LeastSquaresFilterOriginal(object):
 
     """
 
-    def __init__(self, dt, order, noise_variance=0.):
-        """ Least Squares filter of order 0 to 2.
+    def __init__(self, dt, order, noise_variance=0.0):
+        """Least Squares filter of order 0 to 2.
 
         Parameters
         ----------
@@ -133,15 +130,15 @@ class LeastSquaresFilterOriginal(object):
         self._order = order
 
     def reset(self):
-        """ reset filter back to state at time of construction"""
+        """reset filter back to state at time of construction"""
 
-        self.n = 0 #nth step in the recursion
-        self.x = 0.
-        self.error = 0.
-        self.derror = 0.
-        self.dderror = 0.
-        self.dx = 0.
-        self.ddx = 0.
+        self.n = 0  # nth step in the recursion
+        self.x = 0.0
+        self.error = 0.0
+        self.derror = 0.0
+        self.dderror = 0.0
+        self.dx = 0.0
+        self.ddx = 0.0
         self.K1 = 0
         self.K2 = 0
         self.K3 = 0
@@ -153,68 +150,66 @@ class LeastSquaresFilterOriginal(object):
         dt2 = self.dt2
 
         if self._order == 0:
-            self.K1 = 1. / n
+            self.K1 = 1.0 / n
             residual = z - self.x
             self.x = self.x + residual * self.K1
-            self.error = self.sigma/sqrt(n)
+            self.error = self.sigma / sqrt(n)
 
         elif self._order == 1:
-            self.K1 = 2*(2*n-1) / (n*(n+1))
-            self.K2 = 6 / (n*(n+1)*dt)
+            self.K1 = 2 * (2 * n - 1) / (n * (n + 1))
+            self.K2 = 6 / (n * (n + 1) * dt)
 
-            residual = z - self.x - self.dx*dt
-            self.x = self.x + self.dx*dt + self.K1*residual
-            self.dx = self.dx + self.K2*residual
+            residual = z - self.x - self.dx * dt
+            self.x = self.x + self.dx * dt + self.K1 * residual
+            self.dx = self.dx + self.K2 * residual
 
             if n > 1:
-                self.error = self.sigma*sqrt(2.*(2*n-1)/(n*(n+1)))
-                self.derror = self.sigma*sqrt(12./(n*(n*n-1)*dt*dt))
+                self.error = self.sigma * sqrt(2.0 * (2 * n - 1) / (n * (n + 1)))
+                self.derror = self.sigma * sqrt(12.0 / (n * (n * n - 1) * dt * dt))
 
         else:
-            den = n*(n+1)*(n+2)
-            self.K1 = 3*(3*n**2 - 3*n + 2) / den
-            self.K2 = 18*(2*n-1) / (den*dt)
-            self.K3 = 60./ (den*dt2)
+            den = n * (n + 1) * (n + 2)
+            self.K1 = 3 * (3 * n**2 - 3 * n + 2) / den
+            self.K2 = 18 * (2 * n - 1) / (den * dt)
+            self.K3 = 60.0 / (den * dt2)
 
-            residual = z - self.x - self.dx*dt - .5*self.ddx*dt2
-            self.x   += self.dx*dt  + .5*self.ddx*dt2 +self. K1 * residual
-            self.dx  += self.ddx*dt + self.K2*residual
-            self.ddx += self.K3*residual
+            residual = z - self.x - self.dx * dt - 0.5 * self.ddx * dt2
+            self.x += self.dx * dt + 0.5 * self.ddx * dt2 + self.K1 * residual
+            self.dx += self.ddx * dt + self.K2 * residual
+            self.ddx += self.K3 * residual
 
             if n >= 3:
-                self.error = self.sigma*sqrt(3*(3*n*n-3*n+2)/(n*(n+1)*(n+2)))
-                self.derror = self.sigma*sqrt(12*(16*n*n-30*n+11) /
-                                              (n*(n*n-1)*(n*n-4)*dt2))
-                self.dderror = self.sigma*sqrt(720/(n*(n*n-1)*(n*n-4)*dt2*dt2))
+                self.error = self.sigma * sqrt(3 * (3 * n * n - 3 * n + 2) / (n * (n + 1) * (n + 2)))
+                self.derror = self.sigma * sqrt(12 * (16 * n * n - 30 * n + 11) / (n * (n * n - 1) * (n * n - 4) * dt2))
+                self.dderror = self.sigma * sqrt(720 / (n * (n * n - 1) * (n * n - 4) * dt2 * dt2))
 
         return self.x
 
     def standard_deviation(self):
         if self.n == 0:
-            return 0.
+            return 0.0
 
         if self._order == 0:
-            return 1./sqrt(self)
+            return 1.0 / sqrt(self)
 
         elif self._order == 1:
             pass
 
     def __repr__(self):
-        return 'LeastSquareFilter x={}, dx={}, ddx={}'.format(
-               self.x, self.dx, self.ddx)
+        return "LeastSquareFilter x={}, dx={}, ddx={}".format(self.x, self.dx, self.ddx)
 
 
 def test_lsq():
-    """ implements alternative version of first order Least Squares filter
+    """implements alternative version of first order Least Squares filter
     using g-h filter formulation and uses it to check the output of the
     LeastSquaresFilter class."""
 
     global lsq, lsq2, xs, lsq_xs
 
-    gh = GHFilter(x=0, dx=0, dt=1, g=.5, h=0.02)
+    gh = GHFilter(x=0, dx=0, dt=1, g=0.5, h=0.02)
     lsq = LeastSquaresFilterOriginal(dt=1, order=1)
     lsq2 = LeastSquaresFilter(dt=1, order=1)
-    zs = [x+random.randn()*10 for x in range(0, 10000)]
+    zs = [x + random.randn() * 10 for x in range(0, 10000)]
 
     # test __repr__ at least doesn't crash
     try:
@@ -225,48 +220,47 @@ def test_lsq():
     xs = []
     lsq_xs = []
     for i, z in enumerate(zs):
-        g = 2*(2*i + 1) / ((i+2)*(i+1))
-        h = 6 / ((i+2)*(i+1))
+        g = 2 * (2 * i + 1) / ((i + 2) * (i + 1))
+        h = 6 / ((i + 2) * (i + 1))
 
         x, dx = gh.update(z, g, h)
         lx = lsq(z)
         lsq_xs.append(lx)
 
         x2 = lsq2.update(z)
-        assert near_equal(x2[0], lx, 1.e-10), '{}, {}, {}'.format(
-                i, x2[0], lx)
+        assert near_equal(x2[0], lx, 1.0e-10), "{}, {}, {}".format(i, x2[0], lx)
         xs.append(x)
 
     plt.plot(xs)
     plt.plot(lsq_xs)
 
     for x, y in zip(xs, lsq_xs):
-        r = x-y
-        assert r < 1.e-8
+        r = x - y
+        assert r < 1.0e-8
 
 
 def test_first_order():
-    ''' data and example from Zarchan, page 105-6'''
+    """data and example from Zarchan, page 105-6"""
 
     lsf = LeastSquaresFilter(dt=1, order=1)
 
-    xs = [1.2, .2, 2.9, 2.1]
+    xs = [1.2, 0.2, 2.9, 2.1]
     ys = []
     for x in xs:
         ys.append(lsf.update(x)[0])
 
-    plt.plot(xs, c='b')
-    plt.plot(ys, c='g')
-    plt.plot([0, len(xs)-1], [ys[0], ys[-1]])
+    plt.plot(xs, c="b")
+    plt.plot(ys, c="g")
+    plt.plot([0, len(xs) - 1], [ys[0], ys[-1]])
 
 
 def test_second_order():
-    ''' data and example from Zarchan, page 114'''
+    """data and example from Zarchan, page 114"""
 
     lsf = LeastSquaresFilter(1, order=2)
     lsf0 = LeastSquaresFilterOriginal(1, order=2)
 
-    xs = [1.2, .2, 2.9, 2.1]
+    xs = [1.2, 0.2, 2.9, 2.1]
     ys = []
     for x in xs:
         y = lsf.update(x)[0]
@@ -274,13 +268,13 @@ def test_second_order():
         assert near_equal(y, y0)
         ys.append(y)
 
-    plt.scatter(range(len(xs)), xs, c='r', marker='+')
-    plt.plot(ys, c='g')
-    plt.plot([0, len(xs)-1], [ys[0], ys[-1]], c='b')
+    plt.scatter(range(len(xs)), xs, c="r", marker="+")
+    plt.plot(ys, c="g")
+    plt.plot([0, len(xs) - 1], [ys[0], ys[-1]], c="b")
 
 
 def test_fig_3_8():
-    """ figure 3.8 in Zarchan, p. 108"""
+    """figure 3.8 in Zarchan, p. 108"""
     lsf = LeastSquaresFilter(0.1, order=1)
     lsf0 = LeastSquaresFilterOriginal(0.1, order=1)
 
@@ -297,11 +291,11 @@ def test_fig_3_8():
 
 
 def test_listing_3_4():
-    """ listing 3.4 in Zarchan, p. 117"""
+    """listing 3.4 in Zarchan, p. 117"""
 
     lsf = LeastSquaresFilter(0.1, order=2)
 
-    xs = [5*x*x - x + 2 + 30*random.randn() for x in np.arange(0, 10, 0.1)]
+    xs = [5 * x * x - x + 2 + 30 * random.randn() for x in np.arange(0, 10, 0.1)]
     ys = []
     for x in xs:
         ys.append(lsf.update(x)[0])
@@ -312,9 +306,9 @@ def test_listing_3_4():
 
 def lsq2_plot():
     fl = LSQ(2)
-    fl.H = np.array([[1., 1.], [0., 1.]])
+    fl.H = np.array([[1.0, 1.0], [0.0, 1.0]])
     fl.R = np.eye(2)
-    fl.P = np.array([[2., .5], [.5, 2.]])
+    fl.P = np.array([[2.0, 0.5], [0.5, 2.0]])
 
     for x in range(10):
         fl.update(np.array([[x], [x]], dtype=float))
@@ -324,7 +318,7 @@ def lsq2_plot():
 def test_big_data():
     N = 1000000
 
-    xs = np.array([i+random.randn() for i in range(N)])
+    xs = np.array([i + random.randn() for i in range(N)])
     for order in [1, 2]:
         lsq = LeastSquaresFilter(dt=1, order=order)
         ys = np.array([lsq.update(x)[0] for x in xs])

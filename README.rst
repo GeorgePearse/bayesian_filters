@@ -3,10 +3,10 @@ FilterPy - Kalman filters and other optimal and non-optimal estimation filters i
 
 .. image:: https://img.shields.io/pypi/v/filterpy.svg
         :target: https://pypi.python.org/pypi/filterpy
-        
+
 .. image:: https://readthedocs.org/projects/pip/badge/?version=latest&style=flat
-        :target: https://filterpy.readthedocs.io/en/latest/        
-     
+        :target: https://filterpy.readthedocs.io/en/latest/
+
 
 **NOTE**: Imminent drop of support of Python 2.7, 3.4. See section below for details.
 
@@ -31,14 +31,14 @@ It is hard for me to choose which presentation is 'clearer' - it depends
 on the audience. In that case I usually opt for the faster implementation.
 
 I use NumPy and SciPy for all of the computations. I have experimented
-with Numba and it yields impressive speed ups with minimal costs, but I 
-am not convinced that I want to add that requirement to my project. It 
+with Numba and it yields impressive speed ups with minimal costs, but I
+am not convinced that I want to add that requirement to my project. It
 is still on my list of things to figure out, however.
 
 Sphinx generated documentation lives at http://filterpy.readthedocs.org/.
 Generation is triggered by git when I do a check in, so this will always
 be bleeding edge development version - it will often be ahead of the
-released version. 
+released version.
 
 
 Plan for dropping Python 2.7 support
@@ -49,7 +49,7 @@ Python 2.7 support in December 2018. I will certainly drop Python
 2.7 support by then; I will probably do it much sooner.
 
 At the moment FilterPy is on version 1.x. I plan to fork the project
-to version 2.0, and support only Python 3.5+. The 1.x version 
+to version 2.0, and support only Python 3.5+. The 1.x version
 will still be available, but I will not support it. If I add something
 amazing to 2.0 and someone really begs, I might backport it; more
 likely I would accept a pull request with the feature backported
@@ -67,7 +67,7 @@ painful. All I can say is I did not decide to do the Python
 any longer.
 
 I am making edits to the package now in support of my book;
-once those are done I'll probably create the 2.0 branch. 
+once those are done I'll probably create the 2.0 branch.
 I'm contemplating a SLAM addition to the book, and am not
 sure if I will do this in 3.5+ only or not.
 
@@ -80,7 +80,7 @@ any modern Python distribution.
 
 .. image:: https://img.shields.io/pypi/v/filterpy.svg
         :target: https://pypi.python.org/pypi/filterpy
-        
+
 ::
 
     pip install filterpy
@@ -98,13 +98,13 @@ will need to add the conda-forge channel if you haven't already done so:
 
 ::
     conda config --add channels conda-forge
-    
+
 and then install with:
 
 ::
     conda install filterpy
-    
-    
+
+
 And, if you want to install from the bleeding edge git version
 
 ::
@@ -117,7 +117,7 @@ the like. Unless I fix a bug for you and tell you to get this version because
 I haven't made a new release yet, I strongly advise not installing from git.
 
 
-    
+
 
 Basic use
 ---------
@@ -176,8 +176,8 @@ The functions and methods contain pretty good docstrings on use.
 
 My book https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/
 uses this library, and is the place to go if you are trying to learn
-about Kalman filtering and/or this library. These two are not exactly in 
-sync - my normal development cycle is to add files here, test them, figure 
+about Kalman filtering and/or this library. These two are not exactly in
+sync - my normal development cycle is to add files here, test them, figure
 out how to present them pedalogically, then write the appropriate section
 or chapter in the book. So there is code here that is not discussed
 yet in the book.
@@ -186,7 +186,7 @@ yet in the book.
 Requirements
 ------------
 
-This library uses NumPy, SciPy, Matplotlib, and Python. 
+This library uses NumPy, SciPy, Matplotlib, and Python.
 
 I haven't extensively tested backwards compatibility - I use the
 Anaconda distribution, and so I am on Python 3.6 and 2.7.14, along with

@@ -6,4 +6,4 @@ GHKFilter
 .. autoclass:: GHKFilter
    :members:
 
-   .. automethod:: __init__  
+   .. automethod:: __init__

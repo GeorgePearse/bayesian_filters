@@ -19,8 +19,7 @@ This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
 
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
+from __future__ import absolute_import, division, print_function, unicode_literals
 from math import cos, sin
 import matplotlib.pyplot as plt
 import numpy.random as random
@@ -32,9 +31,13 @@ import scipy.linalg as linalg
 from scipy.spatial.distance import mahalanobis as scipy_mahalanobis
 from bayesian_filters.kalman import ExtendedKalmanFilter
 from bayesian_filters.kalman import UnscentedKalmanFilter
-from bayesian_filters.kalman import (unscented_transform, MerweScaledSigmaPoints,
-                             JulierSigmaPoints, SimplexSigmaPoints,
-                             KalmanFilter)
+from bayesian_filters.kalman import (
+    unscented_transform,
+    MerweScaledSigmaPoints,
+    JulierSigmaPoints,
+    SimplexSigmaPoints,
+    KalmanFilter,
+)
 from bayesian_filters.common import Q_discrete_white_noise, Saver
 import bayesian_filters.stats as stats
 
@@ -42,18 +45,17 @@ DO_PLOT = False
 
 
 def test_sigma_plot():
-    """ Test to make sure sigma's correctly mirror the shape and orientation
+    """Test to make sure sigma's correctly mirror the shape and orientation
     of the covariance array."""
 
     x = np.array([[1, 2]])
-    P = np.array([[2, 1.2],
-                  [1.2, 2]])
-    kappa = .1
+    P = np.array([[2, 1.2], [1.2, 2]])
+    kappa = 0.1
 
     # if kappa is larger, than points shoudld be closer together
 
     sp0 = JulierSigmaPoints(n=2, kappa=kappa)
-    sp1 = JulierSigmaPoints(n=2, kappa=kappa*1000)
+    sp1 = JulierSigmaPoints(n=2, kappa=kappa * 1000)
     sp2 = MerweScaledSigmaPoints(n=2, kappa=0, beta=2, alpha=1e-3)
     sp3 = SimplexSigmaPoints(n=2)
 
@@ -79,22 +81,33 @@ def test_sigma_plot():
     if DO_PLOT:
         plt.figure()
         for i in range(Xi0.shape[0]):
-            plt.scatter((Xi0[i, 0]-x[0, 0])*w0[i] + x[0, 0],
-                        (Xi0[i, 1]-x[0, 1])*w0[i] + x[0, 1],
-                        color='blue', label='Julier low $\kappa$')
+            plt.scatter(
+                (Xi0[i, 0] - x[0, 0]) * w0[i] + x[0, 0],
+                (Xi0[i, 1] - x[0, 1]) * w0[i] + x[0, 1],
+                color="blue",
+                label=r"Julier low $\kappa$",
+            )
 
         for i in range(Xi1.shape[0]):
-            plt.scatter((Xi1[i, 0]-x[0, 0]) * w1[i] + x[0, 0],
-                        (Xi1[i, 1]-x[0, 1]) * w1[i] + x[0, 1],
-                        color='green', label='Julier high $\kappa$')
+            plt.scatter(
+                (Xi1[i, 0] - x[0, 0]) * w1[i] + x[0, 0],
+                (Xi1[i, 1] - x[0, 1]) * w1[i] + x[0, 1],
+                color="green",
+                label=r"Julier high $\kappa$",
+            )
         for i in range(Xi2.shape[0]):
-            plt.scatter((Xi2[i, 0] - x[0, 0]) * w2[i] + x[0, 0],
-                        (Xi2[i, 1] - x[0, 1]) * w2[i] + x[0, 1],
-                        color='red')
+            plt.scatter(
+                (Xi2[i, 0] - x[0, 0]) * w2[i] + x[0, 0],
+                (Xi2[i, 1] - x[0, 1]) * w2[i] + x[0, 1],
+                color="red",
+            )
         for i in range(Xi3.shape[0]):
-            plt.scatter((Xi3[i, 0] - x[0, 0]) * w3[i] + x[0, 0],
-                        (Xi3[i, 1] - x[0, 1]) * w3[i] + x[0, 1],
-                        color='black', label='Simplex')
+            plt.scatter(
+                (Xi3[i, 0] - x[0, 0]) * w3[i] + x[0, 0],
+                (Xi3[i, 1] - x[0, 1]) * w3[i] + x[0, 1],
+                color="black",
+                label="Simplex",
+            )
 
         stats.plot_covariance_ellipse([1, 2], P)
 
@@ -104,15 +117,15 @@ def test_scaled_weights():
         for alpha in np.linspace(0.99, 1.01, 100):
             for beta in range(2):
                 for kappa in range(2):
-                    sp = MerweScaledSigmaPoints(n, alpha, 0, 3-n)
-                    assert abs(sum(sp.Wm) - 1) < 1.e-1
-                    assert abs(sum(sp.Wc) - 1) < 1.e-1
+                    sp = MerweScaledSigmaPoints(n, alpha, 0, 3 - n)
+                    assert abs(sum(sp.Wm) - 1) < 1.0e-1
+                    assert abs(sum(sp.Wc) - 1) < 1.0e-1
 
 
 def test_julier_sigma_points_1D():
-    """ tests passing 1D data into sigma_points"""
+    """tests passing 1D data into sigma_points"""
 
-    kappa = 0.
+    kappa = 0.0
     sp = JulierSigmaPoints(1, kappa)
     Wm, Wc = sp.Wm, sp.Wc
     assert np.allclose(Wm, Wc, 1e-12)
@@ -127,17 +140,17 @@ def test_julier_sigma_points_1D():
     # sum of weights*sigma points should be the original mean
     m = 0.0
     for x, w in zip(Xi, Wm):
-        m += x*w
+        m += x * w
 
-    assert abs(m-mean) < 1.e-12
-    assert abs(xm[0] - mean) < 1.e-12
-    assert abs(ucov[0, 0] - cov) < 1.e-12
+    assert abs(m - mean) < 1.0e-12
+    assert abs(xm[0] - mean) < 1.0e-12
+    assert abs(ucov[0, 0] - cov) < 1.0e-12
 
     assert Xi.shape == (3, 1)
 
 
 def test_simplex_sigma_points_1D():
-    """ tests passing 1D data into sigma_points"""
+    """tests passing 1D data into sigma_points"""
 
     sp = SimplexSigmaPoints(1)
 
@@ -154,17 +167,17 @@ def test_simplex_sigma_points_1D():
     # sum of weights*sigma points should be the original mean
     m = 0.0
     for x, w in zip(Xi, Wm):
-        m += x*w
+        m += x * w
 
-    assert abs(m-mean) < 1.e-12
-    assert abs(xm[0] - mean) < 1.e-12
-    assert abs(ucov[0, 0]-cov) < 1.e-12
+    assert abs(m - mean) < 1.0e-12
+    assert abs(xm[0] - mean) < 1.0e-12
+    assert abs(ucov[0, 0] - cov) < 1.0e-12
 
     assert Xi.shape == (2, 1)
 
 
 def test_simplex_sigma_points_2D():
-    """ tests passing 1D data into sigma_points"""
+    """tests passing 1D data into sigma_points"""
 
     sp = SimplexSigmaPoints(4)
 
@@ -174,11 +187,9 @@ def test_simplex_sigma_points_2D():
 
     mean = np.array([-1, 2, 0, 5])
 
-    cov1 = np.array([[1, 0.5],
-                     [0.5, 1]])
+    cov1 = np.array([[1, 0.5], [0.5, 1]])
 
-    cov2 = np.array([[5, 0.5],
-                     [0.5, 3]])
+    cov2 = np.array([[5, 0.5], [0.5, 3]])
 
     cov = linalg.block_diag(cov1, cov2)
 
@@ -195,28 +206,26 @@ class RadarSim(object):
         self.dt = dt
 
     def get_range(self):
-        vel = 100 + 5*randn()
-        alt = 1000 + 10*randn()
-        self.x += vel*self.dt
+        vel = 100 + 5 * randn()
+        alt = 1000 + 10 * randn()
+        self.x += vel * self.dt
 
-        v = self.x * 0.05*randn()
-        rng = (self.x**2 + alt**2)**.5 + v
+        v = self.x * 0.05 * randn()
+        rng = (self.x**2 + alt**2) ** 0.5 + v
         return rng
 
 
 def test_radar():
     def fx(x, dt):
-        A = np.eye(3) + dt * np.array([[0, 1, 0],
-                                       [0, 0, 0],
-                                       [0, 0, 0]])
+        A = np.eye(3) + dt * np.array([[0, 1, 0], [0, 0, 0], [0, 0, 0]])
         return A.dot(x)
 
     def hx(x):
-        return [np.sqrt(x[0]**2 + x[2]**2)]
+        return [np.sqrt(x[0] ** 2 + x[2] ** 2)]
 
     dt = 0.05
 
-    sp = JulierSigmaPoints(n=3, kappa=0.)
+    sp = JulierSigmaPoints(n=3, kappa=0.0)
     kf = UnscentedKalmanFilter(3, 1, dt, fx=fx, hx=hx, points=sp)
     assert np.allclose(kf.x, kf.x_prior)
     assert np.allclose(kf.P, kf.P_prior)
@@ -226,11 +235,11 @@ def test_radar():
 
     kf.Q *= 0.01
     kf.R = 10
-    kf.x = np.array([0., 90., 1100.])
-    kf.P *= 100.
+    kf.x = np.array([0.0, 90.0, 1100.0])
+    kf.P *= 100.0
     radar = RadarSim(dt)
 
-    t = np.arange(0, 20+dt, dt)
+    t = np.arange(0, 20 + dt, dt)
     n = len(t)
     xs = np.zeros((n, 3))
 
@@ -262,13 +271,10 @@ def test_radar():
 
 
 def test_linear_2d_merwe():
-    """ should work like a linear KF if problem is linear """
+    """should work like a linear KF if problem is linear"""
 
     def fx(x, dt):
-        F = np.array([[1, dt, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, 1, dt],
-                      [0, 0, 0, 1]], dtype=float)
+        F = np.array([[1, dt, 0, 0], [0, 1, 0, 0], [0, 0, 1, dt], [0, 0, 0, 1]], dtype=float)
 
         return np.dot(F, x)
 
@@ -276,17 +282,16 @@ def test_linear_2d_merwe():
         return np.array([x[0], x[2]])
 
     dt = 0.1
-    points = MerweScaledSigmaPoints(4, .1, 2., -1)
-    kf = UnscentedKalmanFilter(dim_x=4, dim_z=2, dt=dt,
-                               fx=fx, hx=hx, points=points)
+    points = MerweScaledSigmaPoints(4, 0.1, 2.0, -1)
+    kf = UnscentedKalmanFilter(dim_x=4, dim_z=2, dt=dt, fx=fx, hx=hx, points=points)
 
-    kf.x = np.array([-1., 1, -1, 1])
+    kf.x = np.array([-1.0, 1, -1, 1])
     kf.P *= 1.1
 
     # test __repr__ doesn't crash
     str(kf)
 
-    zs = [[i+randn()*0.1, i+randn()*0.1] for i in range(20)]
+    zs = [[i + randn() * 0.1, i + randn() * 0.1] for i in range(20)]
 
     Ms, Ps = kf.batch_filter(zs)
     smooth_x, _, _ = kf.rts_smoother(Ms, Ps, dts=dt)
@@ -294,21 +299,17 @@ def test_linear_2d_merwe():
     if DO_PLOT:
         plt.figure()
         zs = np.asarray(zs)
-        plt.plot(zs[:, 0], marker='+')
-        plt.plot(Ms[:, 0], c='b')
-        plt.plot(smooth_x[:, 0], smooth_x[:, 2], c='r')
+        plt.plot(zs[:, 0], marker="+")
+        plt.plot(Ms[:, 0], c="b")
+        plt.plot(smooth_x[:, 0], smooth_x[:, 2], c="r")
         print(smooth_x)
 
 
 def test_linear_2d_simplex():
-    """ should work like a linear KF if problem is linear """
-
+    """should work like a linear KF if problem is linear"""
 
     def fx(x, dt):
-        F = np.array([[1, dt, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, 1, dt],
-                      [0, 0, 0, 1]], dtype=float)
+        F = np.array([[1, dt, 0, 0], [0, 1, 0, 0], [0, 0, 1, dt], [0, 0, 0, 1]], dtype=float)
 
         return np.dot(F, x)
 
@@ -317,17 +318,15 @@ def test_linear_2d_simplex():
 
     dt = 0.1
     points = SimplexSigmaPoints(n=4)
-    kf = UnscentedKalmanFilter(dim_x=4, dim_z=2, dt=dt,
-                               fx=fx, hx=hx, points=points)
+    kf = UnscentedKalmanFilter(dim_x=4, dim_z=2, dt=dt, fx=fx, hx=hx, points=points)
 
-    kf.x = np.array([-1., 1., -1., 1])
+    kf.x = np.array([-1.0, 1.0, -1.0, 1])
     kf.P *= 0.0001
 
-    mss = MerweScaledSigmaPoints(4, .1, 2., -1)
-    ukf = UnscentedKalmanFilter(dim_x=4, dim_z=2, dt=dt,
-                               fx=fx, hx=hx, points=mss)
+    mss = MerweScaledSigmaPoints(4, 0.1, 2.0, -1)
+    ukf = UnscentedKalmanFilter(dim_x=4, dim_z=2, dt=dt, fx=fx, hx=hx, points=mss)
 
-    ukf.x = np.array([-1., 1., -1., 1])
+    ukf.x = np.array([-1.0, 1.0, -1.0, 1])
     ukf.P *= 1
 
     x = kf.x
@@ -335,7 +334,7 @@ def test_linear_2d_simplex():
 
     for i in range(20):
         x = fx(x, dt)
-        z = np.array([x[0]+randn()*0.1, x[2]+randn()*0.1])
+        z = np.array([x[0] + randn() * 0.1, x[2] + randn() * 0.1])
 
         zs.append(z)
 
@@ -353,7 +352,7 @@ def test_ukf_ekf_comparison():
     def fx(x, dt):
         # state transition function - predict next state based
         # on constant velocity model x = vt + x_0
-        F = np.array([[1.]], dtype=np.float32)
+        F = np.array([[1.0]], dtype=np.float32)
         return np.dot(F, x)
 
     def hx(x):
@@ -363,40 +362,39 @@ def test_ukf_ekf_comparison():
 
     dt = 1.0
     # create sigma points to use in the filter. This is standard for Gaussian processes
-    points = MerweScaledSigmaPoints(1, alpha=1, beta=2., kappa=0.1)
+    points = MerweScaledSigmaPoints(1, alpha=1, beta=2.0, kappa=0.1)
 
     ukf = UnscentedKalmanFilter(dim_x=1, dim_z=1, dt=dt, fx=fx, hx=hx, points=points)
-    ukf.x = np.array([0.]) # initial state
-    ukf.P = np.array([[1]]) # initial uncertainty
-    ukf.R = np.diag([1]) # 1 standard
-    ukf.Q = np.diag([1]) # 1 standard
+    ukf.x = np.array([0.0])  # initial state
+    ukf.P = np.array([[1]])  # initial uncertainty
+    ukf.R = np.diag([1])  # 1 standard
+    ukf.Q = np.diag([1])  # 1 standard
 
     ekf = ExtendedKalmanFilter(dim_x=1, dim_z=1)
     ekf.F = np.array([[1]])
 
-    ekf.x = np.array([0.]) # initial state
-    ekf.P = np.array([[1]]) # initial uncertainty
-    ekf.R = np.diag([1]) # 1 standard
-    ekf.Q = np.diag([1]) # 1 standard
+    ekf.x = np.array([0.0])  # initial state
+    ekf.P = np.array([[1]])  # initial uncertainty
+    ekf.R = np.diag([1])  # 1 standard
+    ekf.Q = np.diag([1])  # 1 standard
 
     np.random.seed(0)
-    zs = [[np.random.randn()] for i in range(50)] # measurements
+    zs = [[np.random.randn()] for i in range(50)]  # measurements
     for z in zs:
         ukf.predict()
         ekf.predict()
-        assert np.allclose(ekf.P, ukf.P), 'ekf and ukf differ after prediction'
+        assert np.allclose(ekf.P, ukf.P), "ekf and ukf differ after prediction"
 
         ukf.update(z)
         ekf.update(z, lambda x: np.array([[1]]), hx)
-        assert np.allclose(ekf.P, ukf.P), 'ekf and ukf differ after update'
+        assert np.allclose(ekf.P, ukf.P), "ekf and ukf differ after update"
 
 
 def test_linear_1d():
-    """ should work like a linear KF if problem is linear """
+    """should work like a linear KF if problem is linear"""
 
     def fx(x, dt):
-        F = np.array([[1., dt],
-                      [0, 1]])
+        F = np.array([[1.0, dt], [0, 1]])
 
         return np.dot(F, x)
 
@@ -404,39 +402,34 @@ def test_linear_1d():
         return np.array([x[0]])
 
     dt = 0.1
-    points = MerweScaledSigmaPoints(2, .1, 2., -1)
-    kf = UnscentedKalmanFilter(dim_x=2, dim_z=1, dt=dt,
-                               fx=fx, hx=hx, points=points)
+    points = MerweScaledSigmaPoints(2, 0.1, 2.0, -1)
+    kf = UnscentedKalmanFilter(dim_x=2, dim_z=1, dt=dt, fx=fx, hx=hx, points=points)
 
     kf.x = np.array([1, 2])
-    kf.P = np.array([[1, 1.1],
-                     [1.1, 3]])
+    kf.P = np.array([[1, 1.1], [1.1, 3]])
     kf.R *= 0.05
-    kf.Q = np.array([[0., 0], [0., .001]])
+    kf.Q = np.array([[0.0, 0], [0.0, 0.001]])
 
-    z = np.array([2.])
+    z = np.array([2.0])
     kf.predict()
     kf.update(z)
 
     zs = []
     for i in range(50):
-        z = np.array([i + randn()*0.1])
+        z = np.array([i + randn() * 0.1])
         zs.append(z)
 
         kf.predict()
         kf.update(z)
-        print('K', kf.K.T)
-        print('x', kf.x)
+        print("K", kf.K.T)
+        print("x", kf.x)
 
 
 def test_batch_missing_data():
-    """ batch filter should accept missing data with None in the measurements """
+    """batch filter should accept missing data with None in the measurements"""
 
     def fx(x, dt):
-        F = np.array([[1, dt, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, 1, dt],
-                      [0, 0, 0, 1]], dtype=float)
+        F = np.array([[1, dt, 0, 0], [0, 1, 0, 0], [0, 0, 1, dt], [0, 0, 0, 1]], dtype=float)
 
         return np.dot(F, x)
 
@@ -444,44 +437,41 @@ def test_batch_missing_data():
         return np.array([x[0], x[2]])
 
     dt = 0.1
-    points = MerweScaledSigmaPoints(4, .1, 2., -1)
-    kf = UnscentedKalmanFilter(dim_x=4, dim_z=2, dt=dt,
-                               fx=fx, hx=hx, points=points)
+    points = MerweScaledSigmaPoints(4, 0.1, 2.0, -1)
+    kf = UnscentedKalmanFilter(dim_x=4, dim_z=2, dt=dt, fx=fx, hx=hx, points=points)
 
-    kf.x = np.array([-1., 1., -1., 1])
+    kf.x = np.array([-1.0, 1.0, -1.0, 1])
     kf.P *= 0.0001
 
     zs = []
     for i in range(20):
-        z = np.array([i + randn()*0.1, i + randn()*0.1])
+        z = np.array([i + randn() * 0.1, i + randn() * 0.1])
         zs.append(z)
 
     zs[2] = None
-    Rs = [1]*len(zs)
+    Rs = [1] * len(zs)
     Rs[2] = None
     Ms, Ps = kf.batch_filter(zs)
 
 
 def test_rts():
     def fx(x, dt):
-        A = np.eye(3) + dt * np.array([[0, 1, 0],
-                                       [0, 0, 0],
-                                       [0, 0, 0]])
+        A = np.eye(3) + dt * np.array([[0, 1, 0], [0, 0, 0], [0, 0, 0]])
         f = np.dot(A, x)
         return f
 
     def hx(x):
-        return [np.sqrt(x[0]**2 + x[2]**2)]
+        return [np.sqrt(x[0] ** 2 + x[2] ** 2)]
 
     dt = 0.05
 
-    sp = JulierSigmaPoints(n=3, kappa=1.)
+    sp = JulierSigmaPoints(n=3, kappa=1.0)
     kf = UnscentedKalmanFilter(3, 1, dt, fx=fx, hx=hx, points=sp)
 
     kf.Q *= 0.01
     kf.R = 10
-    kf.x = np.array([0., 90., 1100.])
-    kf.P *= 100.
+    kf.x = np.array([0.0, 90.0, 1100.0])
+    kf.P *= 100.0
     radar = RadarSim(dt)
 
     t = np.arange(0, 20 + dt, dt)
@@ -500,7 +490,7 @@ def test_rts():
         xs[i, :] = kf.x
         rs.append(r)
 
-    kf.x = np.array([0., 90., 1100.])
+    kf.x = np.array([0.0, 90.0, 1100.0])
     kf.P = np.eye(3) * 100
     M, P = kf.batch_filter(rs)
     assert np.array_equal(M, xs), "Batch filter generated different output"
@@ -513,25 +503,23 @@ def test_rts():
         plt.figure()
         plt.subplot(311)
         plt.plot(t, xs[:, 0])
-        plt.plot(t, M2[:, 0], c='g')
+        plt.plot(t, M2[:, 0], c="g")
         plt.subplot(312)
         plt.plot(t, xs[:, 1])
-        plt.plot(t, M2[:, 1], c='g')
+        plt.plot(t, M2[:, 1], c="g")
         plt.subplot(313)
         plt.plot(t, xs[:, 2])
-        plt.plot(t, M2[:, 2], c='g')
+        plt.plot(t, M2[:, 2], c="g")
 
 
 def test_fixed_lag():
     def fx(x, dt):
-        A = np.eye(3) + dt * np.array([[0, 1, 0],
-                                       [0, 0, 0],
-                                       [0, 0, 0]])
+        A = np.eye(3) + dt * np.array([[0, 1, 0], [0, 0, 0], [0, 0, 0]])
         f = np.dot(A, x)
         return f
 
     def hx(x):
-        return [np.sqrt(x[0]**2 + x[2]**2)]
+        return [np.sqrt(x[0] ** 2 + x[2] ** 2)]
 
     dt = 0.05
 
@@ -541,8 +529,8 @@ def test_fixed_lag():
 
     kf.Q *= 0.01
     kf.R = 10
-    kf.x = np.array([0., 90., 1100.])
-    kf.P *= 1.
+    kf.x = np.array([0.0, 90.0, 1100.0])
+    kf.P *= 1.0
     radar = RadarSim(dt)
 
     t = np.arange(0, 20 + dt, dt)
@@ -569,17 +557,16 @@ def test_fixed_lag():
         print(i)
         if i == 20 and len(M) >= N:
             try:
-                M2, P2, K = kf.rts_smoother(Xs=np.asarray(M)[-N:],
-                                            Ps=np.asarray(P)[-N:])
+                M2, P2, K = kf.rts_smoother(Xs=np.asarray(M)[-N:], Ps=np.asarray(P)[-N:])
                 flxs[-N:] = M2
             except:
-                print('except', i)
+                print("except", i)
 
-    kf.x = np.array([0., 90., 1100.])
+    kf.x = np.array([0.0, 90.0, 1100.0])
     kf.P = np.eye(3) * 100
     M, P = kf.batch_filter(rs)
 
-    Qs = [kf.Q]*len(t)
+    Qs = [kf.Q] * len(t)
     M2, P2, K = kf.rts_smoother(Xs=M, Ps=P, Qs=Qs)
 
     flxs = np.asarray(flxs)
@@ -589,17 +576,17 @@ def test_fixed_lag():
         plt.figure()
         plt.subplot(311)
         plt.plot(t, xs[:, 0])
-        plt.plot(t, flxs[:, 0], c='r')
-        plt.plot(t, M2[:, 0], c='g')
+        plt.plot(t, flxs[:, 0], c="r")
+        plt.plot(t, M2[:, 0], c="g")
         plt.subplot(312)
         plt.plot(t, xs[:, 1])
-        plt.plot(t, flxs[:, 1], c='r')
-        plt.plot(t, M2[:, 1], c='g')
+        plt.plot(t, flxs[:, 1], c="r")
+        plt.plot(t, M2[:, 1], c="g")
 
         plt.subplot(313)
         plt.plot(t, xs[:, 2])
-        plt.plot(t, flxs[:, 2], c='r')
-        plt.plot(t, M2[:, 2], c='g')
+        plt.plot(t, flxs[:, 2], c="r")
+        plt.plot(t, M2[:, 2], c="g")
 
 
 def test_circle():
@@ -616,36 +603,38 @@ def test_circle():
     def fx(x, dt):
         return np.array([x[0], x[1] + x[2], x[2]])
 
-    std_noise = .1
+    std_noise = 0.1
 
-    sp = JulierSigmaPoints(n=3, kappa=0.)
-    f = UnscentedKalmanFilter(dim_x=3, dim_z=2, dt=.01,
-                              hx=hx, fx=fx, points=sp)
-    f.x = np.array([50., 90., 0])
+    sp = JulierSigmaPoints(n=3, kappa=0.0)
+    f = UnscentedKalmanFilter(dim_x=3, dim_z=2, dt=0.01, hx=hx, fx=fx, points=sp)
+    f.x = np.array([50.0, 90.0, 0])
     f.P *= 100
-    f.R = np.eye(2)*(std_noise**2)
-    f.Q = np.eye(3)*.001
+    f.R = np.eye(2) * (std_noise**2)
+    f.Q = np.eye(3) * 0.001
     f.Q[0, 0] = 0
     f.Q[2, 2] = 0
 
     kf = KalmanFilter(dim_x=6, dim_z=2)
-    kf.x = np.array([50., 0., 0, 0, .0, 0.])
+    kf.x = np.array([50.0, 0.0, 0, 0, 0.0, 0.0])
 
-    F = np.array([[1., 1., .5, 0., 0., 0.],
-                  [0., 1., 1., 0., 0., 0.],
-                  [0., 0., 1., 0., 0., 0.],
-                  [0., 0., 0., 1., 1., .5],
-                  [0., 0., 0., 0., 1., 1.],
-                  [0., 0., 0., 0., 0., 1.]])
+    F = np.array(
+        [
+            [1.0, 1.0, 0.5, 0.0, 0.0, 0.0],
+            [0.0, 1.0, 1.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 1.0, 0.0, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 1.0, 1.0, 0.5],
+            [0.0, 0.0, 0.0, 0.0, 1.0, 1.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 1.0],
+        ]
+    )
 
     kf.F = F
     kf.P *= 100
-    kf.H = np.array([[1, 0, 0, 0, 0, 0],
-                     [0, 0, 0, 1, 0, 0]])
+    kf.H = np.array([[1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0]])
 
     kf.R = f.R
-    kf.Q[0:3, 0:3] = Q_discrete_white_noise(3, 1., .00001)
-    kf.Q[3:6, 3:6] = Q_discrete_white_noise(3, 1., .00001)
+    kf.Q[0:3, 0:3] = Q_discrete_white_noise(3, 1.0, 0.00001)
+    kf.Q[3:6, 3:6] = Q_discrete_white_noise(3, 1.0, 0.00001)
 
     results = []
 
@@ -653,8 +642,8 @@ def test_circle():
     kfxs = []
     for t in range(12000):
         a = t / 30 + 90
-        x = cos(radians(a)) * 50. + randn() * std_noise
-        y = sin(radians(a)) * 50. + randn() * std_noise
+        x = cos(radians(a)) * 50.0 + randn() * std_noise
+        y = sin(radians(a)) * 50.0 + randn() * std_noise
         # create measurement = t plus white noise
         z = np.array([x, y])
         zs.append(z)
@@ -675,17 +664,18 @@ def test_circle():
 
     print(results)
     if DO_PLOT:
-        plt.plot(zs[:, 0], zs[:, 1], c='r', label='z')
-        plt.plot(results[:, 0], results[:, 1], c='k', label='UKF')
-        plt.plot(kfxs[:, 0], kfxs[:, 3], c='g', label='KF')
-        plt.legend(loc='best')
-        plt.axis('equal')
+        plt.plot(zs[:, 0], zs[:, 1], c="r", label="z")
+        plt.plot(results[:, 0], results[:, 1], c="k", label="UKF")
+        plt.plot(kfxs[:, 0], kfxs[:, 3], c="g", label="KF")
+        plt.legend(loc="best")
+        plt.axis("equal")
 
 
 def kf_circle():
     from bayesian_filters.kalman import KalmanFilter
     from math import radians
     import math
+
     def hx(x):
         radius = x[0]
         angle = x[1]
@@ -698,32 +688,29 @@ def kf_circle():
 
     def hx_inv(x, y):
         angle = math.atan2(y, x)
-        radius = math.sqrt(x*x + y*y)
+        radius = math.sqrt(x * x + y * y)
         return np.array([radius, angle])
 
-    std_noise = .1
+    std_noise = 0.1
 
     kf = KalmanFilter(dim_x=3, dim_z=2)
-    kf.x = np.array([50., 0., 0.])
+    kf.x = np.array([50.0, 0.0, 0.0])
 
-    F = np.array([[1., 0, 0.],
-                  [0., 1., 1.],
-                  [0., 0., 1.]])
+    F = np.array([[1.0, 0, 0.0], [0.0, 1.0, 1.0], [0.0, 0.0, 1.0]])
 
     kf.F = F
     kf.P *= 100
-    kf.H = np.array([[1, 0, 0],
-                     [0, 1, 0]])
+    kf.H = np.array([[1, 0, 0], [0, 1, 0]])
 
-    kf.R = np.eye(2)*(std_noise**2)
-    #kf.Q[0:3, 0:3] = Q_discrete_white_noise(3, 1., .00001)
+    kf.R = np.eye(2) * (std_noise**2)
+    # kf.Q[0:3, 0:3] = Q_discrete_white_noise(3, 1., .00001)
 
     zs = []
     kfxs = []
     for t in range(2000):
         a = t / 30 + 90
-        x = cos(radians(a)) * 50. + randn() * std_noise
-        y = sin(radians(a)) * 50. + randn() * std_noise
+        x = cos(radians(a)) * 50.0 + randn() * std_noise
+        y = sin(radians(a)) * 50.0 + randn() * std_noise
 
         z = hx_inv(x, y)
         zs.append(z)
@@ -738,14 +725,13 @@ def kf_circle():
     kfxs = np.asarray(kfxs)
 
     if DO_PLOT:
-        plt.plot(zs[:, 0], zs[:, 1], c='r', label='z')
-        plt.plot(kfxs[:, 0], kfxs[:, 1], c='g', label='KF')
-        plt.legend(loc='best')
-        plt.axis('equal')
+        plt.plot(zs[:, 0], zs[:, 1], c="r", label="z")
+        plt.plot(kfxs[:, 0], kfxs[:, 1], c="g", label="KF")
+        plt.legend(loc="best")
+        plt.axis("equal")
 
 
 def two_radar():
-
     # code is not complete - I was using to test RTS smoother. very similar
     # to two_radary.py in book.
 
@@ -760,7 +746,6 @@ def two_radar():
     from bayesian_filters.common import Q_discrete_white_noise
 
     class RadarStation(object):
-
         def __init__(self, pos, range_std, bearing_std):
             self.pos = asarray(pos)
 
@@ -768,7 +753,7 @@ def two_radar():
             self.bearing_std = bearing_std
 
         def reading_of(self, ac_pos):
-            """ Returns range and bearing to aircraft as tuple. bearing is in
+            """Returns range and bearing to aircraft as tuple. bearing is in
             radians.
             """
 
@@ -784,7 +769,6 @@ def two_radar():
             return rng, brg
 
     class ACSim(object):
-
         def __init__(self, pos, vel, vel_std):
             self.pos = asarray(pos, dtype=float)
             self.vel = asarray(vel, dtype=float)
@@ -796,7 +780,7 @@ def two_radar():
 
             return self.pos
 
-    dt = 1.
+    dt = 1.0
 
     def hx(x):
         r1, b1 = hx.R1.reading_of((x[0], x[2]))
@@ -806,17 +790,17 @@ def two_radar():
 
     def fx(x, dt):
         x_est = x.copy()
-        x_est[0] += x[1]*dt
-        x_est[2] += x[3]*dt
+        x_est[0] += x[1] * dt
+        x_est[2] += x[3] * dt
         return x_est
 
     vx, vy = 0.1, 0.1
 
     f = UnscentedKalmanFilter(dim_x=4, dim_z=4, dt=dt, hx=hx, fx=fx, kappa=0)
-    aircraft = ACSim((100, 100), (vx*dt, vy*dt), 0.00000002)
+    aircraft = ACSim((100, 100), (vx * dt, vy * dt), 0.00000002)
 
     range_std = 0.001  # 1 meter
-    bearing_std = 1./1000 # 1mrad
+    bearing_std = 1.0 / 1000  # 1mrad
 
     R1 = RadarStation((0, 0), range_std, bearing_std)
     R2 = RadarStation((200, 0), range_std, bearing_std)
@@ -830,12 +814,12 @@ def two_radar():
     q = Q_discrete_white_noise(2, var=0.0002, dt=dt)
     f.Q[0:2, 0:2] = q
     f.Q[2:4, 2:4] = q
-    f.P = np.diag([.1, 0.01, .1, 0.01])
+    f.P = np.diag([0.1, 0.01, 0.1, 0.01])
 
     track = []
     zs = []
 
-    for i in range(int(300/dt)):
+    for i in range(int(300 / dt)):
         pos = aircraft.update()
 
         r1, b1 = R1.noisy_reading(pos)
@@ -859,16 +843,16 @@ def two_radar():
         plt.plot(time, track[:, 0])
         plt.plot(time, xs[:, 0])
         plt.legend(loc=4)
-        plt.xlabel('time (sec)')
-        plt.ylabel('x position (m)')
+        plt.xlabel("time (sec)")
+        plt.ylabel("x position (m)")
         plt.tight_layout()
 
         plt.subplot(412)
         plt.plot(time, track[:, 1])
         plt.plot(time, xs[:, 2])
         plt.legend(loc=4)
-        plt.xlabel('time (sec)')
-        plt.ylabel('y position (m)')
+        plt.xlabel("time (sec)")
+        plt.ylabel("y position (m)")
         plt.tight_layout()
 
         plt.subplot(413)
@@ -876,23 +860,22 @@ def two_radar():
         plt.plot(time, ms[:, 1])
         plt.legend(loc=4)
         plt.ylim([0, 0.2])
-        plt.xlabel('time (sec)')
-        plt.ylabel('x velocity (m/s)')
+        plt.xlabel("time (sec)")
+        plt.ylabel("x velocity (m/s)")
         plt.tight_layout()
 
         plt.subplot(414)
         plt.plot(time, xs[:, 3])
         plt.plot(time, ms[:, 3])
-        plt.ylabel('y velocity (m/s)')
+        plt.ylabel("y velocity (m/s)")
         plt.legend(loc=4)
-        plt.xlabel('time (sec)')
+        plt.xlabel("time (sec)")
         plt.tight_layout()
         plt.show()
 
 
 def test_linear_rts():
-
-    """ for a linear model the Kalman filter and UKF should produce nearly
+    """for a linear model the Kalman filter and UKF should produce nearly
     identical results.
 
     Test code mostly due to user gboehl as reported in GitHub issue #97, though
@@ -900,24 +883,24 @@ def test_linear_rts():
     model.
     """
     dt = 1.0
-    F = np.array([[1., dt], [.0, 1]])
-    H = np.array([[1., .0]])
+    F = np.array([[1.0, dt], [0.0, 1]])
+    H = np.array([[1.0, 0.0]])
 
     def t_func(x, dt):
-        F = np.array([[1., dt], [.0, 1]])
+        F = np.array([[1.0, dt], [0.0, 1]])
         return np.dot(F, x)
 
     def o_func(x):
         return np.dot(H, x)
 
-    sig_t = .1    # peocess
-    sig_o = .0001   # measurement
+    sig_t = 0.1  # peocess
+    sig_o = 0.0001  # measurement
 
     N = 50
     X_true, X_obs = [], []
 
     for i in range(N):
-        X_true.append([i + 1, 1.])
+        X_true.append([i + 1, 1.0])
         X_obs.append(i + 1 + np.random.normal(scale=sig_o))
 
     X_true = np.array(X_true)
@@ -928,10 +911,10 @@ def test_linear_rts():
     tc[1, 1] = sig_t**2
 
     tc = Q_discrete_white_noise(dim=2, dt=dt, var=sig_t**2)
-    points = MerweScaledSigmaPoints(n=2, alpha=.1, beta=2., kappa=1)
+    points = MerweScaledSigmaPoints(n=2, alpha=0.1, beta=2.0, kappa=1)
 
     ukf = UnscentedKalmanFilter(dim_x=2, dim_z=1, dt=dt, hx=o_func, fx=t_func, points=points)
-    ukf.x = np.array([0., 1.])
+    ukf.x = np.array([0.0, 1.0])
     ukf.R = np.copy(oc)
     ukf.Q = np.copy(tc)
     s = Saver(ukf)
@@ -939,7 +922,7 @@ def test_linear_rts():
     s.to_array()
 
     kf = KalmanFilter(dim_x=2, dim_z=1)
-    kf.x = np.array([[0., 1]]).T
+    kf.x = np.array([[0.0, 1]]).T
     kf.R = np.copy(oc)
     kf.Q = np.copy(tc)
     kf.H = np.copy(H)
@@ -980,14 +963,10 @@ def test_linear_rts():
 
 
 def _test_log_likelihood():
-
     from bayesian_filters.common import Saver
 
     def fx(x, dt):
-        F = np.array([[1, dt, 0, 0],
-                      [0, 1, 0, 0],
-                      [0, 0, 1, dt],
-                      [0, 0, 0, 1]], dtype=float)
+        F = np.array([[1, dt, 0, 0], [0, 1, 0, 0], [0, 0, 1, dt], [0, 0, 0, 1]], dtype=float)
 
         return np.dot(F, x)
 
@@ -995,17 +974,17 @@ def _test_log_likelihood():
         return np.array([x[0], x[2]])
 
     dt = 0.1
-    points = MerweScaledSigmaPoints(4, .1, 2., -1)
+    points = MerweScaledSigmaPoints(4, 0.1, 2.0, -1)
     kf = UnscentedKalmanFilter(dim_x=4, dim_z=2, dt=dt, fx=fx, hx=hx, points=points)
 
     z_std = 0.1
-    kf.R = np.diag([z_std**2, z_std**2]) # 1 standard
+    kf.R = np.diag([z_std**2, z_std**2])  # 1 standard
     kf.Q = Q_discrete_white_noise(dim=2, dt=dt, var=1.1**2, block_size=2)
 
-    kf.x = np.array([-1., 1., -1., 1])
-    kf.P *= 1.
+    kf.x = np.array([-1.0, 1.0, -1.0, 1])
+    kf.P *= 1.0
 
-    zs = [[i+randn()*z_std, i+randn()*z_std] for i in range(40)]
+    zs = [[i + randn() * z_std, i + randn() * z_std] for i in range(40)]
     s = Saver(kf)
     for z in zs:
         kf.predict()
@@ -1034,34 +1013,34 @@ def test_vhartman():
     def fx(x, dt):
         # state transition function - predict next state based
         # on constant velocity model x = vt + x_0
-        F = np.array([[1.]], dtype=np.float32)
+        F = np.array([[1.0]], dtype=np.float32)
         return np.dot(F, x)
 
     def hx(x):
-       # measurement function - convert state into a measurement
-       # where measurements are [x_pos, y_pos]
-       return np.array([x[0]])
+        # measurement function - convert state into a measurement
+        # where measurements are [x_pos, y_pos]
+        return np.array([x[0]])
 
     dt = 1.0
     # create sigma points to use in the filter. This is standard for Gaussian processes
-    points = MerweScaledSigmaPoints(1, alpha=1, beta=2., kappa=0.1)
+    points = MerweScaledSigmaPoints(1, alpha=1, beta=2.0, kappa=0.1)
 
     kf = UnscentedKalmanFilter(dim_x=1, dim_z=1, dt=dt, fx=fx, hx=hx, points=points)
-    kf.x = np.array([0.]) # initial state
-    kf.P = np.array([[1]]) # initial uncertainty
-    kf.R = np.diag([1]) # 1 standard
-    kf.Q = np.diag([1]) # 1 standard
+    kf.x = np.array([0.0])  # initial state
+    kf.P = np.array([[1]])  # initial uncertainty
+    kf.R = np.diag([1])  # 1 standard
+    kf.Q = np.diag([1])  # 1 standard
 
     ekf = ExtendedKalmanFilter(dim_x=1, dim_z=1)
     ekf.F = np.array([[1]])
 
-    ekf.x = np.array([0.]) # initial state
-    ekf.P = np.array([[1]]) # initial uncertainty
-    ekf.R = np.diag([1]) # 1 standard
-    ekf.Q = np.diag([1]) # 1 standard
+    ekf.x = np.array([0.0])  # initial state
+    ekf.P = np.array([[1]])  # initial uncertainty
+    ekf.R = np.diag([1])  # 1 standard
+    ekf.Q = np.diag([1])  # 1 standard
 
     np.random.seed(0)
-    zs = [[np.random.randn()] for i in range(50)] # measurements
+    zs = [[np.random.randn()] for i in range(50)]  # measurements
     for z in zs:
         kf.predict()
         ekf.predict()
@@ -1073,8 +1052,9 @@ def test_vhartman():
         assert np.allclose(ekf.P, kf.P)
         assert np.allclose(ekf.x, kf.x)
 
+
 if __name__ == "__main__":
-    plt.close('all')
+    plt.close("all")
 
     test_vhartman()
     test_simplex_sigma_points_2D()
@@ -1093,18 +1073,17 @@ if __name__ == "__main__":
     test_ukf_ekf_comparison()
     test_batch_missing_data()
     #
-    #est_linear_2d()
+    # est_linear_2d()
     test_fixed_lag()
     # DO_PLOT = True
     test_rts()
     kf_circle()
     test_circle()
 
-
     test_linear_2d_merwe()
     test_linear_2d_simplex()
 
-    '''test_1D_sigma_points()
+    """test_1D_sigma_points()
     plot_sigma_test ()
 
     x = np.array([[1,2]])
@@ -1115,16 +1094,15 @@ if __name__ == "__main__":
     kappa = .1
 
     xi,w = sigma_points (x,P,kappa)
-    xm, cov = unscented_transform(xi, w)'''
+    xm, cov = unscented_transform(xi, w)"""
     test_radar()
     test_sigma_plot()
     test_scaled_weights()
-    #print('xi=\n',Xi)
+    # print('xi=\n',Xi)
     """
     xm, cov = unscented_transform(Xi, W)
     print(xm)
     print(cov)"""
 #    sigma_points ([5,2],9*np.eye(2), 2)
-    #plt.legend()
-    #plt.show()
-
+# plt.legend()
+# plt.show()

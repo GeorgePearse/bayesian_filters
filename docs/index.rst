@@ -11,8 +11,8 @@ FilterPy
 FilterPy is a Python library that implements a number of Bayesian filters,
 most notably Kalman filters. I am writing it in conjunction with my book
 *Kalman and Bayesian Filters in Python* [1]_, a free book written using
-Ipython Notebook, hosted on github, and readable via nbviewer. However, 
-it implements a wide variety of functionality that is not described in 
+Ipython Notebook, hosted on github, and readable via nbviewer. However,
+it implements a wide variety of functionality that is not described in
 the book.
 
 As such this library has a strong pedalogical flavor. It is rare that I
@@ -71,9 +71,9 @@ usable.
      $ cd filterpy
      $ python setup.py install
 
-`--depth=1` just gets you the last few revisions that I made, which 
+`--depth=1` just gets you the last few revisions that I made, which
 keeps the repo small. If you want the entire repo leave out the `depth`
-parameter, or fork the repo if you plan to modify it. 
+parameter, or fork the repo if you plan to modify it.
 
 Use
 ===
@@ -106,10 +106,10 @@ In the end, Kalman filtering is math. To write a Kalman filter you are going to 
 
     \dot{\mathbf{x}} = \mathbf{Fx} + \mathbf{Gu} + w
 
-One of my goals is to bring you to the point where you can read the original literature on Kalman filtering. For nontrivial problems the difficulty is not the implementation of the equations, but learning how to set up the equations so they solve your problem. In other words, every Kalman filter implements :math:`\dot{\mathbf{x}} = \mathbf{Fx} + \mathbf{Gu} + w`; the difficult part is figuring out what to put in the matrices :math:`\mathbf{F}` and :math:`\mathbf{G}` to make your filter work for your problem. Vast amounts of work have been done to apply Kalman filters in various domains, and it would be tragic to be unable to avail yourself of this research. 
+One of my goals is to bring you to the point where you can read the original literature on Kalman filtering. For nontrivial problems the difficulty is not the implementation of the equations, but learning how to set up the equations so they solve your problem. In other words, every Kalman filter implements :math:`\dot{\mathbf{x}} = \mathbf{Fx} + \mathbf{Gu} + w`; the difficult part is figuring out what to put in the matrices :math:`\mathbf{F}` and :math:`\mathbf{G}` to make your filter work for your problem. Vast amounts of work have been done to apply Kalman filters in various domains, and it would be tragic to be unable to avail yourself of this research.
 
 So, like it or not you will need to learn that :math:`\mathbf{F}` is the *state transition matrix* and that :math:`\mathbf{R}` is the *measurement noise covariance*. Once you know that the code will become readable, and until then Kalman filter
-math, and all publications and web articles on Kalman filters will be inaccessible to you. 
+math, and all publications and web articles on Kalman filters will be inaccessible to you.
 
 Finally, I think that mathematical programming is somewhat different than regular programming; what is readable in one domain is not readable in another. `q = x + m` is opaque in a normal context. On the other hand, `x = (.5*a)*t**2 + v_0*t + x_0` is to me the most readable way to program the Newtonian distance equation:
 
@@ -120,9 +120,9 @@ We could write it as
 
 .. code-block:: Python
 
-    distance = (.5 * constant_acceleration) * time_delta**2 + 
+    distance = (.5 * constant_acceleration) * time_delta**2 +
                initial_velocity * time_delta + initial_distance
-    
+
 but I feel that obscures readability. This is debatable for this one equation; but most mathematical programs, and certainly Kalman filters, use systems of equations. I can most easily follow the code, and ensure that it does not have bugs, when it reads as close to the math as possible. Consider this equation from the Kalman filter:
 
 .. math::
@@ -133,7 +133,7 @@ Python code for this would be
 .. code-block:: Python
 
     K = dot(P, H.T).dot(inv(dot(H, P).dot(H.T) + R))
-    
+
 It's already a bit hard to read because of the `dot` function calls (required because Python does not yet support an operator for matrix multiplication). But compare this to::
 
     kalman_gain = (
@@ -141,11 +141,11 @@ It's already a bit hard to read because of the `dot` function calls (required be
         inv(dot(measurement_function, apriori_state_covariance).dot(
         measurement_function_transpose) + measurement_noise_covariance)))
 
-which I adapted from a popular library. I grant you this version has more context, but I cannot glance at this and see what math it is implementing. In particular, the linear algebra :math:`\mathbf{HPH}^\mathsf{T}` is doing something very specific - multiplying :math:`\mathbf{P}` by :math:`\mathbf{H}` in a way that converts :math:`\mathbf{P}` from *world space* to *measurement space* (we'll learn what that means). It is nearly impossible to see that the Kalman gain (`K`) is just a ratio of one number divided by a second number which has been converted to a different basis. This statement may not convey a lot of information to you before reading the book, but I assure you that :math:`\mathbf{K} = \mathbf{PH}^\mathsf{T}[\mathbf{HPH}^\mathsf{T} + \mathbf{R}]^{-1}` is saying something very succinctly. There are two key pieces of information here - we are finding a ratio, and we are doing it in measurement space. I can see that in my first Python line, I cannot see that in the second line. If you want a counter-argument, my version obscures the information that :math:`\mathbf{P}` is in this context is a *prior* . 
+which I adapted from a popular library. I grant you this version has more context, but I cannot glance at this and see what math it is implementing. In particular, the linear algebra :math:`\mathbf{HPH}^\mathsf{T}` is doing something very specific - multiplying :math:`\mathbf{P}` by :math:`\mathbf{H}` in a way that converts :math:`\mathbf{P}` from *world space* to *measurement space* (we'll learn what that means). It is nearly impossible to see that the Kalman gain (`K`) is just a ratio of one number divided by a second number which has been converted to a different basis. This statement may not convey a lot of information to you before reading the book, but I assure you that :math:`\mathbf{K} = \mathbf{PH}^\mathsf{T}[\mathbf{HPH}^\mathsf{T} + \mathbf{R}]^{-1}` is saying something very succinctly. There are two key pieces of information here - we are finding a ratio, and we are doing it in measurement space. I can see that in my first Python line, I cannot see that in the second line. If you want a counter-argument, my version obscures the information that :math:`\mathbf{P}` is in this context is a *prior* .
 
 These comments apply to library code. Calling code should use names like `sensor_noise`, or `gps_sensor_noise`, not `R`. Math code should read like math, and interface or glue code should read like normal code. Context is important.
 
-I will not *win* this argument, and some people will not agree with my naming choices. I will finish by stating, very truthfully, that I made two mistakes the first time I typed the second version and it took me awhile to find it. In any case, I aim for using the mathematical symbol names whenever possible, coupled with readable class and function names. So, it is `KalmanFilter.P`, not `KF.P` and not `KalmanFilter.apriori_state_covariance`. 
+I will not *win* this argument, and some people will not agree with my naming choices. I will finish by stating, very truthfully, that I made two mistakes the first time I typed the second version and it took me awhile to find it. In any case, I aim for using the mathematical symbol names whenever possible, coupled with readable class and function names. So, it is `KalmanFilter.P`, not `KF.P` and not `KalmanFilter.apriori_state_covariance`.
 
 
 Communication
@@ -154,7 +154,7 @@ Communication
 Unless it is deeply private (you don't want someone else seeing propietary
 code, for example), please ask questions and such on the issue tracker,
 not by email. This is solely so that everyone gets to see the answer. "Issue"
-doesn't mean bug. 
+doesn't mean bug.
 
 
 Modules
@@ -165,10 +165,10 @@ filterpy.kalman
 
 The classes in this submodule implement the various Kalman filters. There is
 also support for smoother functions. The smoothers are methods of the classes.
-For example, the KalmanFilter class contains rts_smoother to perform 
+For example, the KalmanFilter class contains rts_smoother to perform
 Rauch-Tung-Striebel smoothing.
-   
-  
+
+
 Linear Kalman Filters
 +++++++++++++++++++++
 
@@ -186,24 +186,24 @@ Implements various Kalman filters using the linear equations form of the filter.
     kalman/MMAEFilterBank
     kalman/IMMEstimator
 
-   
+
 Extended Kalman Filter
 ++++++++++++++++++++++
 .. toctree::
     :maxdepth: 1
 
     kalman/ExtendedKalmanFilter
-   
+
 Unscented Kalman Filter
 +++++++++++++++++++++++
 These modules are used to implement the Unscented Kalman filter.
 
 .. toctree::
     :maxdepth: 1
-   
+
     kalman/UnscentedKalmanFilter
     kalman/unscented_transform
- 
+
 Ensemble Kalman Filter
 +++++++++++++++++++++++
 .. toctree::
@@ -215,14 +215,14 @@ Ensemble Kalman Filter
 filterpy.common
 ---------------
 
-Contains various useful functions that support the filtering classes 
+Contains various useful functions that support the filtering classes
 and functions. Most useful are functions to compute the process noise
 matrix Q. It also implements the Van Loan discretization of a linear
 differential equation.
 
 .. toctree::
     :maxdepth: 1
-   
+
     common/common
 
 
@@ -236,7 +236,7 @@ multivariate Gaussians CDFs, PDFs, and covariance ellipses.
 
 .. toctree::
     :maxdepth: 1
-   
+
     stats/stats
 
 
@@ -248,7 +248,7 @@ particle filtering.
 
 .. toctree::
     :maxdepth: 1
-   
+
     monte_carlo/resampling
 
 filterpy.discrete_bayes
@@ -258,7 +258,7 @@ Routines for performing discrete Bayes filtering.
 
 .. toctree::
     :maxdepth: 1
-   
+
     discrete_bayes/discrete_bayes
 
 filterpy.gh
@@ -269,7 +269,7 @@ settings for the *g* and *h* parameters for various common filters.
 
 .. toctree::
     :maxdepth: 1
-   
+
     gh/GHFilterOrder
     gh/GHFilter
     gh/GHKFilter
@@ -291,7 +291,7 @@ Kalman filter.
 
 .. toctree::
     :maxdepth: 1
-   
+
     memory/FadingMemoryFilter
 
 
@@ -300,7 +300,7 @@ filterpy.hinfinity
 
 .. toctree::
     :maxdepth: 1
-   
+
     hinfinity/HInfinityFilter
 
 filterpy.leastsq
@@ -308,10 +308,10 @@ filterpy.leastsq
 
 .. toctree::
     :maxdepth: 1
-   
+
     leastsq/LeastSquaresFilter
 
-   
+
 References
 ==========
 

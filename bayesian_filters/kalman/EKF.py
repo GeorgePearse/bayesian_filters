@@ -17,7 +17,7 @@ This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
 
-from __future__ import (absolute_import, division, unicode_literals)
+from __future__ import absolute_import, division, unicode_literals
 
 from copy import deepcopy
 from math import log, exp, sqrt
@@ -30,8 +30,7 @@ from bayesian_filters.common import pretty_str, reshape_z
 
 
 class ExtendedKalmanFilter(object):
-
-    """ Implements an extended Kalman filter (EKF). You are responsible for
+    """Implements an extended Kalman filter (EKF). You are responsible for
     setting the various state variables to reasonable values; the defaults
     will  not give you a functional filter.
 
@@ -130,28 +129,27 @@ class ExtendedKalmanFilter(object):
     """
 
     def __init__(self, dim_x, dim_z, dim_u=0):
-
         self.dim_x = dim_x
         self.dim_z = dim_z
         self.dim_u = dim_u
 
-        self.x = zeros((dim_x, 1)) # state
-        self.P = eye(dim_x)        # uncertainty covariance
-        self.B = 0                 # control transition matrix
-        self.F = np.eye(dim_x)     # state transition matrix
-        self.R = eye(dim_z)        # state uncertainty
-        self.Q = eye(dim_x)        # process uncertainty
-        self.y = zeros((dim_z, 1)) # residual
+        self.x = zeros((dim_x, 1))  # state
+        self.P = eye(dim_x)  # uncertainty covariance
+        self.B = 0  # control transition matrix
+        self.F = np.eye(dim_x)  # state transition matrix
+        self.R = eye(dim_z)  # state uncertainty
+        self.Q = eye(dim_x)  # process uncertainty
+        self.y = zeros((dim_z, 1))  # residual
 
-        z = np.array([None]*self.dim_z)
+        z = np.array([None] * self.dim_z)
         self.z = reshape_z(z, self.dim_z, self.x.ndim)
 
         # gain and residual are computed during the innovation step. We
         # save them so that in case you want to inspect them for various
         # purposes
-        self.K = np.zeros(self.x.shape) # kalman gain
+        self.K = np.zeros(self.x.shape)  # kalman gain
         self.y = zeros((dim_z, 1))
-        self.S = np.zeros((dim_z, dim_z))   # system uncertainty
+        self.S = np.zeros((dim_z, dim_z))  # system uncertainty
         self.SI = np.zeros((dim_z, dim_z))  # inverse system uncertainty
 
         # identity matrix. Do not alter this.
@@ -170,7 +168,7 @@ class ExtendedKalmanFilter(object):
         self.P_post = self.P.copy()
 
     def predict_update(self, z, HJacobian, Hx, args=(), hx_args=(), u=0):
-        """ Performs the predict/update innovation of the extended Kalman
+        """Performs the predict/update innovation of the extended Kalman
         filter.
 
         Parameters
@@ -201,7 +199,7 @@ class ExtendedKalmanFilter(object):
         u : np.array or scalar
             optional control vector input to the filter.
         """
-        #pylint: disable=too-many-locals
+        # pylint: disable=too-many-locals
 
         if not isinstance(args, tuple):
             args = (args,)
@@ -251,9 +249,8 @@ class ExtendedKalmanFilter(object):
         self._likelihood = None
         self._mahalanobis = None
 
-    def update(self, z, HJacobian, Hx, R=None, args=(), hx_args=(),
-               residual=np.subtract):
-        """ Performs the update innovation of the extended Kalman filter.
+    def update(self, z, HJacobian, Hx, R=None, args=(), hx_args=(), residual=np.subtract):
+        """Performs the update innovation of the extended Kalman filter.
 
         Parameters
         ----------
@@ -295,7 +292,7 @@ class ExtendedKalmanFilter(object):
         """
 
         if z is None:
-            self.z = np.array([[None]*self.dim_z]).T
+            self.z = np.array([[None] * self.dim_z]).T
             self.x_post = self.x.copy()
             self.P_post = self.P.copy()
             return
@@ -410,19 +407,21 @@ class ExtendedKalmanFilter(object):
         return self._mahalanobis
 
     def __repr__(self):
-        return '\n'.join([
-            'KalmanFilter object',
-            pretty_str('x', self.x),
-            pretty_str('P', self.P),
-            pretty_str('x_prior', self.x_prior),
-            pretty_str('P_prior', self.P_prior),
-            pretty_str('F', self.F),
-            pretty_str('Q', self.Q),
-            pretty_str('R', self.R),
-            pretty_str('K', self.K),
-            pretty_str('y', self.y),
-            pretty_str('S', self.S),
-            pretty_str('likelihood', self.likelihood),
-            pretty_str('log-likelihood', self.log_likelihood),
-            pretty_str('mahalanobis', self.mahalanobis)
-            ])
+        return "\n".join(
+            [
+                "KalmanFilter object",
+                pretty_str("x", self.x),
+                pretty_str("P", self.P),
+                pretty_str("x_prior", self.x_prior),
+                pretty_str("P_prior", self.P_prior),
+                pretty_str("F", self.F),
+                pretty_str("Q", self.Q),
+                pretty_str("R", self.R),
+                pretty_str("K", self.K),
+                pretty_str("y", self.y),
+                pretty_str("S", self.S),
+                pretty_str("likelihood", self.likelihood),
+                pretty_str("log-likelihood", self.log_likelihood),
+                pretty_str("mahalanobis", self.mahalanobis),
+            ]
+        )

@@ -66,29 +66,28 @@ class HInfinityFilter(object):
         self.dim_u = dim_u
         self.gamma = gamma
 
-        self.x = zeros((dim_x, 1)) # state
+        self.x = zeros((dim_x, 1))  # state
 
-        self.B = 0                     # control transition matrix
-        self.F = eye(dim_x)            # state transition matrix
-        self.H = zeros((dim_z, dim_x)) # Measurement function
-        self.P = eye(dim_x)            # Uncertainty covariance.
+        self.B = 0  # control transition matrix
+        self.F = eye(dim_x)  # state transition matrix
+        self.H = zeros((dim_z, dim_x))  # Measurement function
+        self.P = eye(dim_x)  # Uncertainty covariance.
         self.Q = eye(dim_x)
 
-        self._V_inv = zeros((dim_z, dim_z)) # inverse measurement noise
-        self._V = zeros((dim_z, dim_z))     #  measurement noise
-        self.W = zeros((dim_x, dim_x))      # process uncertainty
+        self._V_inv = zeros((dim_z, dim_z))  # inverse measurement noise
+        self._V = zeros((dim_z, dim_z))  #  measurement noise
+        self.W = zeros((dim_x, dim_x))  # process uncertainty
 
         # gain and residual are computed during the innovation step. We
         # save them so that in case you want to inspect them for various
         # purposes
 
-        self.K = 0 # H-infinity gain
+        self.K = 0  # H-infinity gain
         self.y = zeros((dim_z, 1))
         self.z = zeros((dim_z, 1))
 
         # identity matrix. Do not alter this.
         self._I = np.eye(dim_x)
-
 
     def update(self, z):
         """
@@ -141,7 +140,6 @@ class HInfinityFilter(object):
         except:
             self.z = copy.deepcopy(z)
 
-
     def predict(self, u=0):
         """
         Predict next position.
@@ -156,9 +154,8 @@ class HInfinityFilter(object):
         # x = Fx + Bu
         self.x = dot(self.F, self.x) + dot(self.B, u)
 
-
-    def batch_filter(self, Zs,update_first=False, saver=False):
-        """ Batch processes a sequences of measurements.
+    def batch_filter(self, Zs, update_first=False, saver=False):
+        """Batch processes a sequences of measurements.
 
         Parameters
         ----------
@@ -215,9 +212,8 @@ class HInfinityFilter(object):
 
         return (means, covariances)
 
-
     def get_prediction(self, u=0):
-        """ Predicts the next state of the filter and returns it. Does not
+        """Predicts the next state of the filter and returns it. Does not
         alter the state of the filter.
 
         Parameters
@@ -232,16 +228,14 @@ class HInfinityFilter(object):
         """
         return dot(self.F, self.x) + dot(self.B, u)
 
-
     def residual_of(self, z):
-        """ returns the residual for the given measurement (z). Does not alter
+        """returns the residual for the given measurement (z). Does not alter
         the state of the filter.
         """
         return z - dot(self.H, self.x)
 
-
     def measurement_of_state(self, x):
-        """ Helper function that converts a state into a measurement.
+        """Helper function that converts a state into a measurement.
 
         Parameters
         ----------
@@ -255,16 +249,14 @@ class HInfinityFilter(object):
         """
         return dot(self.H, x)
 
-
     @property
     def V(self):
-        """ measurement noise matrix"""
+        """measurement noise matrix"""
         return self._V
-
 
     @V.setter
     def V(self, value):
-        """ measurement noise matrix"""
+        """measurement noise matrix"""
 
         if np.isscalar(value):
             self._V = np.array([[value]], dtype=float)
@@ -272,20 +264,21 @@ class HInfinityFilter(object):
             self._V = value
         self._V_inv = linalg.inv(self._V)
 
-
     def __repr__(self):
-        return '\n'.join([
-            'HInfinityFilter object',
-            pretty_str('dim_x', self.dim_x),
-            pretty_str('dim_z', self.dim_z),
-            pretty_str('dim_u', self.dim_u),
-            pretty_str('gamma', self.dim_u),
-            pretty_str('x', self.x),
-            pretty_str('P', self.P),
-            pretty_str('F', self.F),
-            pretty_str('Q', self.Q),
-            pretty_str('V', self.V),
-            pretty_str('W', self.W),
-            pretty_str('K', self.K),
-            pretty_str('y', self.y),
-            ])
+        return "\n".join(
+            [
+                "HInfinityFilter object",
+                pretty_str("dim_x", self.dim_x),
+                pretty_str("dim_z", self.dim_z),
+                pretty_str("dim_u", self.dim_u),
+                pretty_str("gamma", self.dim_u),
+                pretty_str("x", self.x),
+                pretty_str("P", self.P),
+                pretty_str("F", self.F),
+                pretty_str("Q", self.Q),
+                pretty_str("V", self.V),
+                pretty_str("W", self.W),
+                pretty_str("K", self.K),
+                pretty_str("y", self.y),
+            ]
+        )

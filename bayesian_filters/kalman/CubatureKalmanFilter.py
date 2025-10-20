@@ -17,7 +17,7 @@ This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
 
-from __future__ import (absolute_import, division)
+from __future__ import absolute_import, division
 
 from copy import deepcopy
 from math import log, exp, sqrt
@@ -30,7 +30,7 @@ from bayesian_filters.common import pretty_str, outer_product_sum
 
 
 def spherical_radial_sigmas(x, P):
-    r""" Creates cubature points for the the specified state and covariance
+    r"""Creates cubature points for the the specified state and covariance
     according to [1].
 
     Parameters
@@ -52,11 +52,11 @@ def spherical_radial_sigmas(x, P):
     n, _ = P.shape
     x = x.flatten()
 
-    sigmas = np.empty((2*n, n))
+    sigmas = np.empty((2 * n, n))
     U = cholesky(P) * sqrt(n)
     for k in range(n):
         sigmas[k] = x + U[k]
-        sigmas[n+k] = x - U[k]
+        sigmas[n + k] = x - U[k]
 
     return sigmas
 
@@ -102,7 +102,7 @@ class CubatureKalmanFilter(object):
     # pylint: disable=too-many-instance-attributes
     # pylint: disable=C0103
 
-    r""" Implements the Cubuture Kalman filter (UKF) as defined by
+    r"""Implements the Cubuture Kalman filter (UKF) as defined by
     Ienkaran Arasaratnam and Simon Haykin in [1]
 
 
@@ -236,13 +236,18 @@ class CubatureKalmanFilter(object):
        IEEE Transactions on Automatic Control, 2009, pp 1254-1269, vol 54, No 6
     """
 
-
-    def __init__(self, dim_x, dim_z, dt, hx, fx,
-                 x_mean_fn=None,
-                 z_mean_fn=None,
-                 residual_x=None,
-                 residual_z=None):
-
+    def __init__(
+        self,
+        dim_x,
+        dim_z,
+        dt,
+        hx,
+        fx,
+        x_mean_fn=None,
+        z_mean_fn=None,
+        residual_x=None,
+        residual_z=None,
+    ):
         self.Q = eye(dim_x)
         self.R = eye(dim_z)
         self.x = zeros(dim_x)
@@ -251,15 +256,15 @@ class CubatureKalmanFilter(object):
         self.dim_x = dim_x
         self.dim_z = dim_z
         self._dt = dt
-        self._num_sigmas = 2*dim_x
+        self._num_sigmas = 2 * dim_x
         self.hx = hx
         self.fx = fx
         self.x_mean = x_mean_fn
         self.z_mean = z_mean_fn
         self.y = 0
-        self.z = np.array([[None]*self.dim_z]).T
-        self.S = np.zeros((dim_z, dim_z)) # system uncertainty
-        self.SI = np.zeros((dim_z, dim_z)) # inverse system uncertainty
+        self.z = np.array([[None] * self.dim_z]).T
+        self.S = np.zeros((dim_z, dim_z))  # system uncertainty
+        self.SI = np.zeros((dim_z, dim_z))  # inverse system uncertainty
 
         if residual_x is None:
             self.residual_x = np.subtract
@@ -273,8 +278,8 @@ class CubatureKalmanFilter(object):
 
         # sigma points transformed through f(x) and h(x)
         # variables for efficiency so we don't recreate every update
-        self.sigmas_f = zeros((2*self.dim_x, self.dim_x))
-        self.sigmas_h = zeros((2*self.dim_x, self.dim_z))
+        self.sigmas_f = zeros((2 * self.dim_x, self.dim_x))
+        self.sigmas_h = zeros((2 * self.dim_x, self.dim_z))
 
         # Only computed only if requested via property
         self._log_likelihood = log(sys.float_info.min)
@@ -290,7 +295,7 @@ class CubatureKalmanFilter(object):
         self.P_post = self.P.copy()
 
     def predict(self, dt=None, fx_args=()):
-        r""" Performs the predict step of the CKF. On return, self.x and
+        r"""Performs the predict step of the CKF. On return, self.x and
         self.P contain the predicted state (x) and covariance (P).
 
         Important: this MUST be called before update() is called for the first
@@ -327,7 +332,7 @@ class CubatureKalmanFilter(object):
         self.P_prior = self.P.copy()
 
     def update(self, z, R=None, hx_args=()):
-        """ Update the CKF with the given measurements. On return,
+        """Update the CKF with the given measurements. On return,
         self.x and self.P contain the new mean and covariance of the filter.
 
         Parameters
@@ -346,7 +351,7 @@ class CubatureKalmanFilter(object):
         """
 
         if z is None:
-            self.z = np.array([[None]*self.dim_z]).T
+            self.z = np.array([[None] * self.dim_z]).T
             self.x_post = self.x.copy()
             self.P_post = self.P.copy()
             return
@@ -372,12 +377,11 @@ class CubatureKalmanFilter(object):
         zpf = zp.flatten()
         Pxz = outer_product_sum(self.sigmas_f - xf, self.sigmas_h - zpf) / m
 
-        self.K = dot(Pxz, self.SI)        # Kalman gain
-        self.y = self.residual_z(z, zp)   # residual
+        self.K = dot(Pxz, self.SI)  # Kalman gain
+        self.y = self.residual_z(z, zp)  # residual
 
         self.x = self.x + dot(self.K, self.y)
-        self.P = self.P - dot(self.K, self.S).dot(self.K.T) # pylint: disable=no-member
-
+        self.P = self.P - dot(self.K, self.S).dot(self.K.T)  # pylint: disable=no-member
 
         # save measurement and posterior state
         self.z = deepcopy(z)
@@ -415,7 +419,7 @@ class CubatureKalmanFilter(object):
 
     @property
     def mahalanobis(self):
-        """"
+        """ "
         Mahalanobis distance of innovation. E.g. 3 means measurement
         was 3 standard deviations away from the predicted value.
 
@@ -428,18 +432,20 @@ class CubatureKalmanFilter(object):
         return self._mahalanobis
 
     def __repr__(self):
-        return '\n'.join([
-            'CubatureKalmanFilter object',
-            pretty_str('dim_x', self.dim_x),
-            pretty_str('dim_z', self.dim_z),
-            pretty_str('dt', self._dt),
-            pretty_str('x', self.x),
-            pretty_str('P', self.P),
-            pretty_str('Q', self.Q),
-            pretty_str('R', self.R),
-            pretty_str('K', self.K),
-            pretty_str('y', self.y),
-            pretty_str('log-likelihood', self.log_likelihood),
-            pretty_str('likelihood', self.likelihood),
-            pretty_str('mahalanobis', self.mahalanobis)
-            ])
+        return "\n".join(
+            [
+                "CubatureKalmanFilter object",
+                pretty_str("dim_x", self.dim_x),
+                pretty_str("dim_z", self.dim_z),
+                pretty_str("dt", self._dt),
+                pretty_str("x", self.x),
+                pretty_str("P", self.P),
+                pretty_str("Q", self.Q),
+                pretty_str("R", self.R),
+                pretty_str("K", self.K),
+                pretty_str("y", self.y),
+                pretty_str("log-likelihood", self.log_likelihood),
+                pretty_str("likelihood", self.likelihood),
+                pretty_str("mahalanobis", self.mahalanobis),
+            ]
+        )

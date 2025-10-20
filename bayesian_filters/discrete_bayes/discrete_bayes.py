@@ -14,9 +14,7 @@ This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
 
-
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 import numpy as np
 from scipy.ndimage.filters import convolve
@@ -49,7 +47,7 @@ def normalize(pdf):
 
 
 def update(likelihood, prior):
-    """ Computes the posterior of a discrete random variable given a
+    """Computes the posterior of a discrete random variable given a
     discrete likelihood and prior. In a typical application the likelihood
     will be the likelihood of a measurement matching your current environment,
     and the prior comes from discrete_bayes.predict().
@@ -89,9 +87,8 @@ def update(likelihood, prior):
     return normalize(posterior)
 
 
-
-def predict(pdf, offset, kernel, mode='wrap', cval=0.):
-    """ Performs the discrete Bayes filter prediction step, generating
+def predict(pdf, offset, kernel, mode="wrap", cval=0.0):
+    """Performs the discrete Bayes filter prediction step, generating
     the prior.
 
     `pdf` is a discrete probability distribution expressing our initial
@@ -121,8 +118,7 @@ def predict(pdf, offset, kernel, mode='wrap', cval=0.):
         prior = predict(belief, offset=2, kernel=[.1, .8, .1])
     """
 
-    if mode == 'wrap':
-        return convolve(np.roll(pdf, offset), kernel, mode='wrap')
+    if mode == "wrap":
+        return convolve(np.roll(pdf, offset), kernel, mode="wrap")
 
-    return convolve(shift(pdf, offset, cval=cval), kernel,
-                    cval=cval, mode='constant')
+    return convolve(shift(pdf, offset, cval=cval), kernel, cval=cval, mode="constant")

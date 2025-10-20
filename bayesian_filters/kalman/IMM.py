@@ -5,14 +5,15 @@ Created on Mon Aug  6 07:53:34 2018
 
 @author: rlabbe
 """
-from __future__ import (absolute_import, division)
+
+from __future__ import absolute_import, division
 import numpy as np
 from numpy import dot, asarray, zeros, outer
 from bayesian_filters.common import pretty_str
 
 
 class IMMEstimator(object):
-    """ Implements an Interacting Multiple-Model (IMM) estimator.
+    """Implements an Interacting Multiple-Model (IMM) estimator.
 
     Parameters
     ----------
@@ -131,7 +132,7 @@ class IMMEstimator(object):
 
     def __init__(self, filters, mu, M):
         if len(filters) < 2:
-            raise ValueError('filters must contain at least two filters')
+            raise ValueError("filters must contain at least two filters")
 
         self.filters = filters
         self.mu = asarray(mu) / np.sum(mu)
@@ -140,8 +141,7 @@ class IMMEstimator(object):
         x_shape = filters[0].x.shape
         for f in filters:
             if x_shape != f.x.shape:
-                raise ValueError(
-                    'All filters must have the same state dimension')
+                raise ValueError("All filters must have the same state dimension")
 
         self.x = zeros(filters[0].x.shape)
         self.P = zeros(filters[0].P.shape)
@@ -246,21 +246,23 @@ class IMMEstimator(object):
         self.cbar = dot(self.mu, self.M)
         for i in range(self.N):
             for j in range(self.N):
-                self.omega[i, j] = (self.M[i, j]*self.mu[i]) / self.cbar[j]
+                self.omega[i, j] = (self.M[i, j] * self.mu[i]) / self.cbar[j]
 
     def __repr__(self):
-        return '\n'.join([
-            'IMMEstimator object',
-            pretty_str('x', self.x),
-            pretty_str('P', self.P),
-            pretty_str('x_prior', self.x_prior),
-            pretty_str('P_prior', self.P_prior),
-            pretty_str('x_post', self.x_post),
-            pretty_str('P_post', self.P_post),
-            pretty_str('N', self.N),
-            pretty_str('mu', self.mu),
-            pretty_str('M', self.M),
-            pretty_str('cbar', self.cbar),
-            pretty_str('likelihood', self.likelihood),
-            pretty_str('omega', self.omega)
-            ])
+        return "\n".join(
+            [
+                "IMMEstimator object",
+                pretty_str("x", self.x),
+                pretty_str("P", self.P),
+                pretty_str("x_prior", self.x_prior),
+                pretty_str("P_prior", self.P_prior),
+                pretty_str("x_post", self.x_post),
+                pretty_str("P_post", self.P_post),
+                pretty_str("N", self.N),
+                pretty_str("mu", self.mu),
+                pretty_str("M", self.M),
+                pretty_str("cbar", self.cbar),
+                pretty_str("likelihood", self.likelihood),
+                pretty_str("omega", self.omega),
+            ]
+        )

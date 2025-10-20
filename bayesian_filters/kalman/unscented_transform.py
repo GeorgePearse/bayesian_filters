@@ -19,8 +19,7 @@ for more information.
 import numpy as np
 
 
-def unscented_transform(sigmas, Wm, Wc, noise_cov=None,
-                        mean_fn=None, residual_fn=None):
+def unscented_transform(sigmas, Wm, Wc, noise_cov=None, mean_fn=None, residual_fn=None):
     r"""
     Computes unscented transform of a set of sigma points and weights.
     returns the mean and covariance in a tuple.
@@ -101,13 +100,12 @@ def unscented_transform(sigmas, Wm, Wc, noise_cov=None,
     try:
         if mean_fn is None:
             # new mean is just the sum of the sigmas * weight
-            x = np.dot(Wm, sigmas)    # dot = \Sigma^n_1 (W[k]*Xi[k])
+            x = np.dot(Wm, sigmas)  # dot = \Sigma^n_1 (W[k]*Xi[k])
         else:
             x = mean_fn(sigmas, Wm)
     except:
         print(sigmas)
         raise
-
 
     # new covariance is the sum of the outer product of the residuals
     # times the weights

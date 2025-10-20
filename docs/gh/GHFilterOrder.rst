@@ -6,5 +6,5 @@ GHFilterOrder
 
 .. autoclass:: GHFilterOrder
     :members:
-    
+
     .. automethod:: __init__
