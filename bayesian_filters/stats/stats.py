@@ -18,7 +18,6 @@ This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
 
-
 from __future__ import absolute_import, division, unicode_literals
 
 import math
@@ -33,7 +32,6 @@ import scipy.sparse.linalg as spln
 from scipy.stats import norm, multivariate_normal
 
 
-
 # Older versions of scipy do not support the allow_singular keyword. I could
 # check the version number explicily, but perhaps this is clearer
 _support_singular = True
@@ -41,11 +39,12 @@ try:
     multivariate_normal.logpdf(1, 1, 1, allow_singular=True)
 except TypeError:
     warnings.warn(
-        'You are using a version of SciPy that does not support the '\
-        'allow_singular parameter in scipy.stats.multivariate_normal.logpdf(). '\
-        'Future versions of FilterPy will require a version of SciPy that '\
-        'implements this keyword',
-        DeprecationWarning)
+        "You are using a version of SciPy that does not support the "
+        "allow_singular parameter in scipy.stats.multivariate_normal.logpdf(). "
+        "Future versions of FilterPy will require a version of SciPy that "
+        "implements this keyword",
+        DeprecationWarning,
+    )
     _support_singular = False
 
 
@@ -194,12 +193,13 @@ def gaussian(x, mean, var, normed=True):
     array([1.34985669e-06, 3.48132630e-05, 3.17455867e-08])
     """
 
-    pdf = ((2*math.pi*var)**-.5) * np.exp((-0.5*(np.asarray(x)-mean)**2.) / var)
+    pdf = ((2 * math.pi * var) ** -0.5) * np.exp(
+        (-0.5 * (np.asarray(x) - mean) ** 2.0) / var
+    )
     if normed and len(np.shape(pdf)) > 0:
         pdf = pdf / sum(pdf)
 
     return pdf
-
 
 
 def mul(mean1, var1, mean2, var2):
@@ -246,8 +246,8 @@ def mul(mean1, var1, mean2, var2):
     http://www.tina-vision.net/docs/memos/2003-003.pdf
     """
 
-    mean = (var1*mean2 + var2*mean1) / (var1 + var2)
-    var = 1 / (1/var1 + 1/var2)
+    mean = (var1 * mean2 + var2 * mean1) / (var1 + var2)
+    var = 1 / (1 / var1 + 1 / var2)
     return (mean, var)
 
 
@@ -298,11 +298,12 @@ def mul_pdf(mean1, var1, mean2, var2):
     http://www.tina-vision.net/docs/memos/2003-003.pdf
     """
 
-    mean = (var1*mean2 + var2*mean1) / (var1 + var2)
-    var = 1. / (1./var1 + 1./var2)
+    mean = (var1 * mean2 + var2 * mean1) / (var1 + var2)
+    var = 1.0 / (1.0 / var1 + 1.0 / var2)
 
-    S = math.exp(-(mean1 - mean2)**2 / (2*(var1 + var2))) / \
-                 math.sqrt(2 * math.pi * (var1 + var2))
+    S = math.exp(-((mean1 - mean2) ** 2) / (2 * (var1 + var2))) / math.sqrt(
+        2 * math.pi * (var1 + var2)
+    )
 
     return mean, var, S
 
@@ -315,7 +316,7 @@ def add(mean1, var1, mean2, var2):
     var1 and var2 are variances - sigma squared in the usual parlance.
     """
 
-    return (mean1+mean2, var1+var2)
+    return (mean1 + mean2, var1 + var2)
 
 
 def multivariate_gaussian(x, mu, cov):
@@ -374,19 +375,22 @@ def multivariate_gaussian(x, mu, cov):
     """
 
     warnings.warn(
-        ("This was implemented before SciPy version 0.14, which implemented "
-         "scipy.stats.multivariate_normal. This function will be removed in "
-         "a future release of FilterPy"), DeprecationWarning)
+        (
+            "This was implemented before SciPy version 0.14, which implemented "
+            "scipy.stats.multivariate_normal. This function will be removed in "
+            "a future release of FilterPy"
+        ),
+        DeprecationWarning,
+    )
 
     # force all to numpy.array type, and flatten in case they are vectors
-    x = np.array(x, copy=False, ndmin=1).flatten()
-    mu = np.array(mu, copy=False, ndmin=1).flatten()
+    x = np.asarray(x, dtype=None).flatten()
+    mu = np.asarray(mu, dtype=None).flatten()
 
     nx = len(mu)
     cov = _to_cov(cov, nx)
 
-
-    norm_coeff = nx*math.log(2*math.pi) + np.linalg.slogdet(cov)[1]
+    norm_coeff = nx * math.log(2 * math.pi) + np.linalg.slogdet(cov)[1]
 
     err = x - mu
     if sp.issparse(cov):
@@ -394,7 +398,7 @@ def multivariate_gaussian(x, mu, cov):
     else:
         numerator = np.linalg.solve(cov, err).T.dot(err)
 
-    return math.exp(-0.5*(norm_coeff + numerator))
+    return math.exp(-0.5 * (norm_coeff + numerator))
 
 
 def multivariate_multiply(m1, c1, m2, c2):
@@ -446,17 +450,15 @@ def multivariate_multiply(m1, c1, m2, c2):
     M1 = np.asarray(m1)
     M2 = np.asarray(m2)
 
-    sum_inv = np.linalg.inv(C1+C2)
+    sum_inv = np.linalg.inv(C1 + C2)
     C3 = np.dot(C1, sum_inv).dot(C2)
 
-    M3 = (np.dot(C2, sum_inv).dot(M1) +
-          np.dot(C1, sum_inv).dot(M2))
+    M3 = np.dot(C2, sum_inv).dot(M1) + np.dot(C1, sum_inv).dot(M2)
 
     return M3, C3
 
 
-def plot_discrete_cdf(xs, ys, ax=None, xlabel=None, ylabel=None,
-                      label=None):
+def plot_discrete_cdf(xs, ys, ax=None, xlabel=None, ylabel=None, label=None):
     """
     Plots a normal distribution CDF with the given mean and variance.
     x-axis contains the mean, the y-axis shows the cumulative probability.
@@ -505,11 +507,16 @@ def plot_discrete_cdf(xs, ys, ax=None, xlabel=None, ylabel=None,
     return ax
 
 
-def plot_gaussian_cdf(mean=0., variance=1.,
-                      ax=None,
-                      xlim=None, ylim=(0., 1.),
-                      xlabel=None, ylabel=None,
-                      label=None):
+def plot_gaussian_cdf(
+    mean=0.0,
+    variance=1.0,
+    ax=None,
+    xlim=None,
+    ylim=(0.0, 1.0),
+    xlabel=None,
+    ylabel=None,
+    label=None,
+):
     """
     Plots a normal distribution CDF with the given mean and variance.
     x-axis contains the mean, the y-axis shows the cumulative probability.
@@ -553,7 +560,7 @@ def plot_gaussian_cdf(mean=0., variance=1.,
     if xlim is None:
         xlim = [n.ppf(0.001), n.ppf(0.999)]
 
-    xs = np.arange(xlim[0], xlim[1], (xlim[1] - xlim[0]) / 1000.)
+    xs = np.arange(xlim[0], xlim[1], (xlim[1] - xlim[0]) / 1000.0)
     cdf = n.cdf(xs)
     ax.plot(xs, cdf, label=label)
     ax.set_xlim(xlim)
@@ -563,14 +570,18 @@ def plot_gaussian_cdf(mean=0., variance=1.,
     return ax
 
 
-def plot_gaussian_pdf(mean=0.,
-                      variance=1.,
-                      std=None,
-                      ax=None,
-                      mean_line=False,
-                      xlim=None, ylim=None,
-                      xlabel=None, ylabel=None,
-                      label=None):
+def plot_gaussian_pdf(
+    mean=0.0,
+    variance=1.0,
+    std=None,
+    ax=None,
+    mean_line=False,
+    xlim=None,
+    ylim=None,
+    xlabel=None,
+    ylabel=None,
+    label=None,
+):
     """
     Plots a normal distribution PDF with the given mean and variance.
     x-axis contains the mean, the y-axis shows the probability density.
@@ -618,10 +629,10 @@ def plot_gaussian_pdf(mean=0.,
         ax = plt.gca()
 
     if variance is not None and std is not None:
-        raise ValueError('Specify only one of variance and std')
+        raise ValueError("Specify only one of variance and std")
 
     if variance is None and std is None:
-        raise ValueError('Specify variance or std')
+        raise ValueError("Specify variance or std")
 
     if variance is not None:
         std = math.sqrt(variance)
@@ -631,7 +642,7 @@ def plot_gaussian_pdf(mean=0.,
     if xlim is None:
         xlim = [n.ppf(0.001), n.ppf(0.999)]
 
-    xs = np.arange(xlim[0], xlim[1], (xlim[1] - xlim[0]) / 1000.)
+    xs = np.arange(xlim[0], xlim[1], (xlim[1] - xlim[0]) / 1000.0)
     ax.plot(xs, n.pdf(xs), label=label)
     ax.set_xlim(xlim)
 
@@ -648,25 +659,31 @@ def plot_gaussian_pdf(mean=0.,
     return ax
 
 
-def plot_gaussian(mean=0., variance=1.,
-                  ax=None,
-                  mean_line=False,
-                  xlim=None,
-                  ylim=None,
-                  xlabel=None,
-                  ylabel=None,
-                  label=None):
+def plot_gaussian(
+    mean=0.0,
+    variance=1.0,
+    ax=None,
+    mean_line=False,
+    xlim=None,
+    ylim=None,
+    xlabel=None,
+    ylabel=None,
+    label=None,
+):
     """
     DEPRECATED. Use plot_gaussian_pdf() instead. This is poorly named, as
     there are multiple ways to plot a Gaussian.
     """
 
-    warnings.warn('This function is deprecated. It is poorly named. '\
-                  'A Gaussian can be plotted as a PDF or CDF. This '\
-                  'plots a PDF. Use plot_gaussian_pdf() instead,',
-                  DeprecationWarning)
-    return plot_gaussian_pdf(mean, variance, ax, mean_line, xlim, ylim, xlabel,
-                             ylabel, label)
+    warnings.warn(
+        "This function is deprecated. It is poorly named. "
+        "A Gaussian can be plotted as a PDF or CDF. This "
+        "plots a PDF. Use plot_gaussian_pdf() instead,",
+        DeprecationWarning,
+    )
+    return plot_gaussian_pdf(
+        mean, variance, ax, mean_line, xlim, ylim, xlabel, ylabel, label
+    )
 
 
 def covariance_ellipse(P, deviations=1):
@@ -692,7 +709,7 @@ def covariance_ellipse(P, deviations=1):
     height = deviations * math.sqrt(s[1])
 
     if height > width:
-        raise ValueError('width must be greater than height')
+        raise ValueError("width must be greater than height")
 
     return (orientation, width, height)
 
@@ -730,14 +747,20 @@ def _eigsorted(cov, asc=True):
     return eigval[order], eigvec[:, order]
 
 
-def plot_3d_covariance(mean, cov, std=1.,
-                       ax=None, title=None,
-                       color=None, alpha=1.,
-                       label_xyz=True,
-                       N=60,
-                       shade=True,
-                       limit_xyz=True,
-                       **kwargs):
+def plot_3d_covariance(
+    mean,
+    cov,
+    std=1.0,
+    ax=None,
+    title=None,
+    color=None,
+    alpha=1.0,
+    label_xyz=True,
+    N=60,
+    shade=True,
+    limit_xyz=True,
+    **kwargs,
+):
     """
     Plots a covariance matrix `cov` as a 3D ellipsoid centered around
     the `mean`.
@@ -793,8 +816,8 @@ def plot_3d_covariance(mean, cov, std=1.,
     if mean.shape[1] == 1:
         mean = mean.T
 
-    if not(mean.shape[0] == 1 and mean.shape[1] == 3):
-        raise ValueError('mean must be convertible to a 1x3 row vector')
+    if not (mean.shape[0] == 1 and mean.shape[1] == 3):
+        raise ValueError("mean must be convertible to a 1x3 row vector")
     mean = mean[0]
 
     # force covariance to be 3x3 np.array
@@ -814,7 +837,6 @@ def plot_3d_covariance(mean, cov, std=1.,
     if eigval[0] < 0:
         raise ValueError("covariance matrix must be positive definite")
 
-
     # calculate cartesian coordinates for the ellipsoid surface
     u = np.linspace(0.0, 2.0 * np.pi, N)
     v = np.linspace(0.0, np.pi, N)
@@ -829,24 +851,33 @@ def plot_3d_covariance(mean, cov, std=1.,
 
     data = a + b + c
     N = data.shape[0]
-    x = data[:,   0:N]   + mean[0]
-    y = data[:,   N:N*2] + mean[1]
-    z = data[:, N*2:]    + mean[2]
+    x = data[:, 0:N] + mean[0]
+    y = data[:, N : N * 2] + mean[1]
+    z = data[:, N * 2 :] + mean[2]
 
     fig = plt.gcf()
     if ax is None:
-        ax = fig.add_subplot(111, projection='3d')
+        ax = fig.add_subplot(111, projection="3d")
 
-    ax.plot_surface(x, y, z,
-                    rstride=3, cstride=3, linewidth=0.1, alpha=alpha,
-                    shade=shade, color=color, **kwargs)
+    ax.plot_surface(
+        x,
+        y,
+        z,
+        rstride=3,
+        cstride=3,
+        linewidth=0.1,
+        alpha=alpha,
+        shade=shade,
+        color=color,
+        **kwargs,
+    )
 
     # now make it pretty!
 
     if label_xyz:
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
-        ax.set_zlabel('Z')
+        ax.set_xlabel("X")
+        ax.set_ylabel("Y")
+        ax.set_zlabel("Z")
 
     if limit_xyz:
         r = radii.max()
@@ -857,19 +888,30 @@ def plot_3d_covariance(mean, cov, std=1.,
     if title is not None:
         plt.title(title)
 
-    #pylint: disable=pointless-statement
-    Axes3D #kill pylint warning about unused import
+    # pylint: disable=pointless-statement
+    Axes3D  # kill pylint warning about unused import
 
     return ax
 
 
 def plot_covariance_ellipse(
-        mean, cov=None, variance=1.0, std=None,
-        ellipse=None, title=None, axis_equal=True, show_semiaxis=False,
-        facecolor=None, edgecolor=None,
-        fc='none', ec='#004080',
-        alpha=1.0, xlim=None, ylim=None,
-        ls='solid'):
+    mean,
+    cov=None,
+    variance=1.0,
+    std=None,
+    ellipse=None,
+    title=None,
+    axis_equal=True,
+    show_semiaxis=False,
+    facecolor=None,
+    edgecolor=None,
+    fc="none",
+    ec="#004080",
+    alpha=1.0,
+    xlim=None,
+    ylim=None,
+    ls="solid",
+):
     """
     Deprecated function to plot a covariance ellipse. Use plot_covariance
     instead.
@@ -881,11 +923,24 @@ def plot_covariance_ellipse(
     """
 
     warnings.warn("deprecated, use plot_covariance instead", DeprecationWarning)
-    plot_covariance(mean=mean, cov=cov, variance=variance, std=std,
-                    ellipse=ellipse, title=title, axis_equal=axis_equal,
-                    show_semiaxis=show_semiaxis, facecolor=facecolor,
-                    edgecolor=edgecolor, fc=fc, ec=ec, alpha=alpha,
-                    xlim=xlim, ylim=ylim, ls=ls)
+    plot_covariance(
+        mean=mean,
+        cov=cov,
+        variance=variance,
+        std=std,
+        ellipse=ellipse,
+        title=title,
+        axis_equal=axis_equal,
+        show_semiaxis=show_semiaxis,
+        facecolor=facecolor,
+        edgecolor=edgecolor,
+        fc=fc,
+        ec=ec,
+        alpha=alpha,
+        xlim=xlim,
+        ylim=ylim,
+        ls=ls,
+    )
 
 
 def _std_tuple_of(var=None, std=None, interval=None):
@@ -906,7 +961,6 @@ def _std_tuple_of(var=None, std=None, interval=None):
             std = (std,)
         return std
 
-
     if interval is not None:
         if np.isscalar(interval):
             interval = (interval,)
@@ -922,13 +976,25 @@ def _std_tuple_of(var=None, std=None, interval=None):
 
 
 def plot_covariance(
-        mean, cov=None, variance=1.0, std=None, interval=None,
-        ellipse=None, title=None, axis_equal=True,
-        show_semiaxis=False, show_center=True,
-        facecolor=None, edgecolor=None,
-        fc='none', ec='#004080',
-        alpha=1.0, xlim=None, ylim=None,
-        ls='solid'):
+    mean,
+    cov=None,
+    variance=1.0,
+    std=None,
+    interval=None,
+    ellipse=None,
+    title=None,
+    axis_equal=True,
+    show_semiaxis=False,
+    show_center=True,
+    facecolor=None,
+    edgecolor=None,
+    fc="none",
+    ec="#004080",
+    alpha=1.0,
+    xlim=None,
+    ylim=None,
+    ls="solid",
+):
     """
     Plots the covariance ellipse for the 2D normal defined by (mean, cov)
 
@@ -1016,10 +1082,10 @@ def plot_covariance(
     import matplotlib.pyplot as plt
 
     if cov is not None and ellipse is not None:
-        raise ValueError('You cannot specify both cov and ellipse')
+        raise ValueError("You cannot specify both cov and ellipse")
 
     if cov is None and ellipse is None:
-        raise ValueError('Specify one of cov or ellipse')
+        raise ValueError("Specify one of cov or ellipse")
 
     if facecolor is None:
         facecolor = fc
@@ -1031,7 +1097,7 @@ def plot_covariance(
         ellipse = covariance_ellipse(cov)
 
     if axis_equal:
-        plt.axis('equal')
+        plt.axis("equal")
 
     if title is not None:
         plt.title(title)
@@ -1039,20 +1105,26 @@ def plot_covariance(
     ax = plt.gca()
 
     angle = np.degrees(ellipse[0])
-    width = ellipse[1] * 2.
-    height = ellipse[2] * 2.
+    width = ellipse[1] * 2.0
+    height = ellipse[2] * 2.0
 
     std = _std_tuple_of(variance, std, interval)
     for sd in std:
-        e = Ellipse(xy=mean, width=sd*width, height=sd*height, angle=angle,
-                    facecolor=facecolor,
-                    edgecolor=edgecolor,
-                    alpha=alpha,
-                    lw=2, ls=ls)
+        e = Ellipse(
+            xy=mean,
+            width=sd * width,
+            height=sd * height,
+            angle=angle,
+            facecolor=facecolor,
+            edgecolor=edgecolor,
+            alpha=alpha,
+            lw=2,
+            ls=ls,
+        )
         ax.add_patch(e)
     x, y = mean
     if show_center:
-        plt.scatter(x, y, marker='+', color=edgecolor)
+        plt.scatter(x, y, marker="+", color=edgecolor)
 
     if xlim is not None:
         ax.set_xlim(xlim)
@@ -1062,9 +1134,9 @@ def plot_covariance(
 
     if show_semiaxis:
         a = ellipse[0]
-        h, w = height/4, width/4
-        plt.plot([x, x+ h*cos(a+np.pi/2)], [y, y + h*sin(a+np.pi/2)])
-        plt.plot([x, x+ w*cos(a)], [y, y + w*sin(a)])
+        h, w = height / 4, width / 4
+        plt.plot([x, x + h * cos(a + np.pi / 2)], [y, y + h * sin(a + np.pi / 2)])
+        plt.plot([x, x + w * cos(a)], [y, y + w * sin(a)])
 
 
 def norm_cdf(x_range, mu, var=1, std=None):
@@ -1096,8 +1168,10 @@ def norm_cdf(x_range, mu, var=1, std=None):
 
     if std is None:
         std = math.sqrt(var)
-    return abs(norm.cdf(x_range[0], loc=mu, scale=std) -
-               norm.cdf(x_range[1], loc=mu, scale=std))
+    return abs(
+        norm.cdf(x_range[0], loc=mu, scale=std)
+        - norm.cdf(x_range[1], loc=mu, scale=std)
+    )
 
 
 def _to_cov(x, n):
@@ -1111,15 +1185,15 @@ def _to_cov(x, n):
 
     if np.isscalar(x):
         if x < 0:
-            raise ValueError('covariance must be > 0')
+            raise ValueError("covariance must be > 0")
         return np.eye(n) * x
 
     x = np.atleast_2d(x)
     try:
         # quickly find out if we are positive definite
         np.linalg.cholesky(x)
-    except:
-        raise ValueError('covariance must be positive definit')
+    except np.linalg.LinAlgError:
+        raise ValueError("covariance must be positive definit")
 
     return x
 
@@ -1131,7 +1205,7 @@ def rand_student_t(df, mu=0, std=1):
     """
 
     x = random.gauss(0, std)
-    y = 2.0*random.gammavariate(0.5 * df, 2.0)
+    y = 2.0 * random.gammavariate(0.5 * df, 2.0)
     return x / (math.sqrt(y / df)) + mu
 
 
