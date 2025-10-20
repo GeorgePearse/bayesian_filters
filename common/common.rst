@@ -49,4 +49,3 @@ will find useful when you build your filters.
 -----
 
 .. autofunction:: outer_product_sum
-

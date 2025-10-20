@@ -4,7 +4,7 @@ UnscentedKalmanFilter
 Introduction and Overview
 -------------------------
 
-This implements the unscented Kalman filter. 
+This implements the unscented Kalman filter.
 
 .. automodule:: filterpy.kalman
 
