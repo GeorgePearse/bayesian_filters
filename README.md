@@ -1,6 +1,8 @@
 # Bayesian Filters - Kalman filters and other optimal and non-optimal estimation filters in Python
 
-<img width="467" height="272" alt="image" src="https://github.com/user-attachments/assets/90b0b305-3128-4806-a72c-a061d01a854b" />
+<p align="center">
+  <img width="100%" alt="Kalman Filter Illustration" src="https://github.com/user-attachments/assets/90b0b305-3128-4806-a72c-a061d01a854b" />
+</p>
 
 For people new to Kalman filters, they're well explained here https://www.youtube.com/watch?v=IFeCIbljreY (credit for the above image)
 
