@@ -4,10 +4,10 @@
 """Copyright 2015 Roger R Labbe Jr.
 
 FilterPy library.
-http://github.com/rlabbe/filterpy
+https://github.com/GeorgePearse/bayesian_filters
 
 Documentation at:
-https://filterpy.readthedocs.org
+https://georgepearse.github.io/bayesian_filters
 
 Supporting book at:
 https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python
@@ -242,7 +242,7 @@ class UnscentedKalmanFilter(object):
     For in depth explanations see my book Kalman and Bayesian Filters in Python
     https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python
 
-    Also see the filterpy/kalman/tests subdirectory for test code that
+    Also see the bayesian_filters/kalman/tests subdirectory for test code that
     may be illuminating.
 
     References
@@ -563,8 +563,8 @@ class UnscentedKalmanFilter(object):
             work - you can use x_mean_fn and z_mean_fn to alter the behavior
             of the unscented transform.
 
-        saver : filterpy.common.Saver, optional
-            filterpy.common.Saver object. If provided, saver.save() will be
+        saver : bayesian_filters.common.Saver, optional
+            bayesian_filters.common.Saver object. If provided, saver.save() will be
             called after every epoch
 
         Returns

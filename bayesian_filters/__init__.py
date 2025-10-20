@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """Copyright 2015 Roger R Labbe Jr.
 
-filterpy library.
-http://github.com/rlabbe/filterpy
+bayesian_filters library.
+https://github.com/GeorgePearse/bayesian_filters
 
 Documentation at:
-https://filterpy.readthedocs.org
+https://georgepearse.github.io/bayesian_filters
 
 Supporting book at:
 https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python

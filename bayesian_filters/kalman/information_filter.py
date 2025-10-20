@@ -4,10 +4,10 @@
 """Copyright 2015 Roger R Labbe Jr.
 
 FilterPy library.
-http://github.com/rlabbe/filterpy
+https://github.com/GeorgePearse/bayesian_filters
 
 Documentation at:
-https://filterpy.readthedocs.org
+https://georgepearse.github.io/bayesian_filters
 
 Supporting book at:
 https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python
@@ -303,8 +303,8 @@ class InformationFilter(object):
             controls whether the order of operations is update followed by
             predict, or predict followed by update. Default is predict->update.
 
-        saver : filterpy.common.Saver, optional
-            filterpy.common.Saver object. If provided, saver.save() will be
+        saver : bayesian_filters.common.Saver, optional
+            bayesian_filters.common.Saver object. If provided, saver.save() will be
             called after every epoch
 
         Returns
