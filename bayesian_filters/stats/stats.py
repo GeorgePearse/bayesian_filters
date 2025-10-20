@@ -349,19 +349,19 @@ def multivariate_gaussian(x, mu, cov):
     ----------
 
     x : float, or np.array-like
-       Value to compute the probability for. May be a scalar if univariate,
-       or any type that can be converted to an np.array (list, tuple, etc).
-       np.array is best for speed.
+        Value to compute the probability for. May be a scalar if univariate,
+        or any type that can be converted to an np.array (list, tuple, etc).
+        np.array is best for speed.
 
     mu :  float, or np.array-like
-       mean for the Gaussian . May be a scalar if univariate,  or any type
-       that can be converted to an np.array (list, tuple, etc).np.array is
-       best for speed.
+        mean for the Gaussian . May be a scalar if univariate,  or any type
+        that can be converted to an np.array (list, tuple, etc).np.array is
+        best for speed.
 
     cov :  float, or np.array-like
-       Covariance for the Gaussian . May be a scalar if univariate,  or any
-       type that can be converted to an np.array (list, tuple, etc).np.array is
-       best for speed.
+        Covariance for the Gaussian . May be a scalar if univariate,  or any
+        type that can be converted to an np.array (list, tuple, etc).np.array is
+        best for speed.
 
     Returns
     -------
@@ -689,10 +689,10 @@ def covariance_ellipse(P, deviations=1):
     ----------
 
     P : nd.array shape (2,2)
-       covariance matrix
+        covariance matrix
 
     deviations : int (optional, default = 1)
-       # of standard deviations. Default is 1.
+        # of standard deviations. Default is 1.
 
     Returns (angle_radians, width_radius, height_radius)
     """
@@ -1151,7 +1151,7 @@ def norm_cdf(x_range, mu, var=1, std=None):
         variance of the Gaussian. Ignored if `std` is provided
 
     std : float, optional
-       standard deviation of the Gaussian. This overrides the `var` parameter
+        standard deviation of the Gaussian. This overrides the `var` parameter
 
     Returns
     -------
@@ -1233,7 +1233,7 @@ def NEES(xs, est_xs, ps):
     -------
 
     errs : list of floats
-       list of NEES computed for each estimate
+        list of NEES computed for each estimate
 
     """
 

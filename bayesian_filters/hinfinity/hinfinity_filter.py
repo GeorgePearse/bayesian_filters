@@ -52,7 +52,7 @@ class HInfinityFilter(object):
 
     gamma : float
 
-    .. warning::
+    Warning:
         I do not believe this code is correct. DO NOT USE THIS.
         In particular, note that predict does not update the covariance
         matrix.

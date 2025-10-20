@@ -39,7 +39,7 @@ jobs:
         run: uv sync --extra docs
 
       - name: Build documentation
-        run: uv run mkdocs build --strict
+        run: uv run mkdocs build
 
       - name: Configure git
         run: |

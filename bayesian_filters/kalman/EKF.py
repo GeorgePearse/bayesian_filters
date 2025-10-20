@@ -180,8 +180,8 @@ class ExtendedKalmanFilter(object):
 
         HJacobian : function
            function which computes the Jacobian of the H matrix (measurement
-           function). Takes state variable (self.x) as input, along with the
-           optional arguments in args, and returns H.
+            function). Takes state variable (self.x) as input, along with the
+            optional arguments in args, and returns H.
 
         Hx : function
             function which takes as input the state variable (self.x) along
@@ -261,7 +261,7 @@ class ExtendedKalmanFilter(object):
 
         HJacobian : function
            function which computes the Jacobian of the H matrix (measurement
-           function). Takes state variable (self.x) as input, returns H.
+            function). Takes state variable (self.x) as input, returns H.
 
         Hx : function
             function which takes as input the state variable (self.x) along

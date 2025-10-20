@@ -37,7 +37,7 @@ class LeastSquaresFilter(object):
     ----------
 
     dt : float
-       time step per update
+        time step per update
 
     order : int
         order of filter 0..2

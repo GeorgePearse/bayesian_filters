@@ -285,10 +285,6 @@ class KalmanFilter(object):
         size of the control input, if it is being used.
         Default value of 0 indicates it is not used.
 
-    compute_log_likelihood : bool (default = True)
-        Computes log likelihood by default, but this can be a slow
-        computation, so if you never use it you can turn this computation
-        off.
 
     Attributes
     ----------
@@ -1006,8 +1002,8 @@ class KalmanFilter(object):
         ----------
 
         Xs : numpy.array
-           array of the means (state variable x) of the output of a Kalman
-           filter.
+            array of the means (state variable x) of the output of a Kalman
+            filter.
 
         Ps : numpy.array
             array of the covariances of the output of a kalman filter.
@@ -1029,16 +1025,16 @@ class KalmanFilter(object):
         -------
 
         x : numpy.ndarray
-           smoothed means
+            smoothed means
 
         P : numpy.ndarray
-           smoothed state covariances
+            smoothed state covariances
 
         K : numpy.ndarray
             smoother gain at each step
 
         Pp : numpy.ndarray
-           Predicted state covariances
+            Predicted state covariances
 
         Examples
         --------
