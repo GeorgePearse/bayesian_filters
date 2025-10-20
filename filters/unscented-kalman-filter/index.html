@@ -2402,7 +2402,7 @@ need to use a UKF for this example, but it is easy to read.</p>
 </code></pre></div>
     <p>For in depth explanations see my book Kalman and Bayesian Filters in Python
 https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python</p>
-<p>Also see the filterpy/kalman/tests subdirectory for test code that
+<p>Also see the bayesian_filters/kalman/tests subdirectory for test code that
 may be illuminating.</p>
 
 
@@ -3433,7 +3433,7 @@ https://www.seas.harvard.edu/courses/cs281/papers/unscented.pdf
 <a id="__codelineno-0-242" name="__codelineno-0-242"></a><span class="sd">    For in depth explanations see my book Kalman and Bayesian Filters in Python</span>
 <a id="__codelineno-0-243" name="__codelineno-0-243"></a><span class="sd">    https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python</span>
 <a id="__codelineno-0-244" name="__codelineno-0-244"></a>
-<a id="__codelineno-0-245" name="__codelineno-0-245"></a><span class="sd">    Also see the filterpy/kalman/tests subdirectory for test code that</span>
+<a id="__codelineno-0-245" name="__codelineno-0-245"></a><span class="sd">    Also see the bayesian_filters/kalman/tests subdirectory for test code that</span>
 <a id="__codelineno-0-246" name="__codelineno-0-246"></a><span class="sd">    may be illuminating.</span>
 <a id="__codelineno-0-247" name="__codelineno-0-247"></a>
 <a id="__codelineno-0-248" name="__codelineno-0-248"></a><span class="sd">    References</span>
@@ -3754,8 +3754,8 @@ https://www.seas.harvard.edu/courses/cs281/papers/unscented.pdf
 <a id="__codelineno-0-563" name="__codelineno-0-563"></a><span class="sd">            work - you can use x_mean_fn and z_mean_fn to alter the behavior</span>
 <a id="__codelineno-0-564" name="__codelineno-0-564"></a><span class="sd">            of the unscented transform.</span>
 <a id="__codelineno-0-565" name="__codelineno-0-565"></a>
-<a id="__codelineno-0-566" name="__codelineno-0-566"></a><span class="sd">        saver : filterpy.common.Saver, optional</span>
-<a id="__codelineno-0-567" name="__codelineno-0-567"></a><span class="sd">            filterpy.common.Saver object. If provided, saver.save() will be</span>
+<a id="__codelineno-0-566" name="__codelineno-0-566"></a><span class="sd">        saver : bayesian_filters.common.Saver, optional</span>
+<a id="__codelineno-0-567" name="__codelineno-0-567"></a><span class="sd">            bayesian_filters.common.Saver object. If provided, saver.save() will be</span>
 <a id="__codelineno-0-568" name="__codelineno-0-568"></a><span class="sd">            called after every epoch</span>
 <a id="__codelineno-0-569" name="__codelineno-0-569"></a>
 <a id="__codelineno-0-570" name="__codelineno-0-570"></a><span class="sd">        Returns</span>
@@ -4418,11 +4418,11 @@ of the unscented transform.</p>
                 <code>saver</code>
             </td>
             <td>
-                  <code><span title="filterpy.common.Saver">Saver</span></code>
+                  <code><a class="autorefs autorefs-internal" title="Saver (bayesian_filters.common.Saver)" href="../../api/common/#bayesian_filters.common.helpers.Saver">Saver</a></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>filterpy.common.Saver object. If provided, saver.save() will be
+                <p>bayesian_filters.common.Saver object. If provided, saver.save() will be
 called after every epoch</p>
               </div>
             </td>
@@ -4628,8 +4628,8 @@ zs = [t + random.randn()*4 for t in range (40)]
 <a id="__codelineno-0-563" name="__codelineno-0-563"></a><span class="sd">        work - you can use x_mean_fn and z_mean_fn to alter the behavior</span>
 <a id="__codelineno-0-564" name="__codelineno-0-564"></a><span class="sd">        of the unscented transform.</span>
 <a id="__codelineno-0-565" name="__codelineno-0-565"></a>
-<a id="__codelineno-0-566" name="__codelineno-0-566"></a><span class="sd">    saver : filterpy.common.Saver, optional</span>
-<a id="__codelineno-0-567" name="__codelineno-0-567"></a><span class="sd">        filterpy.common.Saver object. If provided, saver.save() will be</span>
+<a id="__codelineno-0-566" name="__codelineno-0-566"></a><span class="sd">    saver : bayesian_filters.common.Saver, optional</span>
+<a id="__codelineno-0-567" name="__codelineno-0-567"></a><span class="sd">        bayesian_filters.common.Saver object. If provided, saver.save() will be</span>
 <a id="__codelineno-0-568" name="__codelineno-0-568"></a><span class="sd">        called after every epoch</span>
 <a id="__codelineno-0-569" name="__codelineno-0-569"></a>
 <a id="__codelineno-0-570" name="__codelineno-0-570"></a><span class="sd">    Returns</span>

@@ -2950,7 +2950,7 @@ number &gt;= sys.float_info.min.</p>
                 <p>If you prefer another inverse function, such as the Moore-Penrose
 pseudo inverse, set it to that instead: kf.inv = np.linalg.pinv</p>
 <p>This is only used to invert self.S. If you know it is diagonal, you
-might choose to set it to filterpy.common.inv_diagonal, which is
+might choose to set it to bayesian_filters.common.inv_diagonal, which is
 several times faster than numpy.linalg.inv for diagonal matrices.</p>
               </div>
             </td>
@@ -3200,8 +3200,8 @@ was 3 standard deviations away from the predicted value.</p>
 <p>update_first : bool, optional, default=False
      controls whether the order of operations is update followed by
      predict, or predict followed by update. Default is predict-&gt;update.</p>
-<p>saver : filterpy.common.Saver, optional
-     filterpy.common.Saver object. If provided, saver.save() will be
+<p>saver : bayesian_filters.common.Saver, optional
+     bayesian_filters.common.Saver object. If provided, saver.save() will be
      called after every epoch</p>
 </details>
 
@@ -5611,7 +5611,7 @@ need to use a UKF for this example, but it is easy to read.</p>
 </code></pre></div>
     <p>For in depth explanations see my book Kalman and Bayesian Filters in Python
 https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python</p>
-<p>Also see the filterpy/kalman/tests subdirectory for test code that
+<p>Also see the bayesian_filters/kalman/tests subdirectory for test code that
 may be illuminating.</p>
 
 
@@ -5885,11 +5885,11 @@ of the unscented transform.</p>
                 <code>saver</code>
             </td>
             <td>
-                  <code><span title="filterpy.common.Saver">Saver</span></code>
+                  <code><a class="autorefs autorefs-internal" title="Saver (bayesian_filters.common.Saver)" href="../common/#bayesian_filters.common.helpers.Saver">Saver</a></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>filterpy.common.Saver object. If provided, saver.save() will be
+                <p>bayesian_filters.common.Saver object. If provided, saver.save() will be
 called after every epoch</p>
               </div>
             </td>
@@ -7398,11 +7398,11 @@ predict, or predict followed by update. Default is predict-&gt;update.</p>
                 <code>saver</code>
             </td>
             <td>
-                  <code><span title="filterpy.common.Saver">Saver</span></code>
+                  <code><a class="autorefs autorefs-internal" title="Saver (bayesian_filters.common.Saver)" href="../common/#bayesian_filters.common.helpers.Saver">Saver</a></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>filterpy.common.Saver object. If provided, saver.save() will be
+                <p>bayesian_filters.common.Saver object. If provided, saver.save() will be
 called after every epoch</p>
               </div>
             </td>

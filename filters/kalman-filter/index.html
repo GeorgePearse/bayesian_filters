@@ -2288,7 +2288,7 @@ number &gt;= sys.float_info.min.</p>
                 <p>If you prefer another inverse function, such as the Moore-Penrose
 pseudo inverse, set it to that instead: kf.inv = np.linalg.pinv</p>
 <p>This is only used to invert self.S. If you know it is diagonal, you
-might choose to set it to filterpy.common.inv_diagonal, which is
+might choose to set it to bayesian_filters.common.inv_diagonal, which is
 several times faster than numpy.linalg.inv for diagonal matrices.</p>
               </div>
             </td>
@@ -3817,7 +3817,7 @@ filter's estimates. This formulation of the Fading memory filter
 <a id="__codelineno-0-359" name="__codelineno-0-359"></a><span class="sd">        pseudo inverse, set it to that instead: kf.inv = np.linalg.pinv</span>
 <a id="__codelineno-0-360" name="__codelineno-0-360"></a>
 <a id="__codelineno-0-361" name="__codelineno-0-361"></a><span class="sd">        This is only used to invert self.S. If you know it is diagonal, you</span>
-<a id="__codelineno-0-362" name="__codelineno-0-362"></a><span class="sd">        might choose to set it to filterpy.common.inv_diagonal, which is</span>
+<a id="__codelineno-0-362" name="__codelineno-0-362"></a><span class="sd">        might choose to set it to bayesian_filters.common.inv_diagonal, which is</span>
 <a id="__codelineno-0-363" name="__codelineno-0-363"></a><span class="sd">        several times faster than numpy.linalg.inv for diagonal matrices.</span>
 <a id="__codelineno-0-364" name="__codelineno-0-364"></a>
 <a id="__codelineno-0-365" name="__codelineno-0-365"></a><span class="sd">    alpha : float</span>
@@ -4354,8 +4354,8 @@ filter's estimates. This formulation of the Fading memory filter
 <a id="__codelineno-0-896" name="__codelineno-0-896"></a><span class="sd">             controls whether the order of operations is update followed by</span>
 <a id="__codelineno-0-897" name="__codelineno-0-897"></a><span class="sd">             predict, or predict followed by update. Default is predict-&gt;update.</span>
 <a id="__codelineno-0-898" name="__codelineno-0-898"></a>
-<a id="__codelineno-0-899" name="__codelineno-0-899"></a><span class="sd">         saver : filterpy.common.Saver, optional</span>
-<a id="__codelineno-0-900" name="__codelineno-0-900"></a><span class="sd">             filterpy.common.Saver object. If provided, saver.save() will be</span>
+<a id="__codelineno-0-899" name="__codelineno-0-899"></a><span class="sd">         saver : bayesian_filters.common.Saver, optional</span>
+<a id="__codelineno-0-900" name="__codelineno-0-900"></a><span class="sd">             bayesian_filters.common.Saver object. If provided, saver.save() will be</span>
 <a id="__codelineno-0-901" name="__codelineno-0-901"></a><span class="sd">             called after every epoch</span>
 <a id="__codelineno-0-902" name="__codelineno-0-902"></a>
 <a id="__codelineno-0-903" name="__codelineno-0-903"></a><span class="sd">         Returns</span>
@@ -5053,8 +5053,8 @@ was 3 standard deviations away from the predicted value.</p>
 <p>update_first : bool, optional, default=False
      controls whether the order of operations is update followed by
      predict, or predict followed by update. Default is predict-&gt;update.</p>
-<p>saver : filterpy.common.Saver, optional
-     filterpy.common.Saver object. If provided, saver.save() will be
+<p>saver : bayesian_filters.common.Saver, optional
+     bayesian_filters.common.Saver object. If provided, saver.save() will be
      called after every epoch</p>
 </details>
 
@@ -5348,8 +5348,8 @@ was 3 standard deviations away from the predicted value.</p>
 <a id="__codelineno-0-896" name="__codelineno-0-896"></a><span class="sd">         controls whether the order of operations is update followed by</span>
 <a id="__codelineno-0-897" name="__codelineno-0-897"></a><span class="sd">         predict, or predict followed by update. Default is predict-&gt;update.</span>
 <a id="__codelineno-0-898" name="__codelineno-0-898"></a>
-<a id="__codelineno-0-899" name="__codelineno-0-899"></a><span class="sd">     saver : filterpy.common.Saver, optional</span>
-<a id="__codelineno-0-900" name="__codelineno-0-900"></a><span class="sd">         filterpy.common.Saver object. If provided, saver.save() will be</span>
+<a id="__codelineno-0-899" name="__codelineno-0-899"></a><span class="sd">     saver : bayesian_filters.common.Saver, optional</span>
+<a id="__codelineno-0-900" name="__codelineno-0-900"></a><span class="sd">         bayesian_filters.common.Saver object. If provided, saver.save() will be</span>
 <a id="__codelineno-0-901" name="__codelineno-0-901"></a><span class="sd">         called after every epoch</span>
 <a id="__codelineno-0-902" name="__codelineno-0-902"></a>
 <a id="__codelineno-0-903" name="__codelineno-0-903"></a><span class="sd">     Returns</span>

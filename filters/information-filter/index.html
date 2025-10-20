@@ -2505,8 +2505,8 @@ https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python</p>
 <a id="__codelineno-0-303" name="__codelineno-0-303"></a><span class="sd">            controls whether the order of operations is update followed by</span>
 <a id="__codelineno-0-304" name="__codelineno-0-304"></a><span class="sd">            predict, or predict followed by update. Default is predict-&gt;update.</span>
 <a id="__codelineno-0-305" name="__codelineno-0-305"></a>
-<a id="__codelineno-0-306" name="__codelineno-0-306"></a><span class="sd">        saver : filterpy.common.Saver, optional</span>
-<a id="__codelineno-0-307" name="__codelineno-0-307"></a><span class="sd">            filterpy.common.Saver object. If provided, saver.save() will be</span>
+<a id="__codelineno-0-306" name="__codelineno-0-306"></a><span class="sd">        saver : bayesian_filters.common.Saver, optional</span>
+<a id="__codelineno-0-307" name="__codelineno-0-307"></a><span class="sd">            bayesian_filters.common.Saver object. If provided, saver.save() will be</span>
 <a id="__codelineno-0-308" name="__codelineno-0-308"></a><span class="sd">            called after every epoch</span>
 <a id="__codelineno-0-309" name="__codelineno-0-309"></a>
 <a id="__codelineno-0-310" name="__codelineno-0-310"></a><span class="sd">        Returns</span>
@@ -2745,11 +2745,11 @@ predict, or predict followed by update. Default is predict-&gt;update.</p>
                 <code>saver</code>
             </td>
             <td>
-                  <code><span title="filterpy.common.Saver">Saver</span></code>
+                  <code><a class="autorefs autorefs-internal" title="Saver (bayesian_filters.common.Saver)" href="../../api/common/#bayesian_filters.common.helpers.Saver">Saver</a></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>filterpy.common.Saver object. If provided, saver.save() will be
+                <p>bayesian_filters.common.Saver object. If provided, saver.save() will be
 called after every epoch</p>
               </div>
             </td>
@@ -2889,8 +2889,8 @@ In other words <code>means[k,:]</code> is the state at step <code>k</code>.</p>
 <a id="__codelineno-0-303" name="__codelineno-0-303"></a><span class="sd">        controls whether the order of operations is update followed by</span>
 <a id="__codelineno-0-304" name="__codelineno-0-304"></a><span class="sd">        predict, or predict followed by update. Default is predict-&gt;update.</span>
 <a id="__codelineno-0-305" name="__codelineno-0-305"></a>
-<a id="__codelineno-0-306" name="__codelineno-0-306"></a><span class="sd">    saver : filterpy.common.Saver, optional</span>
-<a id="__codelineno-0-307" name="__codelineno-0-307"></a><span class="sd">        filterpy.common.Saver object. If provided, saver.save() will be</span>
+<a id="__codelineno-0-306" name="__codelineno-0-306"></a><span class="sd">    saver : bayesian_filters.common.Saver, optional</span>
+<a id="__codelineno-0-307" name="__codelineno-0-307"></a><span class="sd">        bayesian_filters.common.Saver object. If provided, saver.save() will be</span>
 <a id="__codelineno-0-308" name="__codelineno-0-308"></a><span class="sd">        called after every epoch</span>
 <a id="__codelineno-0-309" name="__codelineno-0-309"></a>
 <a id="__codelineno-0-310" name="__codelineno-0-310"></a><span class="sd">    Returns</span>
