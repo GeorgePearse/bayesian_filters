@@ -1,0 +1,456 @@
+{
+  "imported_comments": {
+    "19": {
+      "381368498": {
+        "imported_at": "2025-10-20T16:10:42.240975",
+        "author": "rlabbe",
+        "fork_issue_number": 73
+      }
+    },
+    "24": {
+      "397185865": {
+        "imported_at": "2025-10-20T16:10:43.329225",
+        "author": "ggsato",
+        "fork_issue_number": 72
+      },
+      "397318952": {
+        "imported_at": "2025-10-20T16:10:45.299755",
+        "author": "rlabbe",
+        "fork_issue_number": 72
+      },
+      "397487729": {
+        "imported_at": "2025-10-20T16:10:47.176805",
+        "author": "ggsato",
+        "fork_issue_number": 72
+      },
+      "397908559": {
+        "imported_at": "2025-10-20T16:10:49.050954",
+        "author": "ggsato",
+        "fork_issue_number": 72
+      },
+      "399271070": {
+        "imported_at": "2025-10-20T16:10:50.808815",
+        "author": "rlabbe",
+        "fork_issue_number": 72
+      },
+      "402564507": {
+        "imported_at": "2025-10-20T16:10:52.567033",
+        "author": "ggsato",
+        "fork_issue_number": 72
+      },
+      "546615791": {
+        "imported_at": "2025-10-20T16:10:54.296372",
+        "author": "vhartman",
+        "fork_issue_number": 72
+      }
+    },
+    "76": {
+      "650541984": {
+        "imported_at": "2025-10-20T16:10:56.646462",
+        "author": "ramondalmau",
+        "fork_issue_number": 71
+      },
+      "753474971": {
+        "imported_at": "2025-10-20T16:10:58.343099",
+        "author": "M1cha",
+        "fork_issue_number": 71
+      },
+      "762437798": {
+        "imported_at": "2025-10-20T16:11:00.177827",
+        "author": "wang701",
+        "fork_issue_number": 71
+      },
+      "762456433": {
+        "imported_at": "2025-10-20T16:11:02.236511",
+        "author": "M1cha",
+        "fork_issue_number": 71
+      }
+    },
+    "90": {
+      "381367990": {
+        "imported_at": "2025-10-20T16:11:03.426127",
+        "author": "rlabbe",
+        "fork_issue_number": 70
+      },
+      "399767751": {
+        "imported_at": "2025-10-20T16:11:05.228740",
+        "author": "Prokhozhijj",
+        "fork_issue_number": 70
+      }
+    },
+    "111": {
+      "385211051": {
+        "imported_at": "2025-10-20T16:11:07.110922",
+        "author": "rlabbe",
+        "fork_issue_number": 69
+      }
+    },
+    "126": {
+      "390385212": {
+        "imported_at": "2025-10-20T16:11:08.771518",
+        "author": "robots",
+        "fork_issue_number": 65
+      }
+    },
+    "177": {
+      "546634495": {
+        "imported_at": "2025-10-20T16:11:10.839625",
+        "author": "vhartman",
+        "fork_issue_number": 59
+      },
+      "546721984": {
+        "imported_at": "2025-10-20T16:11:14.000454",
+        "author": "vhartman",
+        "fork_issue_number": 59
+      },
+      "623199171": {
+        "imported_at": "2025-10-20T16:11:15.981020",
+        "author": "rlabbe",
+        "fork_issue_number": 59
+      }
+    },
+    "179": {
+      "623202926": {
+        "imported_at": "2025-10-20T16:11:17.166521",
+        "author": "rlabbe",
+        "fork_issue_number": 58
+      },
+      "757441583": {
+        "imported_at": "2025-10-20T16:11:18.996497",
+        "author": "o-alexandre-felipe",
+        "fork_issue_number": 58
+      },
+      "757866588": {
+        "imported_at": "2025-10-20T16:11:20.910658",
+        "author": "o-alexandre-felipe",
+        "fork_issue_number": 58
+      },
+      "758246600": {
+        "imported_at": "2025-10-20T16:11:22.766559",
+        "author": "rlabbe",
+        "fork_issue_number": 58
+      }
+    },
+    "222": {
+      "803174293": {
+        "imported_at": "2025-10-20T16:11:24.099789",
+        "author": "rlabbe",
+        "fork_issue_number": 56
+      }
+    },
+    "224": {
+      "803174173": {
+        "imported_at": "2025-10-20T16:11:25.126982",
+        "author": "rlabbe",
+        "fork_issue_number": 55
+      }
+    },
+    "232": {
+      "1059057348": {
+        "imported_at": "2025-10-20T16:11:27.049543",
+        "author": "Eheran1",
+        "fork_issue_number": 50
+      }
+    },
+    "236": {
+      "1001623406": {
+        "imported_at": "2025-10-20T16:11:28.981112",
+        "author": "antoinecollet5",
+        "fork_issue_number": 46
+      }
+    },
+    "237": {
+      "847072441": {
+        "imported_at": "2025-10-20T16:11:29.951071",
+        "author": "HengYuD",
+        "fork_issue_number": 45
+      }
+    },
+    "238": {
+      "1114041810": {
+        "imported_at": "2025-10-20T16:11:30.966964",
+        "author": "Eheran1",
+        "fork_issue_number": 44
+      }
+    },
+    "253": {
+      "925669165": {
+        "imported_at": "2025-10-20T16:11:33.004070",
+        "author": "nilsmelchert",
+        "fork_issue_number": 38
+      },
+      "925669951": {
+        "imported_at": "2025-10-20T16:11:34.763328",
+        "author": "nilsmelchert",
+        "fork_issue_number": 38
+      },
+      "925905391": {
+        "imported_at": "2025-10-20T16:11:36.452731",
+        "author": "morestart",
+        "fork_issue_number": 38
+      },
+      "925945498": {
+        "imported_at": "2025-10-20T16:11:38.175705",
+        "author": "cboulay",
+        "fork_issue_number": 38
+      },
+      "926279480": {
+        "imported_at": "2025-10-20T16:11:40.055859",
+        "author": "morestart",
+        "fork_issue_number": 38
+      }
+    },
+    "255": {
+      "995997657": {
+        "imported_at": "2025-10-20T16:11:41.214571",
+        "author": "antoinecollet5",
+        "fork_issue_number": 37
+      }
+    },
+    "258": {
+      "1822803315": {
+        "imported_at": "2025-10-20T16:11:42.311456",
+        "author": "KoertS",
+        "fork_issue_number": 36
+      }
+    },
+    "260": {
+      "1101702300": {
+        "imported_at": "2025-10-20T16:11:43.710686",
+        "author": "Eheran1",
+        "fork_issue_number": 35
+      },
+      "1140626825": {
+        "imported_at": "2025-10-20T16:11:47.705319",
+        "author": "sortega87",
+        "fork_issue_number": 35
+      }
+    },
+    "262": {
+      "1089331614": {
+        "imported_at": "2025-10-20T16:11:48.671652",
+        "author": "Eheran1",
+        "fork_issue_number": 34
+      },
+      "1089354372": {
+        "imported_at": "2025-10-20T16:11:50.702551",
+        "author": "antoinecollet5",
+        "fork_issue_number": 34
+      }
+    },
+    "264": {
+      "1177986219": {
+        "imported_at": "2025-10-20T16:11:51.851368",
+        "author": "rlabbe",
+        "fork_issue_number": 33
+      }
+    },
+    "271": {
+      "1264742347": {
+        "imported_at": "2025-10-20T16:11:53.630847",
+        "author": "jsvacha",
+        "fork_issue_number": 30
+      }
+    },
+    "275": {
+      "1212005522": {
+        "imported_at": "2025-10-20T16:11:55.419582",
+        "author": "gch",
+        "fork_issue_number": 27
+      },
+      "1919403466": {
+        "imported_at": "2025-10-20T16:11:57.125124",
+        "author": "StohanzlMart",
+        "fork_issue_number": 27
+      }
+    },
+    "277": {
+      "1322546441": {
+        "imported_at": "2025-10-20T16:11:58.388513",
+        "author": "sciafri",
+        "fork_issue_number": 25
+      },
+      "1663799903": {
+        "imported_at": "2025-10-20T16:12:00.326085",
+        "author": "catid",
+        "fork_issue_number": 25
+      },
+      "1848371841": {
+        "imported_at": "2025-10-20T16:12:02.066162",
+        "author": "kopytjuk",
+        "fork_issue_number": 25
+      },
+      "2365194025": {
+        "imported_at": "2025-10-20T16:12:03.737583",
+        "author": "AlexAtCCRI",
+        "fork_issue_number": 25
+      }
+    },
+    "283": {
+      "1372974512": {
+        "imported_at": "2025-10-20T16:12:05.442415",
+        "author": "liam-b",
+        "fork_issue_number": 21
+      },
+      "1373103121": {
+        "imported_at": "2025-10-20T16:12:07.331479",
+        "author": "DylanWhite2",
+        "fork_issue_number": 21
+      },
+      "1386031908": {
+        "imported_at": "2025-10-20T16:12:09.105990",
+        "author": "rlabbe",
+        "fork_issue_number": 21
+      },
+      "1386053316": {
+        "imported_at": "2025-10-20T16:12:11.203325",
+        "author": "DylanWhite2",
+        "fork_issue_number": 21
+      },
+      "1428608124": {
+        "imported_at": "2025-10-20T16:12:13.091533",
+        "author": "AlexAtCCRI",
+        "fork_issue_number": 21
+      },
+      "1430588125": {
+        "imported_at": "2025-10-20T16:12:14.938222",
+        "author": "rlabbe",
+        "fork_issue_number": 21
+      },
+      "1431375543": {
+        "imported_at": "2025-10-20T16:12:16.735860",
+        "author": "AlexAtCCRI",
+        "fork_issue_number": 21
+      },
+      "1431837404": {
+        "imported_at": "2025-10-20T16:12:18.677810",
+        "author": "rlabbe",
+        "fork_issue_number": 21
+      },
+      "1432899248": {
+        "imported_at": "2025-10-20T16:12:20.589677",
+        "author": "AlexAtCCRI",
+        "fork_issue_number": 21
+      },
+      "1596269744": {
+        "imported_at": "2025-10-20T16:12:22.399959",
+        "author": "tugrul512bit",
+        "fork_issue_number": 21
+      },
+      "2430545614": {
+        "imported_at": "2025-10-20T16:12:24.316755",
+        "author": "andrewjlock",
+        "fork_issue_number": 21
+      },
+      "2667845844": {
+        "imported_at": "2025-10-20T16:12:26.162749",
+        "author": "prater27",
+        "fork_issue_number": 21
+      }
+    },
+    "284": {
+      "1437512846": {
+        "imported_at": "2025-10-20T16:12:27.214285",
+        "author": "jamieas",
+        "fork_issue_number": 20
+      },
+      "1689478206": {
+        "imported_at": "2025-10-20T16:12:28.985990",
+        "author": "Jonny-air",
+        "fork_issue_number": 20
+      },
+      "2346368069": {
+        "imported_at": "2025-10-20T16:12:30.833511",
+        "author": "AlexAtCCRI",
+        "fork_issue_number": 20
+      }
+    },
+    "287": {
+      "1549445432": {
+        "imported_at": "2025-10-20T16:12:32.111301",
+        "author": "mcphatty",
+        "fork_issue_number": 18
+      }
+    },
+    "296": {
+      "2072137095": {
+        "imported_at": "2025-10-20T16:12:33.585381",
+        "author": "efeerdogannn",
+        "fork_issue_number": 15
+      },
+      "2321354659": {
+        "imported_at": "2025-10-20T16:12:35.406417",
+        "author": "ariel-m-s",
+        "fork_issue_number": 15
+      }
+    },
+    "302": {
+      "1922127098": {
+        "imported_at": "2025-10-20T16:12:36.936198",
+        "author": "StohanzlMart",
+        "fork_issue_number": 12
+      },
+      "1925448944": {
+        "imported_at": "2025-10-20T16:12:38.716883",
+        "author": "StohanzlMart",
+        "fork_issue_number": 12
+      },
+      "1939819150": {
+        "imported_at": "2025-10-20T16:12:40.708641",
+        "author": "StohanzlMart",
+        "fork_issue_number": 12
+      },
+      "2321344668": {
+        "imported_at": "2025-10-20T16:12:42.576615",
+        "author": "ariel-m-s",
+        "fork_issue_number": 12
+      },
+      "2323202925": {
+        "imported_at": "2025-10-20T16:12:44.315832",
+        "author": "StohanzlMart",
+        "fork_issue_number": 12
+      },
+      "2324810043": {
+        "imported_at": "2025-10-20T16:12:46.279033",
+        "author": "ariel-m-s",
+        "fork_issue_number": 12
+      },
+      "2325124886": {
+        "imported_at": "2025-10-20T16:12:48.038676",
+        "author": "StohanzlMart",
+        "fork_issue_number": 12
+      },
+      "2827878714": {
+        "imported_at": "2025-10-20T16:12:49.970139",
+        "author": "julienissuts",
+        "fork_issue_number": 12
+      }
+    },
+    "307": {
+      "2548597268": {
+        "imported_at": "2025-10-20T16:12:51.709833",
+        "author": "ariel-m-s",
+        "fork_issue_number": 9
+      }
+    },
+    "316": {
+      "2799279109": {
+        "imported_at": "2025-10-20T16:12:53.264113",
+        "author": "tenowg",
+        "fork_issue_number": 6
+      },
+      "2799309875": {
+        "imported_at": "2025-10-20T16:12:55.179448",
+        "author": "MegaCocos",
+        "fork_issue_number": 6
+      }
+    },
+    "319": {
+      "3151505401": {
+        "imported_at": "2025-10-20T16:12:56.661486",
+        "author": "Denarius40",
+        "fork_issue_number": 3
+      }
+    }
+  }
+}
