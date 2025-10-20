@@ -56,8 +56,6 @@ class UnscentedKalmanFilter(object):
         change based on the sensor. Just provide the appropriate hx function
 
 
-    dt : float
-        Time between steps in seconds.
 
 
 
@@ -648,8 +646,8 @@ class UnscentedKalmanFilter(object):
         ----------
 
         Xs : numpy.array
-           array of the means (state variable x) of the output of a Kalman
-           filter.
+            array of the means (state variable x) of the output of a Kalman
+            filter.
 
         Ps : numpy.array
             array of the covariances of the output of a kalman filter.
@@ -674,10 +672,10 @@ class UnscentedKalmanFilter(object):
         -------
 
         x : numpy.ndarray
-           smoothed means
+            smoothed means
 
         P : numpy.ndarray
-           smoothed state covariances
+            smoothed state covariances
 
         K : numpy.ndarray
             smoother gain at each step

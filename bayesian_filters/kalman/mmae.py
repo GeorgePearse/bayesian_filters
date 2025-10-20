@@ -37,8 +37,8 @@ class MMAEFilterBank(object):
         List of Kalman filters.
 
     p : list-like of floats
-       Initial probability that each filter is the correct one. In general
-       you'd probably set each element to 1./len(p).
+        Initial probability that each filter is the correct one. In general
+        you'd probably set each element to 1./len(p).
 
     dim_x : float
         number of random variables in the state X

@@ -45,9 +45,6 @@ class MerweScaledSigmaPoints(object):
         Incorporates prior knowledge of the distribution of the mean. For
         Gaussian x beta=2 is optimal, according to [3].
 
-    kappa : float, default=0.0
-        Secondary scaling parameter usually set to 0 according to [4],
-        or to 3-n according to [5].
 
     sqrt_method : function(ndarray), default=scipy.linalg.cholesky
         Defines how we compute the square root of a matrix, which has
@@ -212,11 +209,6 @@ class JulierSigmaPoints(object):
     n : int
         Dimensionality of the state. 2n+1 weights will be generated.
 
-    kappa : float, default=0.
-        Scaling factor that can reduce high order errors. kappa=0 gives
-        the standard unscented filter. According to [Julier], if you set
-        kappa to 3-dim_x for a Gaussian x you will minimize the fourth
-        order errors in x and P.
 
     sqrt_method : function(ndarray), default=scipy.linalg.cholesky
         Defines how we compute the square root of a matrix, which has
@@ -453,7 +445,7 @@ class SimplexSigmaPoints(object):
             examples: 1, [1,2], np.array([1,2])
 
         P : scalar, or np.array
-           Covariance of the filter. If scalar, is treated as eye(n)*P.
+            Covariance of the filter. If scalar, is treated as eye(n)*P.
 
         Returns
         -------

@@ -232,13 +232,13 @@ class GHFilter(object):
         filter state
 
     dx : 1D np.array or scalar
-       derivative of the filter state.
+        derivative of the filter state.
 
     x_prediction : 1D np.array or scalar
         predicted filter state
 
     dx_prediction : 1D np.array or scalar
-       predicted derivative of the filter state.
+        predicted derivative of the filter state.
 
     dt : scalar
         time step
@@ -400,14 +400,14 @@ class GHFilter(object):
         -------
 
         results : np.array shape (n+1, 2), where n=len(data)
-           contains the results of the filter, where
-           results[i,0] is x , and
-           results[i,1] is dx (derivative of x)
-           First entry is the initial values of x and dx as set by __init__.
+            contains the results of the filter, where
+            results[i,0] is x , and
+            results[i,1] is dx (derivative of x)
+            First entry is the initial values of x and dx as set by __init__.
 
         predictions : np.array shape(n), optional
-           the predictions for each step in the filter. Only retured if
-           save_predictions == True
+            the predictions for each step in the filter. Only retured if
+            save_predictions == True
         """
 
         x = self.x
@@ -559,19 +559,19 @@ class GHKFilter(object):
         filter state
 
     dx : 1D np.array or scalar
-       derivative of the filter state.
+        derivative of the filter state.
 
     ddx : 1D np.array or scalar
-       second derivative of the filter state.
+        second derivative of the filter state.
 
     x_prediction : 1D np.array or scalar
         predicted filter state
 
     dx_prediction : 1D np.array or scalar
-       predicted derivative of the filter state.
+        predicted derivative of the filter state.
 
     ddx_prediction : 1D np.array or scalar
-       second predicted derivative of the filter state.
+        second predicted derivative of the filter state.
 
     dt : scalar
         time step
@@ -694,14 +694,14 @@ class GHKFilter(object):
         -------
 
         results : np.array shape (n+1, 2), where n=len(data)
-           contains the results of the filter, where
-           results[i,0] is x , and
-           results[i,1] is dx (derivative of x)
-           First entry is the initial values of x and dx as set by __init__.
+            contains the results of the filter, where
+            results[i,0] is x , and
+            results[i,1] is dx (derivative of x)
+            First entry is the initial values of x and dx as set by __init__.
 
         predictions : np.array shape(n), or None
-           the predictions for each step in the filter. Only returned if
-           save_predictions == True
+            the predictions for each step in the filter. Only returned if
+            save_predictions == True
         """
 
         x = self.x

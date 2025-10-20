@@ -58,8 +58,6 @@ class EnsembleKalmanFilter(object):
     N : int
         number of sigma points (ensembles). Must be greater than 1.
 
-    K : np.array
-        Kalman gain
 
     hx : function hx(x)
         Measurement function. May be linear or nonlinear - converts state
@@ -108,8 +106,6 @@ class EnsembleKalmanFilter(object):
     hx : callable (x)
         Measurement function. Convert state `x` into a measurement
 
-    K : numpy.array(dim_x, dim_z)
-        Kalman gain of the update step. Read only.
 
     inv : function, default numpy.linalg.inv
         If you prefer another inverse function, such as the Moore-Penrose
