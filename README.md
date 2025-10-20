@@ -131,6 +131,7 @@ The original author uses three main reference texts:
 
 ### Online Resources
 
+- **[Kalman and Bayesian Filters in Python](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python)** - Free online book with Jupyter notebooks teaching Kalman filtering and Bayesian statistics. Written by the original FilterPy author, this is the companion book to this library and provides excellent intuitive explanations with interactive examples.
 - **[Kalman Filter Background](https://kalmanfilter.net/background.html)** - Comprehensive background and theory on Kalman filtering
 
 ## License
