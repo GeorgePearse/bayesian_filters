@@ -21,41 +21,10 @@ Sphinx generated documentation lives at http://filterpy.readthedocs.org/.
 
 ## Installation
 
-### Using pip
-
-The most general installation is just to use pip:
-
-[![PyPI version](https://img.shields.io/pypi/v/filterpy.svg)](https://pypi.python.org/pypi/filterpy)
-
 ```bash
-pip install filterpy
+uv pip install filterpy
 ```
 
-### From source
-
-```bash
-cd <directory you want to install to>
-git clone https://github.com/GeorgePearse/bayesian_filters
-cd bayesian_filters
-pip install -e .
-```
-
-### Using Anaconda
-
-If you use Anaconda, you can install from the conda-forge channel:
-
-```bash
-conda config --add channels conda-forge
-conda install filterpy
-```
-
-### Bleeding edge (original repo)
-
-```bash
-pip install git+https://github.com/rlabbe/filterpy.git
-```
-
-**Note**: Installing from the bleeding edge git version comes with no guarantees that everything works.
 
 ## Basic Usage
 
