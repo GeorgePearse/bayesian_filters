@@ -10,6 +10,8 @@ For people new to Kalman filters, they're well explained here https://www.youtub
 [![Documentation Status](https://img.shields.io/badge/docs-online-brightgreen)](https://georgepearse.github.io/bayesian_filters)
 
 > **Note**: This is a personal fork of the original FilterPy library (now renamed to Bayesian Filters). The original project can be found at https://github.com/rlabbe/filterpy
+>
+> Maintained by George Pearse, Lead MLE at [Visia](https://www.visia.ai/)
 
 This library provides Kalman filtering and various related optimal and non-optimal filtering software written in Python. It contains Kalman filters, Extended Kalman filters, Unscented Kalman filters, Kalman smoothers, Least Squares filters, fading memory filters, g-h filters, discrete Bayes, and more.
 
