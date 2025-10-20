@@ -134,6 +134,21 @@ The original author uses three main reference texts:
 - **[Kalman and Bayesian Filters in Python](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python)** - Free online book with Jupyter notebooks teaching Kalman filtering and Bayesian statistics. Written by the original FilterPy author, this is the companion book to this library and provides excellent intuitive explanations with interactive examples.
 - **[Kalman Filter Background](https://kalmanfilter.net/background.html)** - Comprehensive background and theory on Kalman filtering
 
+## Tools and Projects Using Kalman Filters
+
+### Repositories Using FilterPy/Bayesian Filters
+
+- **[rlabbe/filterpy](https://github.com/rlabbe/filterpy)** - The original FilterPy library from which this fork is derived
+- **[mjcarter95/FilterPy](https://github.com/mjcarter95/FilterPy)** - Modern fork with Pythonic Bayesian filtering implementations
+- **[Gavin-Furtado/Kalman-Filter-Simulator](https://github.com/Gavin-Furtado/Kalman-Filter-Simulator)** - Python project simulating sensor tracking with state estimation
+- **[sparshgarg23/object-detection-and-tracking](https://github.com/sparshgarg23/object-detection-and-tracking)** - Object detection pipeline with OpenCV and FilterPy-based Kalman filters
+- **[Norfair](https://github.com/tryolabs/norfair)** - Lightweight Python library for real-time multi-object tracking using Kalman filters
+
+### Collections and Resources
+
+- **[GitHub Topic: filterpy](https://github.com/topics/filterpy)** - Projects tagged with "filterpy" covering robotics, tracking, and sensor fusion applications
+- **[mintisan/awesome-kalman-filter](https://github.com/mintisan/awesome-kalman-filter)** - Curated list of Kalman filter implementations, tutorials, and resources
+
 ## License
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/GeorgePearse/bayesian_filters/blob/master/LICENSE)
