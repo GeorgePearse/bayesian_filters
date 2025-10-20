@@ -16,7 +16,7 @@ This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
 
-from __future__ import (absolute_import, division)
+from __future__ import absolute_import, division
 
 from copy import deepcopy
 import numpy as np
@@ -26,7 +26,6 @@ from bayesian_filters.common import pretty_str
 
 
 class SquareRootKalmanFilter(object):
-
     """
 
     Create a Kalman filter which uses a square root implementation.
@@ -126,31 +125,31 @@ class SquareRootKalmanFilter(object):
 
     def __init__(self, dim_x, dim_z, dim_u=0):
         if dim_z < 1:
-            raise ValueError('dim_x must be 1 or greater')
+            raise ValueError("dim_x must be 1 or greater")
         if dim_z < 1:
-            raise ValueError('dim_x must be 1 or greater')
+            raise ValueError("dim_x must be 1 or greater")
         if dim_u < 0:
-            raise ValueError('dim_x must be 0 or greater')
+            raise ValueError("dim_x must be 0 or greater")
 
         self.dim_x = dim_x
         self.dim_z = dim_z
         self.dim_u = dim_u
 
-        self.x = zeros((dim_x, 1)) # state
-        self._P = eye(dim_x)      # uncertainty covariance
-        self._P1_2 = eye(dim_x)   # sqrt uncertainty covariance
-        self._Q = eye(dim_x)      # sqrt process uncertainty
-        self._Q1_2 = eye(dim_x)   # sqrt process uncertainty
-        self.B = 0.               # control transition matrix
-        self.F = np.eye(dim_x)    # state transition matrix
-        self.H = np.zeros((dim_z, dim_x)) # Measurement function
-        self._R1_2 = eye(dim_z)   # sqrt state uncertainty
-        self._R = eye(dim_z)      # state uncertainty
-        self.z = np.array([[None]*self.dim_z]).T
+        self.x = zeros((dim_x, 1))  # state
+        self._P = eye(dim_x)  # uncertainty covariance
+        self._P1_2 = eye(dim_x)  # sqrt uncertainty covariance
+        self._Q = eye(dim_x)  # sqrt process uncertainty
+        self._Q1_2 = eye(dim_x)  # sqrt process uncertainty
+        self.B = 0.0  # control transition matrix
+        self.F = np.eye(dim_x)  # state transition matrix
+        self.H = np.zeros((dim_z, dim_x))  # Measurement function
+        self._R1_2 = eye(dim_z)  # sqrt state uncertainty
+        self._R = eye(dim_z)  # state uncertainty
+        self.z = np.array([[None] * self.dim_z]).T
 
-        self.K = np.zeros((dim_x, dim_z)) # kalman gain
-        self.S1_2 = np.zeros((dim_z, dim_z)) # sqrt system uncertainty
-        self.SI1_2 = np.zeros((dim_z, dim_z)) # Inverse sqrt system uncertainty
+        self.K = np.zeros((dim_x, dim_z))  # kalman gain
+        self.S1_2 = np.zeros((dim_z, dim_z))  # sqrt system uncertainty
+        self.SI1_2 = np.zeros((dim_z, dim_z))  # Inverse sqrt system uncertainty
 
         # Residual is computed during the innovation (update) step. We
         # save it so that in case you want to inspect it for various
@@ -167,7 +166,6 @@ class SquareRootKalmanFilter(object):
         self._P1_2_prior = np.copy(self._P1_2)
         self.x_post = np.copy(self.x)
         self._P1_2_post = np.copy(self._P1_2)
-
 
     def update(self, z, R2=None):
         """
@@ -187,7 +185,7 @@ class SquareRootKalmanFilter(object):
         """
 
         if z is None:
-            self.z = np.array([[None]*self.dim_z]).T
+            self.z = np.array([[None] * self.dim_z]).T
             self.x_post = self.x.copy()
             self._P1_2_post = np.copy(self._P1_2)
             return
@@ -241,21 +239,21 @@ class SquareRootKalmanFilter(object):
 
         # P = FPF' + Q
         _, P2 = qr(np.hstack([dot(self.F, self._P1_2), self._Q1_2]).T)
-        self._P1_2 = P2[:self.dim_x, :self.dim_x].T
+        self._P1_2 = P2[: self.dim_x, : self.dim_x].T
 
         # copy prior
         self.x_prior = np.copy(self.x)
         self._P1_2_prior = np.copy(self._P1_2)
 
     def residual_of(self, z):
-        """ returns the residual for the given measurement (z). Does not alter
+        """returns the residual for the given measurement (z). Does not alter
         the state of the filter.
         """
 
         return z - dot(self.H, self.x)
 
     def measurement_of_state(self, x):
-        """ Helper function that converts a state into a measurement.
+        """Helper function that converts a state into a measurement.
 
         Parameters
         ----------
@@ -273,88 +271,90 @@ class SquareRootKalmanFilter(object):
 
     @property
     def Q(self):
-        """ Process uncertainty"""
+        """Process uncertainty"""
         return dot(self._Q1_2, self._Q1_2.T)
 
     @property
     def Q1_2(self):
-        """ Sqrt Process uncertainty"""
+        """Sqrt Process uncertainty"""
         return self._Q1_2
 
     @Q.setter
     def Q(self, value):
-        """ Process uncertainty"""
+        """Process uncertainty"""
         self._Q = value
         self._Q1_2 = cholesky(self._Q, lower=True)
 
     @property
     def P(self):
-        """ covariance matrix"""
+        """covariance matrix"""
         return dot(self._P1_2, self._P1_2.T)
 
     @property
     def P_prior(self):
-        """ covariance matrix of the prior"""
+        """covariance matrix of the prior"""
         return dot(self._P1_2_prior, self._P1_2_prior.T)
 
     @property
     def P_post(self):
-        """ covariance matrix of the posterior"""
+        """covariance matrix of the posterior"""
         return dot(self._P1_2_prior, self._P1_2_prior.T)
 
     @property
     def P1_2(self):
-        """ sqrt of covariance matrix"""
+        """sqrt of covariance matrix"""
         return self._P1_2
 
     @P.setter
     def P(self, value):
-        """ covariance matrix"""
+        """covariance matrix"""
         self._P = value
         self._P1_2 = cholesky(self._P, lower=True)
 
     @property
     def R(self):
-        """ measurement uncertainty"""
+        """measurement uncertainty"""
         return dot(self._R1_2, self._R1_2.T)
 
     @property
     def R1_2(self):
-        """ sqrt of measurement uncertainty"""
+        """sqrt of measurement uncertainty"""
         return self._R1_2
 
     @R.setter
     def R(self, value):
-        """ measurement uncertainty"""
+        """measurement uncertainty"""
         self._R = value
         self._R1_2 = cholesky(self._R, lower=True)
 
     @property
     def S(self):
-        """ system uncertainty (P projected to measurement space) """
+        """system uncertainty (P projected to measurement space)"""
         return dot(self.S1_2, self.S1_2.T)
 
     @property
     def SI(self):
-        """ inverse system uncertainty (P projected to measurement space) """
+        """inverse system uncertainty (P projected to measurement space)"""
         return dot(self.SI1_2.T, self.SI1_2)
 
     def __repr__(self):
-        return '\n'.join([
-            'SquareRootKalmanFilter object',
-            pretty_str('dim_x', self.dim_x),
-            pretty_str('dim_z', self.dim_z),
-            pretty_str('dim_u', self.dim_u),
-            pretty_str('x', self.x),
-            pretty_str('P', self.P),
-            pretty_str('F', self.F),
-            pretty_str('Q', self.Q),
-            pretty_str('R', self.R),
-            pretty_str('H', self.H),
-            pretty_str('K', self.K),
-            pretty_str('y', self.y),
-            pretty_str('S', self.S),
-            pretty_str('SI', self.SI),
-            pretty_str('M', self.M),
-            pretty_str('B', self.B),
-            ])
+        return "\n".join(
+            [
+                "SquareRootKalmanFilter object",
+                pretty_str("dim_x", self.dim_x),
+                pretty_str("dim_z", self.dim_z),
+                pretty_str("dim_u", self.dim_u),
+                pretty_str("x", self.x),
+                pretty_str("P", self.P),
+                pretty_str("F", self.F),
+                pretty_str("Q", self.Q),
+                pretty_str("R", self.R),
+                pretty_str("H", self.H),
+                pretty_str("K", self.K),
+                pretty_str("y", self.y),
+                pretty_str("S", self.S),
+                pretty_str("SI", self.SI),
+                pretty_str("M", self.M),
+                pretty_str("B", self.B),
+            ]
+        )

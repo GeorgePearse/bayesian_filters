@@ -193,9 +193,7 @@ def gaussian(x, mean, var, normed=True):
     array([1.34985669e-06, 3.48132630e-05, 3.17455867e-08])
     """
 
-    pdf = ((2 * math.pi * var) ** -0.5) * np.exp(
-        (-0.5 * (np.asarray(x) - mean) ** 2.0) / var
-    )
+    pdf = ((2 * math.pi * var) ** -0.5) * np.exp((-0.5 * (np.asarray(x) - mean) ** 2.0) / var)
     if normed and len(np.shape(pdf)) > 0:
         pdf = pdf / sum(pdf)
 
@@ -301,9 +299,7 @@ def mul_pdf(mean1, var1, mean2, var2):
     mean = (var1 * mean2 + var2 * mean1) / (var1 + var2)
     var = 1.0 / (1.0 / var1 + 1.0 / var2)
 
-    S = math.exp(-((mean1 - mean2) ** 2) / (2 * (var1 + var2))) / math.sqrt(
-        2 * math.pi * (var1 + var2)
-    )
+    S = math.exp(-((mean1 - mean2) ** 2) / (2 * (var1 + var2))) / math.sqrt(2 * math.pi * (var1 + var2))
 
     return mean, var, S
 
@@ -681,9 +677,7 @@ def plot_gaussian(
         "plots a PDF. Use plot_gaussian_pdf() instead,",
         DeprecationWarning,
     )
-    return plot_gaussian_pdf(
-        mean, variance, ax, mean_line, xlim, ylim, xlabel, ylabel, label
-    )
+    return plot_gaussian_pdf(mean, variance, ax, mean_line, xlim, ylim, xlabel, ylabel, label)
 
 
 def covariance_ellipse(P, deviations=1):
@@ -1168,10 +1162,7 @@ def norm_cdf(x_range, mu, var=1, std=None):
 
     if std is None:
         std = math.sqrt(var)
-    return abs(
-        norm.cdf(x_range[0], loc=mu, scale=std)
-        - norm.cdf(x_range[1], loc=mu, scale=std)
-    )
+    return abs(norm.cdf(x_range[0], loc=mu, scale=std) - norm.cdf(x_range[1], loc=mu, scale=std))
 
 
 def _to_cov(x, n):

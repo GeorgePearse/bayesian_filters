@@ -14,11 +14,9 @@ This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
 
-#pylint:disable=invalid-name, bad-whitespace
+# pylint:disable=invalid-name, bad-whitespace
 
-
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 
 from numpy import zeros, vstack, eye, array
@@ -61,13 +59,12 @@ def order_by_derivative(Q, dim, block_size):
         f = eye(block_size) * x
 
         ix, iy = (i // dim) * block_size, (i % dim) * block_size
-        D[ix:ix+block_size, iy:iy+block_size] = f
+        D[ix : ix + block_size, iy : iy + block_size] = f
 
     return D
 
 
-
-def Q_discrete_white_noise(dim, dt=1., var=1., block_size=1, order_by_dim=True):
+def Q_discrete_white_noise(dim, dt=1.0, var=1.0, block_size=1, order_by_dim=True):
     """
     Returns the Q matrix for the Discrete Constant White Noise
     Model. dim may be either 2, 3, or 4 dt is the time step, and sigma
@@ -128,25 +125,27 @@ def Q_discrete_white_noise(dim, dt=1., var=1., block_size=1, order_by_dim=True):
         raise ValueError("dim must be between 2 and 4")
 
     if dim == 2:
-        Q = [[.25*dt**4, .5*dt**3],
-             [ .5*dt**3,    dt**2]]
+        Q = [[0.25 * dt**4, 0.5 * dt**3], [0.5 * dt**3, dt**2]]
     elif dim == 3:
-        Q = [[.25*dt**4, .5*dt**3, .5*dt**2],
-             [ .5*dt**3,    dt**2,       dt],
-             [ .5*dt**2,       dt,        1]]
+        Q = [
+            [0.25 * dt**4, 0.5 * dt**3, 0.5 * dt**2],
+            [0.5 * dt**3, dt**2, dt],
+            [0.5 * dt**2, dt, 1],
+        ]
     else:
-        Q = [[(dt**6)/36, (dt**5)/12, (dt**4)/6, (dt**3)/6],
-             [(dt**5)/12, (dt**4)/4,  (dt**3)/2, (dt**2)/2],
-             [(dt**4)/6,  (dt**3)/2,   dt**2,     dt],
-             [(dt**3)/6,  (dt**2)/2 ,  dt,        1.]]
+        Q = [
+            [(dt**6) / 36, (dt**5) / 12, (dt**4) / 6, (dt**3) / 6],
+            [(dt**5) / 12, (dt**4) / 4, (dt**3) / 2, (dt**2) / 2],
+            [(dt**4) / 6, (dt**3) / 2, dt**2, dt],
+            [(dt**3) / 6, (dt**2) / 2, dt, 1.0],
+        ]
 
     if order_by_dim:
-        return block_diag(*[Q]*block_size) * var
+        return block_diag(*[Q] * block_size) * var
     return order_by_derivative(array(Q), dim, block_size) * var
 
 
-def Q_continuous_white_noise(dim, dt=1., spectral_density=1.,
-                             block_size=1, order_by_dim=True):
+def Q_continuous_white_noise(dim, dt=1.0, spectral_density=1.0, block_size=1, order_by_dim=True):
     """
     Returns the Q matrix for the Discretized Continuous White Noise
     Model. dim may be either 2, 3, 4, dt is the time step, and sigma is the
@@ -199,21 +198,24 @@ def Q_continuous_white_noise(dim, dt=1., spectral_density=1.,
         raise ValueError("dim must be between 2 and 4")
 
     if dim == 2:
-        Q = [[(dt**3)/3., (dt**2)/2.],
-             [(dt**2)/2.,    dt]]
+        Q = [[(dt**3) / 3.0, (dt**2) / 2.0], [(dt**2) / 2.0, dt]]
     elif dim == 3:
-        Q = [[(dt**5)/20., (dt**4)/8., (dt**3)/6.],
-             [ (dt**4)/8., (dt**3)/3., (dt**2)/2.],
-             [ (dt**3)/6., (dt**2)/2.,        dt]]
+        Q = [
+            [(dt**5) / 20.0, (dt**4) / 8.0, (dt**3) / 6.0],
+            [(dt**4) / 8.0, (dt**3) / 3.0, (dt**2) / 2.0],
+            [(dt**3) / 6.0, (dt**2) / 2.0, dt],
+        ]
 
     else:
-        Q = [[(dt**7)/252., (dt**6)/72., (dt**5)/30., (dt**4)/24.],
-             [(dt**6)/72.,  (dt**5)/20., (dt**4)/8.,  (dt**3)/6.],
-             [(dt**5)/30.,  (dt**4)/8.,  (dt**3)/3.,  (dt**2)/2.],
-             [(dt**4)/24.,  (dt**3)/6.,  (dt**2/2.),   dt]]
+        Q = [
+            [(dt**7) / 252.0, (dt**6) / 72.0, (dt**5) / 30.0, (dt**4) / 24.0],
+            [(dt**6) / 72.0, (dt**5) / 20.0, (dt**4) / 8.0, (dt**3) / 6.0],
+            [(dt**5) / 30.0, (dt**4) / 8.0, (dt**3) / 3.0, (dt**2) / 2.0],
+            [(dt**4) / 24.0, (dt**3) / 6.0, (dt**2 / 2.0), dt],
+        ]
 
     if order_by_dim:
-        return block_diag(*[Q]*block_size) * spectral_density
+        return block_diag(*[Q] * block_size) * spectral_density
 
     return order_by_derivative(array(Q), dim, block_size) * spectral_density
 
@@ -266,28 +268,27 @@ def van_loan_discretization(F, G, dt):
         Kalman Filtering." Forth edition. John Wiley & Sons. p. 126-7. (2012)
     """
 
-
     n = F.shape[0]
 
-    A = zeros((2*n, 2*n))
+    A = zeros((2 * n, 2 * n))
 
     # we assume u(t) is unity, and require that G incorporate the scaling term
     # for the noise. Hence W = 1, and GWG' reduces to GG"
 
-    A[0:n,     0:n] = -F.dot(dt)
-    A[0:n,   n:2*n] = G.dot(G.T).dot(dt)
-    A[n:2*n, n:2*n] = F.T.dot(dt)
+    A[0:n, 0:n] = -F.dot(dt)
+    A[0:n, n : 2 * n] = G.dot(G.T).dot(dt)
+    A[n : 2 * n, n : 2 * n] = F.T.dot(dt)
 
-    B=expm(A)
+    B = expm(A)
 
-    sigma = B[n:2*n, n:2*n].T
+    sigma = B[n : 2 * n, n : 2 * n].T
 
-    Q = sigma.dot(B[0:n, n:2*n])
+    Q = sigma.dot(B[0:n, n : 2 * n])
 
     return (sigma, Q)
 
 
-def linear_ode_discretation(F, L=None, Q=None, dt=1.):
+def linear_ode_discretation(F, L=None, Q=None, dt=1.0):
     """
     Not sure what this does, probably should be removed
     """
@@ -302,18 +303,18 @@ def linear_ode_discretation(F, L=None, Q=None, dt=1.):
 
     A = expm(F * dt)
 
-    phi = zeros((2*n, 2*n))
+    phi = zeros((2 * n, 2 * n))
 
-    phi[0:n,     0:n] = F
-    phi[0:n,   n:2*n] = L.dot(Q).dot(L.T)
-    phi[n:2*n, n:2*n] = -F.T
+    phi[0:n, 0:n] = F
+    phi[0:n, n : 2 * n] = L.dot(Q).dot(L.T)
+    phi[n : 2 * n, n : 2 * n] = -F.T
 
     zo = vstack((zeros((n, n)), eye(n)))
 
-    CD = expm(phi*dt).dot(zo)
+    CD = expm(phi * dt).dot(zo)
 
-    C = CD[0:n,  :]
-    D = CD[n:2*n, :]
+    C = CD[0:n, :]
+    D = CD[n : 2 * n, :]
     q = C.dot(inv(D))
 
     return (A, q)

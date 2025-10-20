@@ -192,8 +192,8 @@ Use these if you are not a fan of objects.
     while True:
         z, R = read_sensor()
         x, P = predict(x, P, F, Q)
-        x, P = update(x, P, z, R, H)    
-    
+        x, P = update(x, P, z, R, H)
+
 **References**
 
 
@@ -225,5 +225,3 @@ Kalman filter
 .. autofunction:: update
 .. autofunction:: predict
 .. autofunction:: batch_filter
-
-

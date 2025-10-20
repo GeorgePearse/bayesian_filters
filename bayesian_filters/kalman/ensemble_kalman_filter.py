@@ -17,9 +17,7 @@ This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
 
-
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 from copy import deepcopy
 import numpy as np
@@ -157,10 +155,10 @@ class EnsembleKalmanFilter(object):
 
     def __init__(self, x, P, dim_z, dt, N, hx, fx):
         if dim_z <= 0:
-            raise ValueError('dim_z must be greater than zero')
+            raise ValueError("dim_z must be greater than zero")
 
         if N <= 0:
-            raise ValueError('N must be greater than zero')
+            raise ValueError("N must be greater than zero")
 
         dim_x = len(x)
         self.dim_x = dim_x
@@ -171,12 +169,12 @@ class EnsembleKalmanFilter(object):
         self.fx = fx
         self.K = zeros((dim_x, dim_z))
         self.z = array([[None] * self.dim_z]).T
-        self.S = zeros((dim_z, dim_z))   # system uncertainty
+        self.S = zeros((dim_z, dim_z))  # system uncertainty
         self.SI = zeros((dim_z, dim_z))  # inverse system uncertainty
 
         self.initialize(x, P)
-        self.Q = eye(dim_x)       # process uncertainty
-        self.R = eye(dim_z)       # state uncertainty
+        self.Q = eye(dim_x)  # process uncertainty
+        self.R = eye(dim_z)  # state uncertainty
         self.inv = np.linalg.inv
 
         # used to create error terms centered at 0 mean for
@@ -201,7 +199,7 @@ class EnsembleKalmanFilter(object):
         """
 
         if x.ndim != 1:
-            raise ValueError('x must be a 1D array')
+            raise ValueError("x must be a 1D array")
 
         self.sigmas = multivariate_normal(mean=x, cov=P, size=self.N)
         self.x = x
@@ -232,7 +230,7 @@ class EnsembleKalmanFilter(object):
         """
 
         if z is None:
-            self.z = array([[None]*self.dim_z]).T
+            self.z = array([[None] * self.dim_z]).T
             self.x_post = self.x.copy()
             self.P_post = self.P.copy()
             return
@@ -252,9 +250,8 @@ class EnsembleKalmanFilter(object):
 
         z_mean = np.mean(sigmas_h, axis=0)
 
-        P_zz = (outer_product_sum(sigmas_h - z_mean) / (N-1)) + R
-        P_xz = outer_product_sum(
-            self.sigmas - self.x, sigmas_h - z_mean) / (N - 1)
+        P_zz = (outer_product_sum(sigmas_h - z_mean) / (N - 1)) + R
+        P_xz = outer_product_sum(self.sigmas - self.x, sigmas_h - z_mean) / (N - 1)
 
         self.S = P_zz
         self.SI = self.inv(self.S)
@@ -273,7 +270,7 @@ class EnsembleKalmanFilter(object):
         self.P_post = self.P.copy()
 
     def predict(self):
-        """ Predict next position. """
+        """Predict next position."""
 
         N = self.N
         for i, s in enumerate(self.sigmas):
@@ -290,20 +287,22 @@ class EnsembleKalmanFilter(object):
         self.P_prior = np.copy(self.P)
 
     def __repr__(self):
-        return '\n'.join([
-            'EnsembleKalmanFilter object',
-            pretty_str('dim_x', self.dim_x),
-            pretty_str('dim_z', self.dim_z),
-            pretty_str('dt', self.dt),
-            pretty_str('x', self.x),
-            pretty_str('P', self.P),
-            pretty_str('x_prior', self.x_prior),
-            pretty_str('P_prior', self.P_prior),
-            pretty_str('Q', self.Q),
-            pretty_str('R', self.R),
-            pretty_str('K', self.K),
-            pretty_str('S', self.S),
-            pretty_str('sigmas', self.sigmas),
-            pretty_str('hx', self.hx),
-            pretty_str('fx', self.fx)
-            ])
+        return "\n".join(
+            [
+                "EnsembleKalmanFilter object",
+                pretty_str("dim_x", self.dim_x),
+                pretty_str("dim_z", self.dim_z),
+                pretty_str("dt", self.dt),
+                pretty_str("x", self.x),
+                pretty_str("P", self.P),
+                pretty_str("x_prior", self.x_prior),
+                pretty_str("P_prior", self.P_prior),
+                pretty_str("Q", self.Q),
+                pretty_str("R", self.R),
+                pretty_str("K", self.K),
+                pretty_str("S", self.S),
+                pretty_str("sigmas", self.sigmas),
+                pretty_str("hx", self.hx),
+                pretty_str("fx", self.fx),
+            ]
+        )

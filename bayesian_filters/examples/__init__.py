@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
-#pylint: disable=wildcard-import
+# pylint: disable=wildcard-import
 
 
-""" Contains various example, mostly very outdated now."""
+"""Contains various example, mostly very outdated now."""
 
-
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 __all__ = ["radar_sim"]
 

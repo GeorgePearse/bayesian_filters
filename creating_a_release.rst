@@ -30,7 +30,7 @@ Steps to Create Release
 
     cd /docs/_build/html
     zip -r filterpy.zip *.*
-    
+
     add all files to a zip file (index.html must be at base)
     go to https://pypi.python.org/pypi?%3Aaction=pkg_edit&name=filterpy
     scroll to bottom, add the zip file you just made
@@ -38,7 +38,3 @@ Steps to Create Release
 
     it usually takes several minutes for the documentation to show up here:
     https://pythonhosted.org/filterpy/
-    
-    
-    
-

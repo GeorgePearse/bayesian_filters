@@ -4,7 +4,7 @@ EnsembleKalmanFilter
 Introduction and Overview
 -------------------------
 
-This implements the Ensemble Kalman filter. 
+This implements the Ensemble Kalman filter.
 
 .. automodule:: filterpy.kalman
 

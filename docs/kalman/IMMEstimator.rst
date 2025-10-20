@@ -12,7 +12,6 @@ needs documentation....
 
 
 .. autoclass:: IMMEstimator
-    :members:    
-    
-    .. automethod:: __init__
+    :members:
 
+    .. automethod:: __init__

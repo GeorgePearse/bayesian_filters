@@ -19,17 +19,14 @@ This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
 
-
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
+from __future__ import absolute_import, division, print_function, unicode_literals
 import numpy as np
 from numpy import dot
 from bayesian_filters.common import pretty_str
 
 
 class FadingMemoryFilter(object):
-
-    """ Creates a fading memory filter of order 0, 1, or 2.
+    """Creates a fading memory filter of order 0, 1, or 2.
 
     The KalmanFilter class also implements a more general fading memory
     filter and should be preferred in most cases. This is probably faster
@@ -100,12 +97,11 @@ class FadingMemoryFilter(object):
     """
 
     def __init__(self, x0, dt, order, beta):
-
         if order < 0 or order > 2:
-            raise ValueError('order must be between 0 and 2')
+            raise ValueError("order must be between 0 and 2")
 
         if np.isscalar(x0):
-            self.x = np.zeros(order+1)
+            self.x = np.zeros(order + 1)
             self.x[0] = x0
         else:
             self.x = np.copy(x0)
@@ -115,49 +111,48 @@ class FadingMemoryFilter(object):
         self.beta = beta
 
         if order == 0:
-            self.P = np.array([(1-beta)/(1+beta)], dtype=float)
-            self.e = np.array([dt * beta / (1-beta)], dtype=float)
+            self.P = np.array([(1 - beta) / (1 + beta)], dtype=float)
+            self.e = np.array([dt * beta / (1 - beta)], dtype=float)
 
         elif order == 1:
-            p11 = (1-beta) * (1+4*beta+5*beta**2) / (1+beta)**3
-            p22 = 2*(1-beta)**3 / (1+beta)**3
+            p11 = (1 - beta) * (1 + 4 * beta + 5 * beta**2) / (1 + beta) ** 3
+            p22 = 2 * (1 - beta) ** 3 / (1 + beta) ** 3
             self.P = np.array([p11, p22], dtype=float)
 
-            e = 2*dt*2 * (beta / (1-beta))**2
-            de = dt*((1+3*beta)/(1-beta))
+            e = 2 * dt * 2 * (beta / (1 - beta)) ** 2
+            de = dt * ((1 + 3 * beta) / (1 - beta))
             self.e = np.array([e, de], dtype=float)
 
         else:
-            p11 = (1-beta)*((1+6*beta + 16*beta**2 + 24*beta**3 + 19*beta**4) /
-                            (1+beta)**5)
+            p11 = (1 - beta) * ((1 + 6 * beta + 16 * beta**2 + 24 * beta**3 + 19 * beta**4) / (1 + beta) ** 5)
 
-            p22 = (1-beta)**3 * ((13+50*beta + 49*beta**2) /
-                                 (2*(1+beta)**5 * dt**2))
+            p22 = (1 - beta) ** 3 * ((13 + 50 * beta + 49 * beta**2) / (2 * (1 + beta) ** 5 * dt**2))
 
-            p33 = 6*(1-beta)**5 / ((1+beta)**5 * dt**4)
+            p33 = 6 * (1 - beta) ** 5 / ((1 + beta) ** 5 * dt**4)
 
             self.P = np.array([p11, p22, p33], dtype=float)
 
-            e = 6*dt**3*(beta/(1-beta))**3
-            de = dt**2 * (2 + 5*beta + 11*beta**2) / (1-beta)**2
-            dde = 6*dt*(1+2*beta) / (1-beta)
+            e = 6 * dt**3 * (beta / (1 - beta)) ** 3
+            de = dt**2 * (2 + 5 * beta + 11 * beta**2) / (1 - beta) ** 2
+            dde = 6 * dt * (1 + 2 * beta) / (1 - beta)
 
             self.e = np.array([e, de, dde], dtype=float)
 
     def __repr__(self):
-        return '\n'.join([
-            'FadingMemoryFilter object',
-            pretty_str('dt', self.dt),
-            pretty_str('order', self.order),
-            pretty_str('beta', self.beta),
-            pretty_str('x', self.x),
-            pretty_str('P', self.P),
-            pretty_str('e', self.e),
-            ])
-
+        return "\n".join(
+            [
+                "FadingMemoryFilter object",
+                pretty_str("dt", self.dt),
+                pretty_str("order", self.order),
+                pretty_str("beta", self.beta),
+                pretty_str("x", self.x),
+                pretty_str("P", self.P),
+                pretty_str("e", self.e),
+            ]
+        )
 
     def update(self, z):
-        """ update the filter with measurement z. z must be the same type
+        """update the filter with measurement z. z must be the same type
         (or treatable as the same type) as self.x[0].
         """
 
@@ -167,28 +162,28 @@ class FadingMemoryFilter(object):
 
         elif self.order == 1:
             G = 1 - self.beta**2
-            H = (1-self.beta)**2
+            H = (1 - self.beta) ** 2
             x = self.x[0]
             dx = self.x[1]
             dxdt = dot(dx, self.dt)
 
-            residual = z - (x+dxdt)
-            self.x[0] = x + dxdt + G*residual
-            self.x[1] = dx + (H / self.dt)*residual
+            residual = z - (x + dxdt)
+            self.x[0] = x + dxdt + G * residual
+            self.x[1] = dx + (H / self.dt) * residual
 
-        else: # order == 2
-            G = 1-self.beta**3
-            H = 1.5*(1+self.beta)*(1-self.beta)**2
-            K = 0.5*(1-self.beta)**3
+        else:  # order == 2
+            G = 1 - self.beta**3
+            H = 1.5 * (1 + self.beta) * (1 - self.beta) ** 2
+            K = 0.5 * (1 - self.beta) ** 3
 
             x = self.x[0]
             dx = self.x[1]
             ddx = self.x[2]
             dxdt = dot(dx, self.dt)
-            T2 = self.dt**2.
+            T2 = self.dt**2.0
 
-            residual = z - (x + dxdt + 0.5*ddx*T2)
+            residual = z - (x + dxdt + 0.5 * ddx * T2)
 
-            self.x[0] = x + dxdt + 0.5*ddx*T2 + G*residual
-            self.x[1] = dx + ddx*self.dt + (H/self.dt)*residual
-            self.x[2] = ddx + (2*K/(self.dt**2))*residual
+            self.x[0] = x + dxdt + 0.5 * ddx * T2 + G * residual
+            self.x[1] = dx + ddx * self.dt + (H / self.dt) * residual
+            self.x[2] = ddx + (2 * K / (self.dt**2)) * residual

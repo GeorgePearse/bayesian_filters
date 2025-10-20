@@ -15,8 +15,7 @@ This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
 
-#pylint: skip-file
-
+# pylint: skip-file
 
 from numpy.random import randn
 
@@ -28,13 +27,11 @@ class RadarSim(object):
     process noise - altitude and velocity varies a bit for each call.
     """
 
-
-    def __init__(self, dt, pos=0., vel=100., alt=1000.):
+    def __init__(self, dt, pos=0.0, vel=100.0, alt=1000.0):
         self.dt = dt
         self.pos = pos
         self.vel = vel
         self.alt = alt
-
 
     def get_range(self, process_err_pct=0.05):
         """
@@ -45,9 +42,9 @@ class RadarSim(object):
         vel = self.vel + 5 * randn()
         alt = self.alt + 10 * randn()
 
-        self.pos += vel*self.dt
+        self.pos += vel * self.dt
 
         err = (self.pos * process_err_pct) * randn()
-        slant_range = (self.pos**2 + alt**2)**.5 + err
+        slant_range = (self.pos**2 + alt**2) ** 0.5 + err
 
         return slant_range

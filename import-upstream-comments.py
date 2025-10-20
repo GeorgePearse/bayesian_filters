@@ -58,7 +58,10 @@ def load_tracking_data() -> dict[str, Any]:
     """Load the issue tracking file."""
     tracking_path = Path(TRACKING_FILE)
     if not tracking_path.exists():
-        print(f"Error: {TRACKING_FILE} not found. Run import-upstream-issues.py first.", file=sys.stderr)
+        print(
+            f"Error: {TRACKING_FILE} not found. Run import-upstream-issues.py first.",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
     with open(tracking_path) as f:
@@ -89,15 +92,13 @@ def fetch_upstream_comments(issue_number: int) -> list[dict[str, Any]]:
 def extract_fork_issue_number(fork_url: str) -> int:
     """Extract the issue number from a GitHub issue URL."""
     # URL format: https://github.com/GeorgePearse/filterpy/issues/3
-    return int(fork_url.rstrip('/').split('/')[-1])
+    return int(fork_url.rstrip("/").split("/")[-1])
 
 
 def format_comment_body(original_comment: dict[str, Any]) -> str:
     """Format a comment with attribution to the original author."""
     author = original_comment["user"]["login"]
-    created_at = datetime.fromisoformat(
-        original_comment["created_at"].replace("Z", "+00:00")
-    )
+    created_at = datetime.fromisoformat(original_comment["created_at"].replace("Z", "+00:00"))
     original_url = original_comment["html_url"]
     body = original_comment["body"]
 
@@ -107,7 +108,7 @@ def format_comment_body(original_comment: dict[str, Any]) -> str:
         "",
         "---",
         "",
-        body.strip()
+        body.strip(),
     ]
 
     return "\n".join(formatted_parts)
@@ -115,11 +116,17 @@ def format_comment_body(original_comment: dict[str, Any]) -> str:
 
 def post_comment(fork_issue_number: int, comment_body: str) -> None:
     """Post a comment to a fork issue."""
-    run_gh_command([
-        "issue", "comment", str(fork_issue_number),
-        "--repo", FORK_REPO,
-        "--body", comment_body
-    ])
+    run_gh_command(
+        [
+            "issue",
+            "comment",
+            str(fork_issue_number),
+            "--repo",
+            FORK_REPO,
+            "--body",
+            comment_body,
+        ]
+    )
 
 
 def main() -> None:
@@ -147,10 +154,7 @@ def main() -> None:
     total_comments_skipped = 0
     issues_with_comments = 0
 
-    for upstream_number, issue_info in sorted(
-        imported_issues.items(),
-        key=lambda x: int(x[0])
-    ):
+    for upstream_number, issue_info in sorted(imported_issues.items(), key=lambda x: int(x[0])):
         upstream_number_int = int(upstream_number)
         fork_url = issue_info["fork_url"]
         fork_issue_number = extract_fork_issue_number(fork_url)
@@ -166,7 +170,7 @@ def main() -> None:
             continue
 
         if not comments:
-            print(f"  ℹ No comments found")
+            print("  ℹ No comments found")
             continue
 
         print(f"  Found {len(comments)} comment(s)")
@@ -196,7 +200,7 @@ def main() -> None:
                 issue_comment_tracking[comment_id] = {
                     "imported_at": datetime.now().isoformat(),
                     "author": comment["user"]["login"],
-                    "fork_issue_number": fork_issue_number
+                    "fork_issue_number": fork_issue_number,
                 }
 
                 print(f"    [{idx}/{len(comments)}] ✓ Imported comment by @{comment['user']['login']}")

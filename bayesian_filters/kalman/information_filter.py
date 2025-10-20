@@ -16,8 +16,7 @@ This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
 
-
-from __future__ import (absolute_import, division)
+from __future__ import absolute_import, division
 from copy import deepcopy
 import math
 import sys
@@ -126,37 +125,35 @@ class InformationFilter(object):
     https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python
     """
 
-
     def __init__(self, dim_x, dim_z, dim_u=0, compute_log_likelihood=True):
-
         if dim_x < 1:
-            raise ValueError('dim_x must be 1 or greater')
+            raise ValueError("dim_x must be 1 or greater")
         if dim_z < 1:
-            raise ValueError('dim_z must be 1 or greater')
+            raise ValueError("dim_z must be 1 or greater")
         if dim_u < 0:
-            raise ValueError('dim_u must be 0 or greater')
+            raise ValueError("dim_u must be 0 or greater")
 
         self.dim_x = dim_x
         self.dim_z = dim_z
         self.dim_u = dim_u
 
-        self.x = zeros((dim_x, 1)) # state
-        self.P_inv = eye(dim_x)   # uncertainty covariance
-        self.Q = eye(dim_x)       # process uncertainty
-        self.B = 0.               # control transition matrix
-        self._F = 0.              # state transition matrix
-        self._F_inv = 0.          # state transition matrix
-        self.H = np.zeros((dim_z, dim_x)) # Measurement function
-        self.R_inv = eye(dim_z)   # state uncertainty
-        self.z = np.array([[None]*self.dim_z]).T
+        self.x = zeros((dim_x, 1))  # state
+        self.P_inv = eye(dim_x)  # uncertainty covariance
+        self.Q = eye(dim_x)  # process uncertainty
+        self.B = 0.0  # control transition matrix
+        self._F = 0.0  # state transition matrix
+        self._F_inv = 0.0  # state transition matrix
+        self.H = np.zeros((dim_z, dim_x))  # Measurement function
+        self.R_inv = eye(dim_z)  # state uncertainty
+        self.z = np.array([[None] * self.dim_z]).T
 
         # gain and residual are computed during the innovation step. We
         # save them so that in case you want to inspect them for various
         # purposes
-        self.K = 0. # kalman gain
+        self.K = 0.0  # kalman gain
         self.y = zeros((dim_z, 1))
         self.z = zeros((dim_z, 1))
-        self.S = 0. # system uncertainty in measurement space
+        self.S = 0.0  # system uncertainty in measurement space
 
         # identity matrix. Do not alter this.
         self._I = np.eye(dim_x)
@@ -173,7 +170,6 @@ class InformationFilter(object):
         self.P_inv_prior = np.copy(self.P_inv)
         self.x_post = np.copy(self.x)
         self.P_inv_post = np.copy(self.P_inv)
-
 
     def update(self, z, R_inv=None):
         """
@@ -243,7 +239,7 @@ class InformationFilter(object):
         self.P_inv_post = self.P_inv.copy()
 
     def predict(self, u=0):
-        """ Predict next position.
+        """Predict next position.
 
         Parameters
         ----------
@@ -256,7 +252,7 @@ class InformationFilter(object):
         # x = Fx + Bu
 
         A = dot(self._F_inv.T, self.P_inv).dot(self._F_inv)
-        #pylint: disable=bare-except
+        # pylint: disable=bare-except
         try:
             AI = self.inv(A)
             invertable = True
@@ -289,7 +285,7 @@ class InformationFilter(object):
             self.P_inv_prior = np.copy(AQI)
 
     def batch_filter(self, zs, Rs=None, update_first=False, saver=None):
-        """ Batch processes a sequences of measurements.
+        """Batch processes a sequences of measurements.
 
         Parameters
         ----------
@@ -325,7 +321,7 @@ class InformationFilter(object):
 
         raise NotImplementedError("this is not implemented yet")
 
-        #pylint: disable=unreachable, no-member
+        # pylint: disable=unreachable, no-member
 
         # this is a copy of the code from kalman_filter, it has not been
         # turned into the information filter yet. DO NOT USE.
@@ -379,26 +375,28 @@ class InformationFilter(object):
         return self.inv(self.P_inv)
 
     def __repr__(self):
-        return '\n'.join([
-            'InformationFilter object',
-            pretty_str('dim_x', self.dim_x),
-            pretty_str('dim_z', self.dim_z),
-            pretty_str('dim_u', self.dim_u),
-            pretty_str('x', self.x),
-            pretty_str('P_inv', self.P_inv),
-            pretty_str('x_prior', self.x_prior),
-            pretty_str('P_inv_prior', self.P_inv_prior),
-            pretty_str('F', self.F),
-            pretty_str('_F_inv', self._F_inv),
-            pretty_str('Q', self.Q),
-            pretty_str('R_inv', self.R_inv),
-            pretty_str('H', self.H),
-            pretty_str('K', self.K),
-            pretty_str('y', self.y),
-            pretty_str('z', self.z),
-            pretty_str('S', self.S),
-            pretty_str('B', self.B),
-            pretty_str('log-likelihood', self.log_likelihood),
-            pretty_str('likelihood', self.likelihood),
-            pretty_str('inv', self.inv)
-            ])
+        return "\n".join(
+            [
+                "InformationFilter object",
+                pretty_str("dim_x", self.dim_x),
+                pretty_str("dim_z", self.dim_z),
+                pretty_str("dim_u", self.dim_u),
+                pretty_str("x", self.x),
+                pretty_str("P_inv", self.P_inv),
+                pretty_str("x_prior", self.x_prior),
+                pretty_str("P_inv_prior", self.P_inv_prior),
+                pretty_str("F", self.F),
+                pretty_str("_F_inv", self._F_inv),
+                pretty_str("Q", self.Q),
+                pretty_str("R_inv", self.R_inv),
+                pretty_str("H", self.H),
+                pretty_str("K", self.K),
+                pretty_str("y", self.y),
+                pretty_str("z", self.z),
+                pretty_str("S", self.S),
+                pretty_str("B", self.B),
+                pretty_str("log-likelihood", self.log_likelihood),
+                pretty_str("likelihood", self.likelihood),
+                pretty_str("inv", self.inv),
+            ]
+        )

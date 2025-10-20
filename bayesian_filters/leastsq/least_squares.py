@@ -90,9 +90,10 @@ class LeastSquaresFilter(object):
     .. [1] Zarchan and Musoff. "Fundamentals of Kalman Filtering: A Practical
           Approach." Third Edition. AIAA, 2009.
     """
-    def __init__(self, dt, order, noise_sigma=0.):
+
+    def __init__(self, dt, order, noise_sigma=0.0):
         if order < 0 or order > 2:
-            raise ValueError('order must be between 0 and 2')
+            raise ValueError("order must be between 0 and 2")
 
         self.dt = dt
 
@@ -102,7 +103,7 @@ class LeastSquaresFilter(object):
         self.reset()
 
     def reset(self):
-        """ reset filter back to state at time of construction"""
+        """reset filter back to state at time of construction"""
 
         self.n = 0  # nth step in the recursion
         self.x = np.zeros(self._order + 1)
@@ -110,7 +111,7 @@ class LeastSquaresFilter(object):
         self.y = 0  # residual
 
     def update(self, z):
-        """ Update filter with new measurement `z`
+        """Update filter with new measurement `z`
 
         Returns
         -------
@@ -128,30 +129,30 @@ class LeastSquaresFilter(object):
         y = self.y
 
         if self._order == 0:
-            K[0] = 1. / n
+            K[0] = 1.0 / n
             y = z - x
             x[0] += K[0] * y
 
         elif self._order == 1:
-            K[0] = 2. * (2*n - 1) / (n*(n + 1))
-            K[1] = 6. / (n*(n + 1)*dt)
+            K[0] = 2.0 * (2 * n - 1) / (n * (n + 1))
+            K[1] = 6.0 / (n * (n + 1) * dt)
 
             y = z - x[0] - (dt * x[1])
 
             x[0] += (K[0] * y) + (dt * x[1])
-            x[1] += (K[1] * y)
+            x[1] += K[1] * y
 
         else:
-            den = n * (n+1) * (n+2)
-            K[0] = 3. * (3*n**2 - 3*n + 2) / den
-            K[1] = 18. * (2*n-1) / (den*dt)
-            K[2] = 60. / (den*dt**2)
+            den = n * (n + 1) * (n + 2)
+            K[0] = 3.0 * (3 * n**2 - 3 * n + 2) / den
+            K[1] = 18.0 * (2 * n - 1) / (den * dt)
+            K[2] = 60.0 / (den * dt**2)
 
             y = z - x[0] - (dt * x[1]) - (0.5 * dt**2 * x[2])
 
-            x[0] += (K[0] * y) + (x[1] * dt) + (.5 * dt**2 * x[2])
+            x[0] += (K[0] * y) + (x[1] * dt) + (0.5 * dt**2 * x[2])
             x[1] += (K[1] * y) + (x[2] * dt)
-            x[2] += (K[2] * y)
+            x[2] += K[2] * y
         return self.x
 
     def errors(self):
@@ -178,38 +179,38 @@ class LeastSquaresFilter(object):
             return (error, std)
 
         if order == 0:
-            error[0] = sigma/sqrt(n)
-            std[0] = sigma/sqrt(n)
+            error[0] = sigma / sqrt(n)
+            std[0] = sigma / sqrt(n)
 
         elif order == 1:
             if n > 1:
-                error[0] = sigma * sqrt(2*(2*n-1) / (n*(n+1)))
-                error[1] = sigma * sqrt(12. / (n*(n*n-1)*dt*dt))
-            std[0] = sigma * sqrt((2*(2*n-1)) / (n*(n+1)))
-            std[1] = (sigma/dt) * sqrt(12. / (n*(n*n-1)))
+                error[0] = sigma * sqrt(2 * (2 * n - 1) / (n * (n + 1)))
+                error[1] = sigma * sqrt(12.0 / (n * (n * n - 1) * dt * dt))
+            std[0] = sigma * sqrt((2 * (2 * n - 1)) / (n * (n + 1)))
+            std[1] = (sigma / dt) * sqrt(12.0 / (n * (n * n - 1)))
 
         elif order == 2:
             dt2 = dt * dt
 
             if n >= 3:
-                error[0] = sigma * sqrt(3*(3*n*n-3*n+2) / (n*(n+1)*(n+2)))
-                error[1] = sigma * sqrt(12*(16*n*n-30*n+11) /
-                                        (n*(n*n-1)*(n*n-4)*dt2))
-                error[2] = sigma * sqrt(720/(n*(n*n-1)*(n*n-4)*dt2*dt2))
+                error[0] = sigma * sqrt(3 * (3 * n * n - 3 * n + 2) / (n * (n + 1) * (n + 2)))
+                error[1] = sigma * sqrt(12 * (16 * n * n - 30 * n + 11) / (n * (n * n - 1) * (n * n - 4) * dt2))
+                error[2] = sigma * sqrt(720 / (n * (n * n - 1) * (n * n - 4) * dt2 * dt2))
 
-            std[0] = sigma * sqrt((3*(3*n*n - 3*n + 2)) / (n*(n+1)*(n+2)))
-            std[1] = (sigma/dt) * sqrt((12*(16*n*n - 30*n + 11)) /
-                                       (n*(n*n - 1)*(n*n - 4)))
-            std[2] = (sigma/dt2) * sqrt(720 / (n*(n*n-1)*(n*n-4)))
+            std[0] = sigma * sqrt((3 * (3 * n * n - 3 * n + 2)) / (n * (n + 1) * (n + 2)))
+            std[1] = (sigma / dt) * sqrt((12 * (16 * n * n - 30 * n + 11)) / (n * (n * n - 1) * (n * n - 4)))
+            std[2] = (sigma / dt2) * sqrt(720 / (n * (n * n - 1) * (n * n - 4)))
 
         return error, std
 
     def __repr__(self):
-        return '\n'.join([
-            'LeastSquaresFilter object',
-            pretty_str('dt', self.dt),
-            pretty_str('sigma', self.sigma),
-            pretty_str('_order', self._order),
-            pretty_str('x', self.x),
-            pretty_str('K', self.K)
-            ])
+        return "\n".join(
+            [
+                "LeastSquaresFilter object",
+                pretty_str("dt", self.dt),
+                pretty_str("sigma", self.sigma),
+                pretty_str("_order", self._order),
+                pretty_str("x", self.x),
+                pretty_str("K", self.K),
+            ]
+        )

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#pylint: disable=too-many-instance-attributes, too-many-locals, invalid-name
+# pylint: disable=too-many-instance-attributes, too-many-locals, invalid-name
 """Copyright 2015 Roger R Labbe Jr.
 
 FilterPy library.
@@ -15,17 +15,16 @@ This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
 
-
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 import numpy as np
 from numpy import dot, zeros, eye
 from scipy.linalg import inv
 from bayesian_filters.common import pretty_str
 
+
 class FixedLagSmoother(object):
-    """ Fixed Lag Kalman smoother.
+    """Fixed Lag Kalman smoother.
 
     Computes a smoothed sequence from a set of measurements based on the
     fixed lag Kalman smoother. At time k, for a lag N, the fixed-lag smoother
@@ -83,7 +82,7 @@ class FixedLagSmoother(object):
     """
 
     def __init__(self, dim_x, dim_z, N=None):
-        """ Create a fixed lag Kalman filter smoother. You are responsible for
+        """Create a fixed lag Kalman filter smoother. You are responsible for
         setting the various state variables to reasonable values; the defaults
         below will not give you a functional filter.
 
@@ -110,16 +109,16 @@ class FixedLagSmoother(object):
         self.dim_z = dim_z
         self.N = N
 
-        self.x = zeros((dim_x, 1))   # state
-        self.x_s = zeros((dim_x, 1)) # smoothed state
-        self.P = eye(dim_x)          # uncertainty covariance
-        self.Q = eye(dim_x)          # process uncertainty
-        self.F = eye(dim_x)          # state transition matrix
-        self.H = eye(dim_z, dim_x)   # Measurement function
-        self.R = eye(dim_z)          # state uncertainty
-        self.K = zeros((dim_x, 1))   # kalman gain
+        self.x = zeros((dim_x, 1))  # state
+        self.x_s = zeros((dim_x, 1))  # smoothed state
+        self.P = eye(dim_x)  # uncertainty covariance
+        self.Q = eye(dim_x)  # process uncertainty
+        self.F = eye(dim_x)  # state transition matrix
+        self.H = eye(dim_z, dim_x)  # Measurement function
+        self.R = eye(dim_z)  # state uncertainty
+        self.K = zeros((dim_x, 1))  # kalman gain
         self.y = zeros((dim_z, 1))
-        self.B = 0.
+        self.B = 0.0
         self.S = zeros((dim_z, dim_z))
 
         # identity matrix. Do not alter this.
@@ -131,7 +130,7 @@ class FixedLagSmoother(object):
             self.xSmooth = []
 
     def smooth(self, z, u=None):
-        """ Smooths the measurement using a fixed lag smoother.
+        """Smooths the measurement using a fixed lag smoother.
 
         On return, self.xSmooth is populated with the N previous smoothed
         estimates,  where self.xSmooth[k] is the kth time step. self.x
@@ -192,17 +191,17 @@ class FixedLagSmoother(object):
 
         self.xSmooth.append(x_pre.copy())
 
-        #compute invariants
+        # compute invariants
         HTSI = dot(H.T, SI)
         F_LH = (F - dot(K, H)).T
 
         if k >= N:
-            PS = P.copy() # smoothed P for step i
+            PS = P.copy()  # smoothed P for step i
             for i in range(N):
                 K = dot(PS, HTSI)  # smoothed gain
-                PS = dot(PS, F_LH) # smoothed covariance
+                PS = dot(PS, F_LH)  # smoothed covariance
 
-                si = k-i
+                si = k - i
                 self.xSmooth[si] = self.xSmooth[si] + dot(K, self.y)
         else:
             # Some sources specify starting the fix lag smoother only
@@ -215,7 +214,7 @@ class FixedLagSmoother(object):
         self.P = P
 
     def smooth_batch(self, zs, N, us=None):
-        """ batch smooths the set of measurements using a fixed lag smoother.
+        """batch smooths the set of measurements using a fixed lag smoother.
         I consider this function a somewhat pedalogical exercise; why would
         you not use a RTS smoother if you are able to batch process your data?
         Hint: RTS is a much better smoother, and faster besides. Use it.
@@ -266,7 +265,6 @@ class FixedLagSmoother(object):
             xSmooth = zeros((len(zs), self.dim_x, 1))
             xhat = zeros((len(zs), self.dim_x, 1))
         for k, z in enumerate(zs):
-
             # predict step of normal Kalman filter
             x_pre = dot(F, x)
             if us is not None:
@@ -290,17 +288,17 @@ class FixedLagSmoother(object):
             xhat[k] = x.copy()
             xSmooth[k] = x_pre.copy()
 
-            #compute invariants
+            # compute invariants
             HTSI = dot(H.T, SI)
             F_LH = (F - dot(K, H)).T
 
             if k >= N:
-                PS = P.copy() # smoothed P for step i
+                PS = P.copy()  # smoothed P for step i
                 for i in range(N):
                     K = dot(PS, HTSI)  # smoothed gain
-                    PS = dot(PS, F_LH) # smoothed covariance
+                    PS = dot(PS, F_LH)  # smoothed covariance
 
-                    si = k-i
+                    si = k - i
                     xSmooth[si] = xSmooth[si] + dot(K, y)
             else:
                 # Some sources specify starting the fix lag smoother only
@@ -311,20 +309,22 @@ class FixedLagSmoother(object):
         return xSmooth, xhat
 
     def __repr__(self):
-        return '\n'.join([
-            'FixedLagSmoother object',
-            pretty_str('dim_x', self.x),
-            pretty_str('dim_z', self.x),
-            pretty_str('N', self.N),
-            pretty_str('x', self.x),
-            pretty_str('x_s', self.x_s),
-            pretty_str('P', self.P),
-            pretty_str('F', self.F),
-            pretty_str('Q', self.Q),
-            pretty_str('R', self.R),
-            pretty_str('H', self.H),
-            pretty_str('K', self.K),
-            pretty_str('y', self.y),
-            pretty_str('S', self.S),
-            pretty_str('B', self.B),
-            ])
+        return "\n".join(
+            [
+                "FixedLagSmoother object",
+                pretty_str("dim_x", self.x),
+                pretty_str("dim_z", self.x),
+                pretty_str("N", self.N),
+                pretty_str("x", self.x),
+                pretty_str("x_s", self.x_s),
+                pretty_str("P", self.P),
+                pretty_str("F", self.F),
+                pretty_str("Q", self.Q),
+                pretty_str("R", self.R),
+                pretty_str("H", self.H),
+                pretty_str("K", self.K),
+                pretty_str("y", self.y),
+                pretty_str("S", self.S),
+                pretty_str("B", self.B),
+            ]
+        )

@@ -16,7 +16,6 @@ This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
 
-
 from __future__ import print_function
 from collections import defaultdict, deque
 import copy
@@ -93,9 +92,7 @@ class Saver(object):
 
     """
 
-    def __init__(
-        self, kf, save_current=False, skip_private=False, skip_callable=False, ignore=()
-    ):
+    def __init__(self, kf, save_current=False, skip_private=False, skip_callable=False, ignore=()):
         """Construct the save object, optionally saving the current
         state of the filter"""
         # pylint: disable=too-many-arguments
@@ -110,9 +107,7 @@ class Saver(object):
         # need to save all properties since it is possible that the property
         # is computed only on access. I use this trick a lot to minimize
         # computing unused information.
-        properties = inspect.getmembers(
-            type(kf), lambda o: isinstance(o, property)
-        )
+        properties = inspect.getmembers(type(kf), lambda o: isinstance(o, property))
         self.properties = [p for p in properties if p[0] not in ignore]
 
         if save_current:
@@ -214,9 +209,7 @@ class Saver(object):
                 pass
 
     def __repr__(self):
-        return "<Saver object at {}\n  Keys: {}>".format(
-            hex(id(self)), " ".join(self.keys)
-        )
+        return "<Saver object at {}\n  Keys: {}>".format(hex(id(self)), " ".join(self.keys))
 
 
 def runge_kutta4(y, x, dx, f):
@@ -278,9 +271,7 @@ def pretty_str(label, arr):
         pass
 
     if type(arr) is list or type(arr) is tuple or type(arr) is deque:
-        return "\n".join(
-            [pretty_str(label + "[" + str(i) + "]", x) for (i, x) in enumerate(arr)]
-        )
+        return "\n".join([pretty_str(label + "[" + str(i) + "]", x) for (i, x) in enumerate(arr)])
 
     if label is None:
         label = ""
@@ -329,9 +320,7 @@ def reshape_z(z, dim_z, ndim):
         z = z.T
 
     if z.shape != (dim_z, 1):
-        raise ValueError(
-            "z (shape {}) must be convertible to shape ({}, 1)".format(z.shape, dim_z)
-        )
+        raise ValueError("z (shape {}) must be convertible to shape ({}, 1)".format(z.shape, dim_z))
 
     if ndim == 1:
         z = z[:, 0]
@@ -466,7 +455,7 @@ def compare_kf(kf1, kf2, log=True, **kwargs):
             different_keys.append(attr)
 
     if len(different_keys) > 0:
-        return different
+        return different_keys
     else:
         return None
 

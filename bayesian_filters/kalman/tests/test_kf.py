@@ -31,7 +31,7 @@ DO_PLOT = False
 
 
 class PosSensor1(object):
-    def __init__(self, pos=(0, 0), vel=(0, 0), noise_std=1.):
+    def __init__(self, pos=(0, 0), vel=(0, 0), noise_std=1.0):
         self.vel = vel
         self.noise_std = noise_std
         self.pos = [pos[0], pos[1]]
@@ -40,24 +40,24 @@ class PosSensor1(object):
         self.pos[0] += self.vel[0]
         self.pos[1] += self.vel[1]
 
-        return [self.pos[0] + randn() * self.noise_std,
-                self.pos[1] + randn() * self.noise_std]
+        return [
+            self.pos[0] + randn() * self.noise_std,
+            self.pos[1] + randn() * self.noise_std,
+        ]
 
 
-def const_vel_filter(dt, x0=0, x_ndim=1, P_diag=(1., 1.), R_std=1.,
-                     Q_var=0.0001):
-    """ helper, constructs 1d, constant velocity filter"""
+def const_vel_filter(dt, x0=0, x_ndim=1, P_diag=(1.0, 1.0), R_std=1.0, Q_var=0.0001):
+    """helper, constructs 1d, constant velocity filter"""
     f = KalmanFilter(dim_x=2, dim_z=1)
 
     if x_ndim == 1:
-        f.x = np.array([x0, 0.])
+        f.x = np.array([x0, 0.0])
     else:
-        f.x = np.array([[x0, 0.]]).T
+        f.x = np.array([[x0, 0.0]]).T
 
-    f.F = np.array([[1., dt],
-                    [0., 1.]])
+    f.F = np.array([[1.0, dt], [0.0, 1.0]])
 
-    f.H = np.array([[1., 0.]])
+    f.H = np.array([[1.0, 0.0]])
     f.P = np.diag(P_diag)
     f.R = np.eye(1) * (R_std**2)
     f.Q = Q_discrete_white_noise(2, dt, Q_var)
@@ -65,21 +65,23 @@ def const_vel_filter(dt, x0=0, x_ndim=1, P_diag=(1., 1.), R_std=1.,
     return f
 
 
-def const_vel_filter_2d(dt, x_ndim=1, P_diag=(1., 1, 1, 1), R_std=1.,
-                        Q_var=0.0001):
-    """ helper, constructs 1d, constant velocity filter"""
+def const_vel_filter_2d(dt, x_ndim=1, P_diag=(1.0, 1, 1, 1), R_std=1.0, Q_var=0.0001):
+    """helper, constructs 1d, constant velocity filter"""
 
     kf = KalmanFilter(dim_x=4, dim_z=2)
 
-    kf.x = np.array([[0., 0., 0., 0.]]).T
+    kf.x = np.array([[0.0, 0.0, 0.0, 0.0]]).T
     kf.P *= np.diag(P_diag)
-    kf.F = np.array([[1., dt, 0., 0.],
-                     [0., 1., 0., 0.],
-                     [0., 0., 1., dt],
-                     [0., 0., 0., 1.]])
+    kf.F = np.array(
+        [
+            [1.0, dt, 0.0, 0.0],
+            [0.0, 1.0, 0.0, 0.0],
+            [0.0, 0.0, 1.0, dt],
+            [0.0, 0.0, 0.0, 1.0],
+        ]
+    )
 
-    kf.H = np.array([[1., 0, 0, 0],
-                     [0., 0, 1, 0]])
+    kf.H = np.array([[1.0, 0, 0, 0], [0.0, 0, 1, 0]])
 
     kf.R *= np.eye(2) * (R_std**2)
     q = Q_discrete_white_noise(dim=2, dt=dt, var=Q_var)
@@ -91,16 +93,14 @@ def const_vel_filter_2d(dt, x_ndim=1, P_diag=(1., 1, 1, 1), R_std=1.,
 def test_noisy_1d():
     f = KalmanFilter(dim_x=2, dim_z=1)
 
-    f.x = np.array([[2.],
-                    [0.]])       # initial state (location and velocity)
+    f.x = np.array([[2.0], [0.0]])  # initial state (location and velocity)
 
-    f.F = np.array([[1., 1.],
-                    [0., 1.]])    # state transition matrix
+    f.F = np.array([[1.0, 1.0], [0.0, 1.0]])  # state transition matrix
 
-    f.H = np.array([[1., 0.]])    # Measurement function
-    f.P *= 1000.                  # covariance matrix
-    f.R = 5                       # state uncertainty
-    f.Q = 0.0001                  # process uncertainty
+    f.H = np.array([[1.0, 0.0]])  # Measurement function
+    f.P *= 1000.0  # covariance matrix
+    f.R = 5  # state uncertainty
+    f.Q = 0.0001  # process uncertainty
 
     measurements = []
     results = []
@@ -108,7 +108,7 @@ def test_noisy_1d():
     zs = []
     for t in range(100):
         # create measurement = t plus white noise
-        z = t + random.randn()*20
+        z = t + random.randn() * 20
         zs.append(z)
 
         # perform kalman filtering
@@ -124,12 +124,11 @@ def test_noisy_1d():
         maha = mahalanobis(a, f.y, f.S)
         assert f.mahalanobis == approx(maha)
 
-
     # now do a batch run with the stored z values so we can test that
     # it is working the same as the recursive implementation.
     # give slightly different P so result is slightly different
-    f.x = np.array([[2., 0]]).T
-    f.P = np.eye(2) * 100.
+    f.x = np.array([[2.0, 0]]).T
+    f.P = np.eye(2) * 100.0
     s = Saver(f)
     m, c, _, _ = f.batch_filter(zs, update_first=False, saver=s)
     s.to_array()
@@ -138,37 +137,40 @@ def test_noisy_1d():
 
     # plot data
     if DO_PLOT:
-        p1, = plt.plot(measurements, 'r', alpha=0.5)
-        p2, = plt.plot(results, 'b')
-        p4, = plt.plot(m[:, 0], 'm')
-        p3, = plt.plot([0, 100], [0, 100], 'g')  # perfect result
-        plt.legend([p1, p2, p3, p4],
-                   ["noisy measurement", "KF output", "ideal", "batch"], loc=4)
+        (p1,) = plt.plot(measurements, "r", alpha=0.5)
+        (p2,) = plt.plot(results, "b")
+        (p4,) = plt.plot(m[:, 0], "m")
+        (p3,) = plt.plot([0, 100], [0, 100], "g")  # perfect result
+        plt.legend(
+            [p1, p2, p3, p4],
+            ["noisy measurement", "KF output", "ideal", "batch"],
+            loc=4,
+        )
         plt.show()
 
 
 def test_1d_vel():
     from scipy.linalg import inv
     from numpy import dot
+
     global ks
-    dt = 1.
+    dt = 1.0
     std_z = 0.0001
 
-    x = np.array([[0.], [0.]])
+    x = np.array([[0.0], [0.0]])
 
-    F = np.array([[1., dt],
-                  [0., 1.]])
+    F = np.array([[1.0, dt], [0.0, 1.0]])
 
-    H = np.array([[1., 0.]])
+    H = np.array([[1.0, 0.0]])
     P = np.eye(2)
-    R = np.eye(1)*std_z**2
-    Q = np.eye(2)*0.001
+    R = np.eye(1) * std_z**2
+    Q = np.eye(2) * 0.001
 
     measurements = []
 
     xest = []
     ks = []
-    pos = 0.
+    pos = 0.0
     for t in range(20):
         z = pos + random.randn() * std_z
         pos += 100
@@ -204,15 +206,14 @@ def test_1d_vel():
 def test_noisy_11d():
     f = KalmanFilter(dim_x=2, dim_z=1)
 
-    f.x = np.array([2., 0])      # initial state (location and velocity)
+    f.x = np.array([2.0, 0])  # initial state (location and velocity)
 
-    f.F = np.array([[1., 1.],
-                    [0., 1.]])    # state transition matrix
+    f.F = np.array([[1.0, 1.0], [0.0, 1.0]])  # state transition matrix
 
-    f.H = np.array([[1., 0.]])    # Measurement function
-    f.P *= 1000.                  # covariance matrix
-    f.R = 5                       # state uncertainty
-    f.Q = 0.0001                  # process uncertainty
+    f.H = np.array([[1.0, 0.0]])  # Measurement function
+    f.P *= 1000.0  # covariance matrix
+    f.R = 5  # state uncertainty
+    f.Q = 0.0001  # process uncertainty
 
     measurements = []
     results = []
@@ -220,7 +221,7 @@ def test_noisy_11d():
     zs = []
     for t in range(100):
         # create measurement = t plus white noise
-        z = t + random.randn()*20
+        z = t + random.randn() * 20
         zs.append(z)
 
         # perform kalman filtering
@@ -239,20 +240,24 @@ def test_noisy_11d():
     # now do a batch run with the stored z values so we can test that
     # it is working the same as the recursive implementation.
     # give slightly different P so result is slightly different
-    f.x = np.array([[2., 0]]).T
-    f.P = np.eye(2) * 100.
+    f.x = np.array([[2.0, 0]]).T
+    f.P = np.eye(2) * 100.0
     m, c, _, _ = f.batch_filter(zs, update_first=False)
 
     # plot data
     if DO_PLOT:
-        p1, = plt.plot(measurements, 'r', alpha=0.5)
-        p2, = plt.plot(results, 'b')
-        p4, = plt.plot(m[:, 0], 'm')
-        p3, = plt.plot([0, 100], [0, 100], 'g')  # perfect result
-        plt.legend([p1, p2, p3, p4],
-                   ["noisy measurement", "KF output", "ideal", "batch"], loc=4)
+        (p1,) = plt.plot(measurements, "r", alpha=0.5)
+        (p2,) = plt.plot(results, "b")
+        (p4,) = plt.plot(m[:, 0], "m")
+        (p3,) = plt.plot([0, 100], [0, 100], "g")  # perfect result
+        plt.legend(
+            [p1, p2, p3, p4],
+            ["noisy measurement", "KF output", "ideal", "batch"],
+            loc=4,
+        )
 
         plt.show()
+
 
 def test_sequential_3d():
     N = 100
@@ -269,20 +274,19 @@ def test_sequential_3d():
     f_c.x = np.copy(f_a.x)
     f_d.x = np.copy(f_a.x)
 
-    p = np.diag([1., 1.])
+    p = np.diag([1.0, 1.0])
     f_a.P = block_diag(p, p, p)
     f_b.P = np.copy(f_a.P)
     f_c.P = np.copy(f_a.P)
     f_d.P = np.copy(f_a.P)
 
-    F1 = np.array([[1., dt],
-                   [0., 1.]])
+    F1 = np.array([[1.0, dt], [0.0, 1.0]])
     f_a.F = block_diag(F1, F1, F1)
     f_b.F = f_a.F
     f_c.F = f_a.F
     f_d.F = f_a.F
 
-    h = np.array([[1., 0.]])
+    h = np.array([[1.0, 0.0]])
     f_a.H = block_diag(h, h, h)
     f_b.H = f_a.H
     f_c.H = f_a.H
@@ -333,31 +337,31 @@ def test_sequential_3d():
         f_d.update_sequential(0, z[:2])
         f_d.update_sequential(2, z[2])
 
-        assert norm(f_a.x - f_b.x) < 1.e-12
-        assert norm(f_a.x - f_c.x) < 1.e-12
-        assert norm(f_a.x - f_d.x) < 1.e-12
+        assert norm(f_a.x - f_b.x) < 1.0e-12
+        assert norm(f_a.x - f_c.x) < 1.0e-12
+        assert norm(f_a.x - f_d.x) < 1.0e-12
 
-        assert norm(f_a.P - f_b.P) < 1.e-12
-        assert norm(f_a.P - f_c.P) < 1.e-12
-        assert norm(f_a.P - f_d.P) < 1.e-12
+        assert norm(f_a.P - f_b.P) < 1.0e-12
+        assert norm(f_a.P - f_c.P) < 1.0e-12
+        assert norm(f_a.P - f_d.P) < 1.0e-12
 
         # save data
         results_a[t, 0:3] = f_a.x[0:6:2, 0]
 
+
 def test_batch_filter():
     f = KalmanFilter(dim_x=2, dim_z=1)
 
-    f.x = np.array([2., 0])      # initial state (location and velocity)
+    f.x = np.array([2.0, 0])  # initial state (location and velocity)
 
-    f.F = np.array([[1., 1.],
-                    [0., 1.]])    # state transition matrix
+    f.F = np.array([[1.0, 1.0], [0.0, 1.0]])  # state transition matrix
 
-    f.H = np.array([[1., 0.]])    # Measurement function
-    f.P *= 1000.                  # covariance matrix
-    f.R = 5                       # state uncertainty
-    f.Q = 0.0001                  # process uncertainty
+    f.H = np.array([[1.0, 0.0]])  # Measurement function
+    f.P *= 1000.0  # covariance matrix
+    f.R = 5  # state uncertainty
+    f.Q = 0.0001  # process uncertainty
 
-    zs = [None, 1., 2.]
+    zs = [None, 1.0, 2.0]
     m, c, _, _ = f.batch_filter(zs, update_first=False)
     m, c, _, _ = f.batch_filter(zs, update_first=True)
 
@@ -366,11 +370,11 @@ def test_univariate():
     f = KalmanFilter(dim_x=1, dim_z=1, dim_u=1)
     f.x = np.array([[0]])
     f.P *= 50
-    f.H = np.array([[1.]])
-    f.F = np.array([[1.]])
-    f.B = np.array([[1.]])
-    f.Q = .02
-    f.R *= .1
+    f.H = np.array([[1.0]])
+    f.F = np.array([[1.0]])
+    f.B = np.array([[1.0]])
+    f.Q = 0.02
+    f.R *= 0.1
 
     for i in range(50):
         f.predict()
@@ -378,15 +382,14 @@ def test_univariate():
 
 
 def test_procedure_form():
-
-    dt = 1.
+    dt = 1.0
     std_z = 10.1
 
-    x = np.array([[0.], [0.]])
-    F = np.array([[1., dt], [0., 1.]])
-    H = np.array([[1., 0.]])
+    x = np.array([[0.0], [0.0]])
+    F = np.array([[1.0, dt], [0.0, 1.0]])
+    H = np.array([[1.0, 0.0]])
     P = np.eye(2)
-    R = np.eye(1)*std_z**2
+    R = np.eye(1) * std_z**2
     Q = Q_discrete_white_noise(2, dt, 5.1)
 
     kf = KalmanFilter(2, 1)
@@ -399,7 +402,7 @@ def test_procedure_form():
 
     measurements = []
     xest = []
-    pos = 0.
+    pos = 0.0
     for t in range(2000):
         z = pos + random.randn() * std_z
         pos += 100
@@ -407,10 +410,10 @@ def test_procedure_form():
         # perform kalman filtering
         x, P = predict(x, P, F, Q)
         kf.predict()
-        assert norm(x - kf.x) < 1.e-12
+        assert norm(x - kf.x) < 1.0e-12
         x, P, _, _, _, _ = update(x, P, z, R, H, True)
         kf.update(z)
-        assert norm(x - kf.x) < 1.e-12
+        assert norm(x - kf.x) < 1.0e-12
 
         # save data
         xest.append(x.copy())
@@ -426,7 +429,6 @@ def test_procedure_form():
 
 
 def test_steadystate():
-
     dim = 7
 
     cv = kinematic_kf(dim=dim, order=5)
@@ -450,33 +452,31 @@ def test_steadystate():
 def test_procedural_batch_filter():
     f = KalmanFilter(dim_x=2, dim_z=1)
 
-    f.x = np.array([2., 0])
+    f.x = np.array([2.0, 0])
 
-    f.F = np.array([[1., 1.],
-                    [0., 1.]])
+    f.F = np.array([[1.0, 1.0], [0.0, 1.0]])
 
-    f.H = np.array([[1., 0.]])
-    f.P = np.eye(2) * 1000.
+    f.H = np.array([[1.0, 0.0]])
+    f.P = np.eye(2) * 1000.0
     f.R = np.eye(1) * 5
-    f.Q = Q_discrete_white_noise(2, 1., 0.0001)
+    f.Q = Q_discrete_white_noise(2, 1.0, 0.0001)
 
     f.test_matrix_dimensions()
 
-    x = np.array([2., 0])
+    x = np.array([2.0, 0])
 
-    F = np.array([[1., 1.],
-                  [0., 1.]])
+    F = np.array([[1.0, 1.0], [0.0, 1.0]])
 
-    H = np.array([[1., 0.]])
-    P = np.eye(2) * 1000.
+    H = np.array([[1.0, 0.0]])
+    P = np.eye(2) * 1000.0
     R = np.eye(1) * 5
-    Q = Q_discrete_white_noise(2, 1., 0.0001)
+    Q = Q_discrete_white_noise(2, 1.0, 0.0001)
 
-    zs = [13., None, 1., 2.] * 10
+    zs = [13.0, None, 1.0, 2.0] * 10
     m, c, _, _ = f.batch_filter(zs, update_first=False)
 
     n = len(zs)
-    mp, cp, _, _ = batch_filter(x, P, zs, [F]*n, [Q]*n, [H]*n, [R]*n)
+    mp, cp, _, _ = batch_filter(x, P, zs, [F] * n, [Q] * n, [H] * n, [R] * n)
 
     for x1, x2 in zip(m, mp):
         assert np.allclose(x1, x2)
@@ -486,21 +486,21 @@ def test_procedural_batch_filter():
 
 
 def proc_form():
-    """ This is for me to run against the class_form() function to see which,
+    """This is for me to run against the class_form() function to see which,
     if either, runs faster. They within a few ms of each other on my machine
     with Python 3.5.1"""
 
-    dt = 1.
+    dt = 1.0
     std_z = 10.1
 
-    x = np.array([[0.], [0.]])
-    F = np.array([[1., dt], [0., 1.]])
-    H = np.array([[1., 0.]])
+    x = np.array([[0.0], [0.0]])
+    F = np.array([[1.0, dt], [0.0, 1.0]])
+    H = np.array([[1.0, 0.0]])
     P = np.eye(2)
-    R = np.eye(1)*std_z**2
+    R = np.eye(1) * std_z**2
     Q = Q_discrete_white_noise(2, dt, 5.1)
 
-    pos = 0.
+    pos = 0.0
     for t in range(2000):
         z = pos + random.randn() * std_z
         pos += 100
@@ -511,13 +511,12 @@ def proc_form():
 
 
 def class_form():
-
-    dt = 1.
+    dt = 1.0
     std_z = 10.1
 
     f = const_vel_filter(dt, x0=2, R_std=std_z, Q_std=5.1)
 
-    pos = 0.
+    pos = 0.0
     for t in range(2000):
         z = pos + random.randn() * std_z
         pos += 100
@@ -527,9 +526,9 @@ def class_form():
 
 
 def test_z_dim():
-    f = const_vel_filter(1.0, x0=2, R_std=1., Q_var=5.1)
+    f = const_vel_filter(1.0, x0=2, R_std=1.0, Q_var=5.1)
     f.test_matrix_dimensions()
-    f.update(3.)
+    f.update(3.0)
     assert f.x.shape == (2,)
 
     f.update([3])
@@ -544,7 +543,7 @@ def test_z_dim():
     except:
         pass
 
-    f = const_vel_filter_2d(1.0, R_std=1., Q_var=5.1)
+    f = const_vel_filter_2d(1.0, R_std=1.0, Q_var=5.1)
     try:
         f.update(3)
         assert False, "filter should have asserted that 3 is not a valid form for z"
@@ -569,10 +568,9 @@ def test_z_dim():
     except:
         pass
 
-    f = const_vel_filter_2d(1.0, R_std=1., Q_var=5.1)
+    f = const_vel_filter_2d(1.0, R_std=1.0, Q_var=5.1)
     f.update([[3], [3]])
     f.update(np.array([[3], [3]]))
-
 
     # now make sure test_matrix_dimensions() is working
 
@@ -584,7 +582,7 @@ def test_z_dim():
     except:
         pass
 
-    f = const_vel_filter_2d(1.0, R_std=1., Q_var=5.1)
+    f = const_vel_filter_2d(1.0, R_std=1.0, Q_var=5.1)
     try:
         f.R = 3
         f.test_matrix_dimensions()
@@ -600,85 +598,83 @@ def test_z_dim():
         pass
 
     try:
-        f.R = [3, 4.]
+        f.R = [3, 4.0]
         f.test_matrix_dimensions()
         assert False, "test_matrix_dimensions should have asserted on shape of R"
     except:
         pass
 
-    f.R = np.diag([3, 4.])
+    f.R = np.diag([3, 4.0])
     f.test_matrix_dimensions()
 
+    f = const_vel_filter(1.0, x0=2, R_std=1.0, Q_var=5.1)
 
-    f = const_vel_filter(1.0, x0=2, R_std=1., Q_var=5.1)
-
-    #test case where x is 1d array
+    # test case where x is 1d array
     f.update([[3]])
-    f.test_matrix_dimensions(z=3.)
-    f.test_matrix_dimensions(z=[3.])
+    f.test_matrix_dimensions(z=3.0)
+    f.test_matrix_dimensions(z=[3.0])
 
     # test case whre x is 2d array
-    f.x = np.array([[0., 0.]]).T
+    f.x = np.array([[0.0, 0.0]]).T
     f.update([[3]])
-    f.test_matrix_dimensions(z=3.)
-    f.test_matrix_dimensions(z=[3.])
+    f.test_matrix_dimensions(z=3.0)
+    f.test_matrix_dimensions(z=[3.0])
 
     try:
-        f.test_matrix_dimensions(z=[[3.]])
+        f.test_matrix_dimensions(z=[[3.0]])
         assert False, "test_matrix_dimensions should have asserted on shape of z"
     except:
         pass
 
-    f = const_vel_filter_2d(1.0, R_std=1., Q_var=5.1)
+    f = const_vel_filter_2d(1.0, R_std=1.0, Q_var=5.1)
 
     # test for 1D value for x, then set to a 2D vector and try again
     for i in range(2):
         try:
-            f.test_matrix_dimensions(z=3.)
+            f.test_matrix_dimensions(z=3.0)
             assert False, "test_matrix_dimensions should have asserted on shape of z"
         except:
             pass
 
         try:
-            f.test_matrix_dimensions(z=[3.])
+            f.test_matrix_dimensions(z=[3.0])
             assert False, "test_matrix_dimensions should have asserted on shape of z"
         except:
             pass
 
         try:
-            f.test_matrix_dimensions(z=[3., 3.])
+            f.test_matrix_dimensions(z=[3.0, 3.0])
             assert False, "test_matrix_dimensions should have asserted on shape of z"
         except:
             pass
-        f.test_matrix_dimensions(z=[[3.], [3.]])
-        f.x = np.array([[1, 2, 3, 4.]]).T
+        f.test_matrix_dimensions(z=[[3.0], [3.0]])
+        f.x = np.array([[1, 2, 3, 4.0]]).T
 
 
 def test_default_dims():
     kf = KalmanFilter(dim_x=3, dim_z=1)
     kf.predict()
-    kf.update(np.array([[1.]]).T)
+    kf.update(np.array([[1.0]]).T)
 
 
 def test_functions():
+    x, P = predict(x=10.0, P=3.0, u=1.0, Q=2.0**2)
+    x, P = update(x=x, P=P, z=12.0, R=3.5**2)
 
-    x, P = predict(x=10., P=3., u=1., Q=2.**2)
-    x, P = update(x=x, P=P, z=12., R=3.5**2)
+    x, P = predict(x=np.array([10.0]), P=np.array([[3.0]]), Q=2.0**2)
+    x, P = update(x=x, P=P, z=12.0, H=np.array([[1.0]]), R=np.array([[3.5**2]]))
 
-    x, P = predict(x=np.array([10.]), P=np.array([[3.]]), Q=2.**2)
-    x, P = update(x=x, P=P, z=12., H=np.array([[1.]]), R=np.array([[3.5**2]]))
-
-    x = np.array([1., 0])
-    P = np.diag([1., 1])
-    Q = np.diag([0., 0])
-    H = np.array([[1., 0]])
+    x = np.array([1.0, 0])
+    P = np.diag([1.0, 1])
+    Q = np.diag([0.0, 0])
+    H = np.array([[1.0, 0]])
 
     x, P = predict(x=x, P=P, Q=Q)
 
     assert x.shape == (2,)
     assert P.shape == (2, 2)
 
-    x, P = update(x, P, z=[1], R=np.array([[1.]]), H=H)
+    x, P = update(x, P, z=[1], R=np.array([[1.0]]), H=H)
 
     assert x[0] == 1 and x[1] == 0
 
@@ -686,8 +682,8 @@ def test_functions():
     x, P = predict(x=x, P=P, Q=Q)
     assert x[0] == 1 and x[1] == 0
 
-    x[1] = 1.
-    F = np.array([[1., 1], [0, 1]])
+    x[1] = 1.0
+    F = np.array([[1.0, 1], [0, 1]])
 
     x, P = predict(x=x, F=F, P=P, Q=Q)
     assert x[0] == 2 and x[1] == 1
@@ -698,7 +694,7 @@ def test_functions():
 
 def test_z_checks():
     kf = KalmanFilter(dim_x=3, dim_z=1)
-    kf.update(3.)
+    kf.update(3.0)
     kf.update([3])
     kf.update((3))
     kf.update([[3]])
@@ -717,13 +713,14 @@ def test_z_checks():
     kf.update(np.array([[3, 4]]))
     kf.update(np.array([[3, 4]]).T)
 
+
 def test_update_correlated():
-    f = const_vel_filter(1.0, x0=2, R_std=1., Q_var=5.1)
+    f = const_vel_filter(1.0, x0=2, R_std=1.0, Q_var=5.1)
     f.M = np.array([[1], [0]])
 
     for i in range(10):
         f.predict()
-        f.update_correlated(3.)
+        f.update_correlated(3.0)
 
 
 if __name__ == "__main__":

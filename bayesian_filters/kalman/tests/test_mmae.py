@@ -15,18 +15,12 @@ This is licensed under an MIT license. See the readme.MD file
 for more information.
 """
 
+from __future__ import absolute_import, division, print_function, unicode_literals
 
-
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
-
-import numpy.random as random
-import numpy as np
 import matplotlib.pyplot as plt
 from bayesian_filters.kalman import KalmanFilter, MMAEFilterBank
 from numpy import array
 from bayesian_filters.common import Q_discrete_white_noise, Saver
-import matplotlib.pyplot as plt
 from numpy.random import randn
 from math import sin, cos, radians
 
@@ -34,19 +28,20 @@ from math import sin, cos, radians
 DO_PLOT = False
 
 
-
 class NoisySensor(object):
     def __init__(self, noise_factor=1):
         self.noise_factor = noise_factor
 
     def sense(self, pos):
-        return (pos[0] + randn()*self.noise_factor,
-                pos[1] + randn()*self.noise_factor)
-
+        return (
+            pos[0] + randn() * self.noise_factor,
+            pos[1] + randn() * self.noise_factor,
+        )
 
 
 def angle_between(x, y):
-  return min(y-x, y-x+360, y-x-360, key=abs)
+    return min(y - x, y - x + 360, y - x - 360, key=abs)
+
 
 class ManeuveringTarget(object):
     def __init__(self, x0, y0, v0, heading):
@@ -62,10 +57,9 @@ class ManeuveringTarget(object):
         self.vel_delta = 0
         self.hdg_delta = 0
 
-
     def update(self):
-        vx = self.vel * cos(radians(90-self.hdg))
-        vy = self.vel * sin(radians(90-self.hdg))
+        vx = self.vel * cos(radians(90 - self.hdg))
+        vy = self.vel * sin(radians(90 - self.hdg))
         self.x += vx
         self.y += vy
 
@@ -78,16 +72,13 @@ class ManeuveringTarget(object):
             self.vel += self.vel_delta
         return (self.x, self.y)
 
-
     def set_commanded_heading(self, hdg_degrees, steps):
         self.cmd_hdg = hdg_degrees
-        self.hdg_delta = angle_between(self.cmd_hdg,
-                                       self.hdg) / steps
+        self.hdg_delta = angle_between(self.cmd_hdg, self.hdg) / steps
         if abs(self.hdg_delta) > 0:
             self.hdg_step = steps
         else:
             self.hdg_step = 0
-
 
     def set_commanded_speed(self, speed, steps):
         self.cmd_vel = speed
@@ -99,12 +90,11 @@ class ManeuveringTarget(object):
 
 
 def make_cv_filter(dt, noise_factor):
-    cvfilter = KalmanFilter(dim_x = 2, dim_z=1)
-    cvfilter.x = array([0., 0.])
+    cvfilter = KalmanFilter(dim_x=2, dim_z=1)
+    cvfilter.x = array([0.0, 0.0])
     cvfilter.P *= 3
     cvfilter.R *= noise_factor**2
-    cvfilter.F = array([[1, dt],
-                        [0,  1]], dtype=float)
+    cvfilter.F = array([[1, dt], [0, 1]], dtype=float)
     cvfilter.H = array([[1, 0]], dtype=float)
     cvfilter.Q = Q_discrete_white_noise(dim=2, dt=dt, var=0.02)
     return cvfilter
@@ -112,16 +102,13 @@ def make_cv_filter(dt, noise_factor):
 
 def make_ca_filter(dt, noise_factor):
     cafilter = KalmanFilter(dim_x=3, dim_z=1)
-    cafilter.x = array([0., 0., 0.])
+    cafilter.x = array([0.0, 0.0, 0.0])
     cafilter.P *= 3
     cafilter.R *= noise_factor**2
     cafilter.Q = Q_discrete_white_noise(dim=3, dt=dt, var=0.02)
-    cafilter.F = array([[1, dt, 0.5*dt*dt],
-                        [0, 1,         dt],
-                        [0, 0,          1]], dtype=float)
+    cafilter.F = array([[1, dt, 0.5 * dt * dt], [0, 1, dt], [0, 0, 1]], dtype=float)
     cafilter.H = array([[1, 0, 0]], dtype=float)
     return cafilter
-
 
 
 def generate_data(steady_count, noise_factor):
@@ -148,7 +135,6 @@ def generate_data(steady_count, noise_factor):
     return pos, zs
 
 
-
 def test_MMAE2():
     dt = 0.1
     pos, zs = generate_data(120, noise_factor=0.6)
@@ -157,12 +143,11 @@ def test_MMAE2():
     dt = 0.1
     ca = make_ca_filter(dt, noise_factor=0.6)
     cv = make_ca_filter(dt, noise_factor=0.6)
-    cv.F[:, 2] = 0 # remove acceleration term
+    cv.F[:, 2] = 0  # remove acceleration term
     cv.P[2, 2] = 0
     cv.Q[2, 2] = 0
 
     filters = [cv, ca]
-
 
     bank = MMAEFilterBank(filters, (0.5, 0.5), dim_x=3, H=ca.H)
 
@@ -186,11 +171,11 @@ def test_MMAE2():
         plt.plot(pos[:, 0])
         plt.subplot(122)
         plt.plot(probs)
-        plt.title('probability ratio p(cv)/p(ca)')
+        plt.title("probability ratio p(cv)/p(ca)")
 
         plt.figure()
-        plt.plot(cvxs, label='CV')
-        plt.plot(caxs, label='CA')
+        plt.plot(cvxs, label="CV")
+        plt.plot(caxs, label="CA")
         plt.plot(pos[:, 0])
         plt.legend()
 
@@ -200,6 +185,7 @@ def test_MMAE2():
 
     return bank
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     DO_PLOT = True
     test_MMAE2()

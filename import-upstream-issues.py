@@ -43,12 +43,19 @@ def ensure_label_exists() -> None:
     print(f"Ensuring '{UPSTREAM_LABEL}' label exists...")
     try:
         # Try to create the label
-        run_gh_command([
-            "label", "create", UPSTREAM_LABEL,
-            "--repo", FORK_REPO,
-            "--description", "Issue imported from upstream rlabbe/filterpy repository",
-            "--color", "0366d6"
-        ])
+        run_gh_command(
+            [
+                "label",
+                "create",
+                UPSTREAM_LABEL,
+                "--repo",
+                FORK_REPO,
+                "--description",
+                "Issue imported from upstream rlabbe/filterpy repository",
+                "--color",
+                "0366d6",
+            ]
+        )
         print(f"✓ Created '{UPSTREAM_LABEL}' label")
     except subprocess.CalledProcessError:
         # Label might already exist
@@ -58,13 +65,20 @@ def ensure_label_exists() -> None:
 def fetch_upstream_issues() -> list[dict[str, Any]]:
     """Fetch all open issues from the upstream repository."""
     print(f"Fetching open issues from {UPSTREAM_REPO}...")
-    output = run_gh_command([
-        "issue", "list",
-        "--repo", UPSTREAM_REPO,
-        "--state", "open",
-        "--limit", "1000",
-        "--json", "number,title,body,labels,createdAt,updatedAt,url"
-    ])
+    output = run_gh_command(
+        [
+            "issue",
+            "list",
+            "--repo",
+            UPSTREAM_REPO,
+            "--state",
+            "open",
+            "--limit",
+            "1000",
+            "--json",
+            "number,title,body,labels,createdAt,updatedAt,url",
+        ]
+    )
     issues = json.loads(output)
     print(f"✓ Found {len(issues)} open issues")
     return issues
@@ -98,7 +112,7 @@ def format_issue_body(issue: dict[str, Any]) -> str:
         "",
         "---",
         "",
-        issue.get("body", "").strip() or "*No description provided.*"
+        issue.get("body", "").strip() or "*No description provided.*",
     ]
 
     return "\n".join(body_parts)
@@ -119,10 +133,14 @@ def create_issue(issue: dict[str, Any]) -> str:
 
     # Create the issue
     cmd = [
-        "issue", "create",
-        "--repo", FORK_REPO,
-        "--title", title,
-        "--body", body,
+        "issue",
+        "create",
+        "--repo",
+        FORK_REPO,
+        "--title",
+        title,
+        "--body",
+        body,
     ]
 
     # Add labels
@@ -156,10 +174,7 @@ def main() -> None:
     imported = tracking_data.get("imported", {})
 
     # Filter out already imported issues
-    to_import = [
-        issue for issue in upstream_issues
-        if str(issue["number"]) not in imported
-    ]
+    to_import = [issue for issue in upstream_issues if str(issue["number"]) not in imported]
 
     if not to_import:
         print("✓ All issues have already been imported!")
@@ -186,7 +201,7 @@ def main() -> None:
             imported[str(upstream_number)] = {
                 "fork_url": fork_url,
                 "imported_at": datetime.now().isoformat(),
-                "title": issue["title"]
+                "title": issue["title"],
             }
 
             # Save after each successful import
