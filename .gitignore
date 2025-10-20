@@ -21,3 +21,8 @@ filterpy/kalman/i.py
 filterpy/inprogress.py
 .pytest_cache
 
+# uv
+.venv/
+uv.lock
+.python-version
+
