@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "bayesian-filters"
 dynamic = ["version"]
 description = "Kalman filtering and optimal estimation library"
-readme = "README.rst"
+readme = "README.md"
 authors = [
     { name = "Roger Labbe", email = "rlabbejr@gmail.com" }
 ]
