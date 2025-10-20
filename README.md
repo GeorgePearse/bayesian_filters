@@ -8,6 +8,8 @@ For people new to Kalman filters, they're well explained here https://www.youtub
 
 [![PyPI version](https://img.shields.io/pypi/v/bayesian-filters.svg)](https://pypi.org/project/bayesian-filters/)
 [![Documentation Status](https://img.shields.io/badge/docs-online-brightgreen)](https://georgepearse.github.io/bayesian_filters)
+[![PyPI Publishing](https://github.com/GeorgePearse/bayesian_filters/actions/workflows/publish-pypi.yml/badge.svg)](https://github.com/GeorgePearse/bayesian_filters/actions/workflows/publish-pypi.yml)
+[![Latest Release](https://img.shields.io/badge/latest%20release-v1.4.5-success)](https://pypi.org/project/bayesian-filters/1.4.5/)
 
 > **Note**: This is a personal fork of the original FilterPy library (now renamed to Bayesian Filters). The original project can be found at https://github.com/rlabbe/filterpy
 >
