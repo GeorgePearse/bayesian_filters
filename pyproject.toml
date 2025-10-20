@@ -1,5 +1,5 @@
 [project]
-name = "filterpy"
+name = "bayesian-filters"
 version = "1.4.5"
 description = "Kalman filtering and optimal estimation library"
 readme = "README.rst"
@@ -39,8 +39,9 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/rlabbe/filterpy"
-Repository = "https://github.com/rlabbe/filterpy"
+Homepage = "https://github.com/GeorgePearse/filterpy"
+Repository = "https://github.com/GeorgePearse/filterpy"
+"Original Project" = "https://github.com/rlabbe/filterpy"
 
 [build-system]
 requires = ["hatchling"]
