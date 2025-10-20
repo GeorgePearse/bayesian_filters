@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages  # Always prefer setuptools over distutils
 from codecs import open  # To use a consistent encoding
 from os import path
-import filterpy
+import bayesian_filters
 
 here = path.abspath(path.dirname(__file__))
 
@@ -10,12 +10,12 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='filterpy',
+    name='bayesian-filters',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # http://packaging.python.org/en/latest/tutorial.html#version
-    version=filterpy.__version__,
+    version=bayesian_filters.__version__,
 
     description='Kalman filtering and optimal estimation library',
     long_description=long_description,
@@ -83,7 +83,7 @@ setup(
     # installed, specify them here.  If using Python 2.6 or less, then these
     # have to be included in MANIFEST.in as well.
     package_data={
-        'filterpy': ['README.rst', 'filterpy/changelog.txt', 'LICENSE', 'filterpy/kalman/tests/*.py'],
+        'bayesian_filters': ['README.rst', 'bayesian_filters/changelog.txt', 'LICENSE', 'bayesian_filters/kalman/tests/*.py'],
     },
 
     # Although 'package_data' is the preferred approach, in some case you may
