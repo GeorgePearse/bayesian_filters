@@ -190,8 +190,257 @@ def test_against_kf():
         # assert np.allclose(f.x, kf.x)
 
 
+def test_mahalanobis_property():
+    """Test that mahalanobis property works correctly."""
+    inf = InformationFilter(dim_x=2, dim_z=1)
+    inf.x = np.array([[0.0], [0.0]])
+    inf.F = np.array([[1.0, 1.0], [0.0, 1.0]])
+    inf.H = np.array([[1.0, 0.0]])
+    inf.R_inv = np.array([[1.0 / 5.0]])
+    inf.Q = np.eye(2) * 0.0001
+    inf.P_inv = np.eye(2) * 0.1
+
+    # Do predict/update cycle
+    inf.predict()
+    inf.update(5.0)
+
+    # Mahalanobis should be computed on first access
+    maha = inf.mahalanobis
+    assert isinstance(maha, float)
+    assert maha > 0
+
+    # Second access should return cached value
+    maha2 = inf.mahalanobis
+    assert maha == maha2
+
+
+def test_likelihood_property():
+    """Test that likelihood property works correctly."""
+    inf = InformationFilter(dim_x=2, dim_z=1)
+    inf.x = np.array([[0.0], [0.0]])
+    inf.F = np.array([[1.0, 1.0], [0.0, 1.0]])
+    inf.H = np.array([[1.0, 0.0]])
+    inf.R_inv = np.array([[1.0 / 5.0]])
+    inf.Q = np.eye(2) * 0.0001
+    inf.P_inv = np.eye(2) * 0.1
+
+    # Do predict/update cycle
+    inf.predict()
+    inf.update(5.0)
+
+    # Likelihood should be computed on first access
+    likelihood = inf.likelihood
+    assert isinstance(likelihood, float)
+    assert likelihood > 0
+    assert likelihood <= 1.0
+
+    # Second access should return cached value
+    likelihood2 = inf.likelihood
+    assert likelihood == likelihood2
+
+
+def test_log_likelihood_property():
+    """Test that log_likelihood property works correctly."""
+    inf = InformationFilter(dim_x=2, dim_z=1)
+    inf.x = np.array([[0.0], [0.0]])
+    inf.F = np.array([[1.0, 1.0], [0.0, 1.0]])
+    inf.H = np.array([[1.0, 0.0]])
+    inf.R_inv = np.array([[1.0 / 5.0]])
+    inf.Q = np.eye(2) * 0.0001
+    inf.P_inv = np.eye(2) * 0.1
+
+    # Do predict/update cycle
+    inf.predict()
+    inf.update(5.0)
+
+    # Log-likelihood should be computed on first access
+    log_likelihood = inf.log_likelihood
+    assert isinstance(log_likelihood, float)
+    assert log_likelihood <= 0  # Log of probability is negative
+
+    # Second access should return cached value
+    log_likelihood2 = inf.log_likelihood
+    assert log_likelihood == log_likelihood2
+
+
+def test_property_cache_invalidation_on_predict():
+    """Test that property cache is invalidated on predict()."""
+    inf = InformationFilter(dim_x=2, dim_z=1)
+    inf.x = np.array([[0.0], [0.0]])
+    inf.F = np.array([[1.0, 1.0], [0.0, 1.0]])
+    inf.H = np.array([[1.0, 0.0]])
+    inf.R_inv = np.array([[1.0 / 5.0]])
+    inf.Q = np.eye(2) * 0.0001
+    inf.P_inv = np.eye(2) * 0.1
+
+    # Do first update
+    inf.predict()
+    inf.update(5.0)
+
+    # Access properties to cache them
+    maha1 = inf.mahalanobis
+    likelihood1 = inf.likelihood
+    log_likelihood1 = inf.log_likelihood
+
+    # Do predict - this should invalidate cache
+    inf.predict()
+    inf.update(10.0)
+
+    # Properties should be recomputed (different values)
+    maha2 = inf.mahalanobis
+    likelihood2 = inf.likelihood
+    log_likelihood2 = inf.log_likelihood
+
+    # Values should be different since we have a new measurement
+    assert maha1 != maha2
+    assert likelihood1 != likelihood2
+    assert log_likelihood1 != log_likelihood2
+
+
+def test_property_cache_invalidation_on_update():
+    """Test that property cache is invalidated on update()."""
+    inf = InformationFilter(dim_x=2, dim_z=1)
+    inf.x = np.array([[0.0], [0.0]])
+    inf.F = np.array([[1.0, 1.0], [0.0, 1.0]])
+    inf.H = np.array([[1.0, 0.0]])
+    inf.R_inv = np.array([[1.0 / 5.0]])
+    inf.Q = np.eye(2) * 0.0001
+    inf.P_inv = np.eye(2) * 0.1
+
+    # Do first update
+    inf.predict()
+    inf.update(5.0)
+
+    # Access properties to cache them
+    maha1 = inf.mahalanobis
+
+    # Do another update with different measurement
+    inf.update(10.0)
+
+    # Property should be recomputed (different value)
+    maha2 = inf.mahalanobis
+
+    # Value should be different since we have a different measurement
+    assert maha1 != maha2
+
+
+def test_likelihood_consistency():
+    """Test that likelihood = exp(log_likelihood)."""
+    inf = InformationFilter(dim_x=2, dim_z=1)
+    inf.x = np.array([[0.0], [0.0]])
+    inf.F = np.array([[1.0, 1.0], [0.0, 1.0]])
+    inf.H = np.array([[1.0, 0.0]])
+    inf.R_inv = np.array([[1.0 / 5.0]])
+    inf.Q = np.eye(2) * 0.0001
+    inf.P_inv = np.eye(2) * 0.1
+
+    inf.predict()
+    inf.update(5.0)
+
+    likelihood = inf.likelihood
+    log_likelihood = inf.log_likelihood
+
+    # likelihood should be exp(log_likelihood)
+    import math
+
+    expected_likelihood = math.exp(log_likelihood)
+    if expected_likelihood == 0:
+        expected_likelihood = np.finfo(float).min
+
+    assert np.isclose(likelihood, expected_likelihood)
+
+
+def test_properties_with_none_measurement():
+    """Test properties behavior when update is called with None."""
+    inf = InformationFilter(dim_x=2, dim_z=1)
+    inf.x = np.array([[0.0], [0.0]])
+    inf.F = np.array([[1.0, 1.0], [0.0, 1.0]])
+    inf.H = np.array([[1.0, 0.0]])
+    inf.R_inv = np.array([[1.0 / 5.0]])
+    inf.Q = np.eye(2) * 0.0001
+    inf.P_inv = np.eye(2) * 0.1
+
+    inf.predict()
+    inf.update(None)
+
+    # Properties should still be accessible (though may not be meaningful)
+    # Just verify they don't throw exceptions and return None or valid values
+    assert inf._mahalanobis is None
+    assert inf._likelihood is None
+    assert inf._log_likelihood is None
+
+
+def test_repr_includes_properties():
+    """Test that __repr__ includes the new properties."""
+    inf = InformationFilter(dim_x=2, dim_z=1)
+    inf.x = np.array([[0.0], [0.0]])
+    inf.F = np.array([[1.0, 1.0], [0.0, 1.0]])
+    inf.H = np.array([[1.0, 0.0]])
+    inf.R_inv = np.array([[1.0 / 5.0]])
+    inf.Q = np.eye(2) * 0.0001
+    inf.P_inv = np.eye(2) * 0.1
+
+    inf.predict()
+    inf.update(5.0)
+
+    repr_str = repr(inf)
+    assert "mahalanobis" in repr_str
+    assert "likelihood" in repr_str
+    assert "log-likelihood" in repr_str
+
+
+def test_property_values_match_kalman_filter():
+    """Test that InformationFilter properties match KalmanFilter for same problem."""
+    # Create equivalent filters
+    kf = KalmanFilter(dim_x=2, dim_z=1)
+    inf = InformationFilter(dim_x=2, dim_z=1)
+
+    # Set up identical parameters
+    F = np.array([[1.0, 1.0], [0.0, 1.0]])
+    H = np.array([[1.0, 0.0]])
+    R = np.array([[5.0]])
+    Q = np.eye(2) * 0.0001
+    P = np.eye(2) * 10.0
+
+    kf.x = np.array([[0.0], [0.0]])
+    kf.F = F.copy()
+    kf.H = H.copy()
+    kf.R = R.copy()
+    kf.Q = Q.copy()
+    kf.P = P.copy()
+
+    inf.x = np.array([[0.0], [0.0]])
+    inf.F = F.copy()
+    inf.H = H.copy()
+    inf.R_inv = np.linalg.inv(R)
+    inf.Q = Q.copy()
+    inf.P_inv = np.linalg.inv(P)
+
+    # Run one predict/update cycle
+    z = 5.0
+    kf.predict()
+    kf.update(z)
+
+    inf.predict()
+    inf.update(z)
+
+    # Properties should match
+    assert np.isclose(kf.mahalanobis, inf.mahalanobis, rtol=1e-5)
+    assert np.isclose(kf.likelihood, inf.likelihood, rtol=1e-5)
+    assert np.isclose(kf.log_likelihood, inf.log_likelihood, rtol=1e-5)
+
+
 if __name__ == "__main__":
     DO_PLOT = True
     # test_1d_0P()
     test_1d()
     test_against_kf()
+    test_mahalanobis_property()
+    test_likelihood_property()
+    test_log_likelihood_property()
+    test_property_cache_invalidation_on_predict()
+    test_property_cache_invalidation_on_update()
+    test_likelihood_consistency()
+    test_properties_with_none_measurement()
+    test_repr_includes_properties()
+    test_property_values_match_kalman_filter()

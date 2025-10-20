@@ -159,9 +159,10 @@ class InformationFilter(object):
         self._I = np.eye(dim_x)
         self._no_information = False
 
-        self.compute_log_likelihood = compute_log_likelihood
-        self.log_likelihood = math.log(sys.float_info.min)
-        self.likelihood = sys.float_info.min
+        # Only computed if requested via property
+        self._log_likelihood = None
+        self._likelihood = None
+        self._mahalanobis = None
 
         self.inv = np.linalg.inv
 
@@ -187,6 +188,11 @@ class InformationFilter(object):
             one call, otherwise  self.R will be used.
         """
 
+        # set to None to force recompute
+        self._log_likelihood = None
+        self._likelihood = None
+        self._mahalanobis = None
+
         if z is None:
             self.z = None
             self.x_post = self.x.copy()
@@ -207,8 +213,6 @@ class InformationFilter(object):
         if self._no_information:
             self.x = dot(P_inv, x) + dot(H_T, R_inv).dot(z)
             self.P_inv = P_inv + dot(H_T, R_inv).dot(H)
-            self.log_likelihood = math.log(sys.float_info.min)
-            self.likelihood = sys.float_info.min
 
         else:
             # y = z - Hx
@@ -227,12 +231,6 @@ class InformationFilter(object):
 
             self.z = np.copy(reshape_z(z, self.dim_z, np.ndim(self.x)))
 
-            if self.compute_log_likelihood:
-                self.log_likelihood = logpdf(x=self.y, cov=self.S)
-                self.likelihood = math.exp(self.log_likelihood)
-                if self.likelihood == 0:
-                    self.likelihood = sys.float_info.min
-
         # save measurement and posterior state
         self.z = deepcopy(z)
         self.x_post = self.x.copy()
@@ -248,6 +246,11 @@ class InformationFilter(object):
             Optional control vector. If non-zero, it is multiplied by B
             to create the control input into the system.
         """
+
+        # set to None to force recompute
+        self._log_likelihood = None
+        self._likelihood = None
+        self._mahalanobis = None
 
         # x = Fx + Bu
 
@@ -283,6 +286,55 @@ class InformationFilter(object):
             # save priors
             self.x_prior = np.copy(self.x)
             self.P_inv_prior = np.copy(AQI)
+
+    @property
+    def log_likelihood(self):
+        """
+        log-likelihood of the last measurement.
+        """
+        if self._log_likelihood is None:
+            # Compute innovation covariance: S = H * P_prior * H.T + R
+            # Use P_inv_prior (the prior before update) not P_inv (posterior after update)
+            P_prior = self.inv(self.P_inv_prior)
+            R = self.inv(self.R_inv)
+            S_innovation = dot(dot(self.H, P_prior), self.H.T) + R
+            self._log_likelihood = logpdf(x=self.y, cov=S_innovation)
+        return self._log_likelihood
+
+    @property
+    def likelihood(self):
+        """
+        Likelihood of last measurement. Computed from the log-likelihood.
+        The log-likelihood can be very small, meaning a large negative value
+        such as -28000. Taking the exp() of that results in 0.0, which can
+        break typical algorithms which multiply by this value, so by default
+        we always return a number >= sys.float_info.min.
+        """
+        if self._likelihood is None:
+            self._likelihood = math.exp(self.log_likelihood)
+            if self._likelihood == 0:
+                self._likelihood = sys.float_info.min
+        return self._likelihood
+
+    @property
+    def mahalanobis(self):
+        """
+        Mahalanobis distance of measurement. E.g. 3 means measurement
+        was 3 standard deviations away from the predicted value.
+
+        Returns
+        -------
+        mahalanobis : float
+        """
+        if self._mahalanobis is None:
+            # Compute innovation covariance: S = H * P_prior * H.T + R
+            # Use P_inv_prior (the prior before update) not P_inv (posterior after update)
+            P_prior = self.inv(self.P_inv_prior)
+            R = self.inv(self.R_inv)
+            S_innovation = dot(dot(self.H, P_prior), self.H.T) + R
+            S_inv = self.inv(S_innovation)
+            self._mahalanobis = math.sqrt(float(dot(dot(self.y.T, S_inv), self.y)))
+        return self._mahalanobis
 
     def batch_filter(self, zs, Rs=None, update_first=False, saver=None):
         """Batch processes a sequences of measurements.
@@ -395,6 +447,7 @@ class InformationFilter(object):
                 pretty_str("z", self.z),
                 pretty_str("S", self.S),
                 pretty_str("B", self.B),
+                pretty_str("mahalanobis", self.mahalanobis),
                 pretty_str("log-likelihood", self.log_likelihood),
                 pretty_str("likelihood", self.likelihood),
                 pretty_str("inv", self.inv),
