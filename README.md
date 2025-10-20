@@ -1,0 +1,172 @@
+# Bayesian Filters - Kalman filters and other optimal and non-optimal estimation filters in Python
+
+[![PyPI version](https://img.shields.io/pypi/v/filterpy.svg)](https://pypi.python.org/pypi/filterpy)
+[![Documentation Status](https://readthedocs.org/projects/pip/badge/?version=latest&style=flat)](https://filterpy.readthedocs.io/en/latest/)
+
+> **Note**: This is a personal fork of the original FilterPy library. The original project can be found at https://github.com/rlabbe/filterpy
+
+This library provides Kalman filtering and various related optimal and non-optimal filtering software written in Python. It contains Kalman filters, Extended Kalman filters, Unscented Kalman filters, Kalman smoothers, Least Squares filters, fading memory filters, g-h filters, discrete Bayes, and more.
+
+This is code originally developed in conjunction with the book [Kalman and Bayesian Filter in Python](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/).
+
+## Design Philosophy
+
+The original author's aim is largely pedagogical - opting for clear code that matches the equations in the relevant texts on a 1-to-1 basis, even when that has a performance cost. There are places where this tradeoff is unclear - for example, writing a small set of equations using linear algebra may be clearer, but NumPy's overhead on small matrices makes it run slower than writing each equation out by hand.
+
+All computations use NumPy and SciPy.
+
+## Documentation
+
+Sphinx generated documentation lives at http://filterpy.readthedocs.org/.
+
+## Installation
+
+### Using pip
+
+The most general installation is just to use pip:
+
+[![PyPI version](https://img.shields.io/pypi/v/filterpy.svg)](https://pypi.python.org/pypi/filterpy)
+
+```bash
+pip install filterpy
+```
+
+### From source
+
+```bash
+cd <directory you want to install to>
+git clone https://github.com/GeorgePearse/bayesian_filters
+cd bayesian_filters
+pip install -e .
+```
+
+### Using Anaconda
+
+If you use Anaconda, you can install from the conda-forge channel:
+
+```bash
+conda config --add channels conda-forge
+conda install filterpy
+```
+
+### Bleeding edge (original repo)
+
+```bash
+pip install git+https://github.com/rlabbe/filterpy.git
+```
+
+**Note**: Installing from the bleeding edge git version comes with no guarantees that everything works.
+
+## Basic Usage
+
+Full documentation is at https://filterpy.readthedocs.io/en/latest/
+
+### Import the filters
+
+```python
+import numpy as np
+from filterpy.kalman import KalmanFilter
+from filterpy.common import Q_discrete_white_noise
+```
+
+### Create the filter
+
+```python
+my_filter = KalmanFilter(dim_x=2, dim_z=1)
+```
+
+### Initialize the filter's matrices
+
+```python
+my_filter.x = np.array([[2.],
+                [0.]])       # initial state (location and velocity)
+
+my_filter.F = np.array([[1.,1.],
+                [0.,1.]])    # state transition matrix
+
+my_filter.H = np.array([[1.,0.]])    # Measurement function
+my_filter.P *= 1000.                 # covariance matrix
+my_filter.R = 5                      # state uncertainty
+my_filter.Q = Q_discrete_white_noise(dim=2, dt=0.1, var=0.1) # process uncertainty
+```
+
+### Run the filter
+
+```python
+while True:
+    my_filter.predict()
+    my_filter.update(get_some_measurement())
+
+    # do something with the output
+    x = my_filter.x
+    do_something_amazing(x)
+```
+
+## Library Structure
+
+The library is broken up into subdirectories:
+- `gh` - g-h filters
+- `kalman` - Kalman filters (KF, EKF, UKF, etc.)
+- `memory` - fading memory filters
+- `leastsq` - least squares filters
+- `discrete_bayes` - discrete Bayes filters
+- `stats` - statistical functions
+- `common` - common helper functions
+
+Each subdirectory contains Python files relating to that form of filter. The functions and methods contain comprehensive docstrings.
+
+The book [Kalman and Bayesian Filters in Python](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/) uses this library and is the best place to learn about Kalman filtering and/or this library.
+
+## Requirements
+
+This library requires:
+- Python 3.9+
+- NumPy
+- SciPy
+- Matplotlib
+
+## Testing
+
+All tests are written to work with pytest. Just run:
+
+```bash
+pytest
+```
+
+The tests include both unit tests and visual verification. Visual plots are often the best way to see how filters are working, as it's easy for a filter to perform within theoretical limits yet be 'off' in some way.
+
+## References
+
+The original author uses three main reference texts:
+
+1. **Paul Zarchan's 'Fundamentals of Kalman Filtering: A Practical Approach'** - Excellent for practical applications rather than theoretical thesis work.
+
+2. **Eli Brookner's 'Tracking and Kalman Filtering Made Easy'** - An astonishingly good book with its first chapter readable by laypeople. Brookner starts from the g-h filter and shows how all other filters derive from it, including Kalman filters, least squares, and fading memory filters. Also focuses on practical issues like track initialization, noise detection, and tracking multiple objects.
+
+3. **Bar-Shalom's 'Estimation with Applications to Tracking and Navigation'** - More mathematical than the previous two. Recommended after gaining some background in control theory or optimal estimation. Every sentence is crystal clear with precise language, and abstract mathematical statements are followed with practical explanations.
+
+## License
+
+[![License](https://anaconda.org/rlabbe/filterpy/badges/license.svg)](https://anaconda.org/rlabbe/filterpy)
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Roger R. Labbe Jr
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
