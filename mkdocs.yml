@@ -93,6 +93,7 @@ nav:
       - Discrete Bayes: api/discrete-bayes.md
       - Least Squares: api/leastsq.md
       - Monte Carlo: api/monte-carlo.md
+  - Research: research.md
   - Examples: examples.md
   - Contributing: contributing.md
   - Changelog: changelog.md
