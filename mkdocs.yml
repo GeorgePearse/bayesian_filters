@@ -5,9 +5,7 @@ site_url: https://georgepearse.github.io/bayesian_filters
 
 repo_name: GeorgePearse/bayesian_filters
 repo_url: https://github.com/GeorgePearse/bayesian_filters
-edit_uri: edit/master/docs-mkdocs/
-
-docs_dir: docs-mkdocs
+edit_uri: edit/master/docs/
 
 theme:
   name: material
