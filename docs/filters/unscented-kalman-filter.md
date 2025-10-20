@@ -4,32 +4,20 @@
 
 This implements the unscented Kalman filter.
 
-::: bayesian_filters.kalman
+## API Reference
 
---------
+### UnscentedKalmanFilter
 
-::: UnscentedKalmanFilter
-    :members:
+::: bayesian_filters.kalman.UKF.UnscentedKalmanFilter
 
-    .. automethod:: __init__
+### Merwe Scaled Sigma Points
 
---------
+::: bayesian_filters.kalman.sigma_points.MerweScaledSigmaPoints
 
-::: MerweScaledSigmaPoints
-    :members:
+### Julier Sigma Points
 
-    .. automethod:: __init__
+::: bayesian_filters.kalman.sigma_points.JulierSigmaPoints
 
---------
+### Simplex Sigma Points
 
-::: JulierSigmaPoints
-    :members:
-
-    .. automethod:: __init__
-
---------
-
-::: SimplexSigmaPoints
-    :members:
-
-    .. automethod:: __init__
+::: bayesian_filters.kalman.sigma_points.SimplexSigmaPoints

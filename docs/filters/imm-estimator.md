@@ -4,9 +4,6 @@ needs documentation....
 
 -------
 
-::: bayesian_filters.kalman
+## API Reference
 
-::: IMMEstimator
-    :members:
-
-    .. automethod:: __init__
+::: bayesian_filters.kalman.IMM.IMMEstimator

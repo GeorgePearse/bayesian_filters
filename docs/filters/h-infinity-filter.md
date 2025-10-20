@@ -1,8 +1,7 @@
 ## HInfinityFilter
 
-::: bayesian_filters.hinfinity
+H-Infinity filter implementation for robust state estimation.
 
-::: HInfinityFilter
-    :members:
+## API Reference
 
-    .. automethod:: __init__
+::: bayesian_filters.hinfinity.hinfinity_filter.HInfinityFilter

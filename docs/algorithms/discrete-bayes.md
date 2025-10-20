@@ -1,17 +1,13 @@
 ## Discrete Bayes
 
-words go here
+The discrete Bayes filter provides functions for Bayesian filtering with discrete probability distributions.
 
-::: bayesian_filters.discrete_bayes
-
------
-
-::: normalize
+::: bayesian_filters.discrete_bayes.discrete_bayes.normalize
 
 -----
 
-::: update
+::: bayesian_filters.discrete_bayes.discrete_bayes.update
 
 -----
 
-::: predict
+::: bayesian_filters.discrete_bayes.discrete_bayes.predict

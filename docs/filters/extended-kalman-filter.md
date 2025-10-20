@@ -38,9 +38,6 @@ PDF version (often lags the two sources above)
 
 -------
 
-::: bayesian_filters.kalman
+## API Reference
 
-::: ExtendedKalmanFilter
-    :members:
-
-    .. automethod:: __init__
+::: bayesian_filters.kalman.EKF.ExtendedKalmanFilter

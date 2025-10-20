@@ -38,9 +38,6 @@ from filterpy.kalman import MMAEFilterBank
 
 -------
 
-::: bayesian_filters.kalman
+## API Reference
 
-::: MMAEFilterBank
-    :members:
-
-    .. automethod:: __init__
+::: bayesian_filters.kalman.mmae.MMAEFilterBank

@@ -6,9 +6,6 @@ This is a basic implementation of the information filter.
 
 -------
 
-::: bayesian_filters.kalman
+## API Reference
 
-::: InformationFilter
-    :members:
-
-    .. automethod:: __init__
+::: bayesian_filters.kalman.information_filter.InformationFilter

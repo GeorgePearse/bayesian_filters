@@ -209,15 +209,6 @@ PDF version (often lags the two sources above)
 
 -------
 
-::: bayesian_filters.kalman
+## API Reference
 
-Kalman filter
-
-::: KalmanFilter
-    :members:
-
-    .. automethod:: __init__
-
-::: update
-::: predict
-::: batch_filter
+::: bayesian_filters.kalman.kalman_filter.KalmanFilter

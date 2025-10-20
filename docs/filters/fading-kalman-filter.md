@@ -4,11 +4,6 @@ Implements a fading memory Kalman filter.
 
 -------
 
-::: bayesian_filters.kalman
+## API Reference
 
-Fading Memory Kalman filter
-
-::: FadingKalmanFilter
-    :members:
-
-    .. automethod:: __init__
+::: bayesian_filters.kalman.fading_memory.FadingKalmanFilter

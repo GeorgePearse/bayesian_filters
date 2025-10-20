@@ -4,11 +4,4 @@
 
 This implements the Ensemble Kalman filter.
 
-::: bayesian_filters.kalman
-
---------
-
-::: EnsembleKalmanFilter
-    :members:
-
-    .. automethod:: __init__
+::: bayesian_filters.kalman.ensemble_kalman_filter.EnsembleKalmanFilter

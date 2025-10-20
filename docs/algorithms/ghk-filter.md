@@ -1,8 +1,5 @@
 ## GHKFilter
 
-::: bayesian_filters.gh
+Implements the g-h-k filter for tracking acceleration.
 
-::: GHKFilter
-   :members:
-
-   .. automethod:: __init__
+::: bayesian_filters.gh.gh_filter.GHKFilter

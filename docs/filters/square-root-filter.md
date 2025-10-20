@@ -12,11 +12,6 @@ a Kalman filter in Python on a tiny chip? No. So, this is for learning.
 
 -------
 
-::: bayesian_filters.kalman
+## API Reference
 
-Square Root Kalman Filter
-
-::: SquareRootKalmanFilter
-    :members:
-
-    .. automethod:: __init__
+::: bayesian_filters.kalman.square_root.SquareRootKalmanFilter
