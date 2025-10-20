@@ -83,7 +83,7 @@ any modern Python distribution.
         
 ::
 
-    pip install filterpy
+    uv pip install bayesian_filters
 
 If you prefer to download the source yourself
 
