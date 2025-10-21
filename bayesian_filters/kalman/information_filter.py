@@ -333,7 +333,7 @@ class InformationFilter(object):
             R = self.inv(self.R_inv)
             S_innovation = dot(dot(self.H, P_prior), self.H.T) + R
             S_inv = self.inv(S_innovation)
-            self._mahalanobis = math.sqrt(float(dot(dot(self.y.T, S_inv), self.y)))
+            self._mahalanobis = math.sqrt(dot(dot(self.y.T, S_inv), self.y).item())
         return self._mahalanobis
 
     def batch_filter(self, zs, Rs=None, update_first=False, saver=None):
