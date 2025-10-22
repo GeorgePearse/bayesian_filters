@@ -19,6 +19,7 @@ for more information.
 """
 
 # pylint: skip-file
+# type: ignore[assignment, call-arg, name-defined]
 
 """ This is very old code, and no longer runs due to reorgization of the
 UKF code"""
