@@ -263,14 +263,16 @@ def pretty_str(label, arr):
         except (AttributeError, IndexError):
             return False
 
-    # display empty lists correctly
-    try:
-        if len(arr) == 0:
-            return label + " = " + str(type(arr)())
-    except TypeError:
-        pass
+    # Handle list, tuple, and deque types
+    arr_is_sequence = type(arr) is list or type(arr) is tuple or type(arr) is deque
 
-    if type(arr) is list or type(arr) is tuple or type(arr) is deque:
+    if arr_is_sequence:
+        # display empty lists correctly
+        try:
+            if len(arr) == 0:
+                return label + " = " + str(type(arr)())
+        except TypeError:
+            pass
         return "\n".join([pretty_str(label + "[" + str(i) + "]", x) for (i, x) in enumerate(arr)])
 
     if label is None:
