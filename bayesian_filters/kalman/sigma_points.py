@@ -17,6 +17,7 @@ for more information.
 """
 
 from __future__ import division
+from typing import Any
 import numpy as np
 from scipy.linalg import cholesky
 from bayesian_filters.common import pretty_str
@@ -100,9 +101,9 @@ class MerweScaledSigmaPoints(object):
         self.beta = beta
         self.kappa = kappa
         if sqrt_method is None:
-            self.sqrt = cholesky
+            self.sqrt: Any = cholesky
         else:
-            self.sqrt = sqrt_method
+            self.sqrt: Any = sqrt_method
 
         if subtract is None:
             self.subtract = np.subtract
@@ -153,19 +154,19 @@ class MerweScaledSigmaPoints(object):
             x = np.asarray([x])
 
         if np.isscalar(P):
-            P = np.eye(n) * P
+            P = np.asarray(np.eye(n) * np.asarray(P))
         else:
-            P = np.atleast_2d(P)
+            P = np.asarray(np.atleast_2d(P))
 
         lambda_ = self.alpha**2 * (n + self.kappa) - n
-        U = self.sqrt((lambda_ + n) * P)
+        U = np.asarray(self.sqrt((lambda_ + n) * P))
 
         sigmas = np.zeros((2 * n + 1, n))
         sigmas[0] = x
         for k in range(n):
             # pylint: disable=bad-whitespace
-            sigmas[k + 1] = self.subtract(x, -U[k])
-            sigmas[n + k + 1] = self.subtract(x, U[k])
+            sigmas[k + 1] = self.subtract(x, -np.asarray(U[k]))
+            sigmas[n + k + 1] = self.subtract(x, np.asarray(U[k]))
 
         return sigmas
 
@@ -252,14 +253,14 @@ class JulierSigmaPoints(object):
         self.n = n
         self.kappa = kappa
         if sqrt_method is None:
-            self.sqrt = cholesky
+            self.sqrt: Any = cholesky
         else:
-            self.sqrt = sqrt_method
+            self.sqrt: Any = sqrt_method
 
         if subtract is None:
-            self.subtract = np.subtract
+            self.subtract: Any = np.subtract
         else:
-            self.subtract = subtract
+            self.subtract: Any = subtract
 
         self._compute_weights()
 
@@ -319,21 +320,21 @@ class JulierSigmaPoints(object):
         n = np.size(x)  # dimension of problem
 
         if np.isscalar(P):
-            P = np.eye(n) * P
+            P = np.asarray(np.eye(n) * np.asarray(P))
         else:
-            P = np.atleast_2d(P)
+            P = np.asarray(np.atleast_2d(P))
 
         sigmas = np.zeros((2 * n + 1, n))
 
         # implements U'*U = (n+kappa)*P. Returns lower triangular matrix.
         # Take transpose so we can access with U[i]
-        U = self.sqrt((n + self.kappa) * P)
+        U = np.asarray(self.sqrt((n + self.kappa) * P))
 
         sigmas[0] = x
         for k in range(n):
             # pylint: disable=bad-whitespace
-            sigmas[k + 1] = self.subtract(x, -U[k])
-            sigmas[n + k + 1] = self.subtract(x, U[k])
+            sigmas[k + 1] = self.subtract(x, -np.asarray(U[k]))
+            sigmas[n + k + 1] = self.subtract(x, np.asarray(U[k]))
         return sigmas
 
     def _compute_weights(self):
@@ -412,14 +413,14 @@ class SimplexSigmaPoints(object):
         self.n = n
         self.alpha = alpha
         if sqrt_method is None:
-            self.sqrt = cholesky
+            self.sqrt: Any = cholesky
         else:
-            self.sqrt = sqrt_method
+            self.sqrt: Any = sqrt_method
 
         if subtract is None:
-            self.subtract = np.subtract
+            self.subtract: Any = np.subtract
         else:
-            self.subtract = subtract
+            self.subtract: Any = subtract
 
         self._compute_weights()
 
@@ -467,11 +468,11 @@ class SimplexSigmaPoints(object):
         x = x.reshape(-1, 1)
 
         if np.isscalar(P):
-            P = np.eye(n) * P
+            P = np.asarray(np.eye(n) * np.asarray(P))
         else:
-            P = np.atleast_2d(P)
+            P = np.asarray(np.atleast_2d(P))
 
-        U = self.sqrt(P)
+        U = np.asarray(self.sqrt(P))
 
         lambda_ = n / (n + 1)
         Istar = np.array([[-1 / np.sqrt(2 * lambda_), 1 / np.sqrt(2 * lambda_)]])
@@ -482,7 +483,7 @@ class SimplexSigmaPoints(object):
             Istar = np.r_[np.c_[Istar, np.zeros((Istar.shape[0]))], row]  # pylint: disable=unsubscriptable-object
 
         I = np.sqrt(n) * Istar
-        scaled_unitary = (U.T).dot(I)
+        scaled_unitary = (np.asarray(U).T).dot(I)
 
         sigmas = self.subtract(x, -scaled_unitary)
         return sigmas.T

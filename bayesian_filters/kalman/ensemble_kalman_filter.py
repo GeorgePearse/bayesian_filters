@@ -234,7 +234,7 @@ class EnsembleKalmanFilter(object):
         if R is None:
             R = self.R
         if np.isscalar(R):
-            R = eye(self.dim_z) * R
+            R = np.asarray(eye(self.dim_z)) * np.asarray(R)
 
         N = self.N
         dim_z = len(z)
@@ -250,10 +250,10 @@ class EnsembleKalmanFilter(object):
         P_xz = outer_product_sum(self.sigmas - self.x, sigmas_h - z_mean) / (N - 1)
 
         self.S = P_zz
-        self.SI = self.inv(self.S)
+        self.SI = np.asarray(self.inv(self.S))
         self.K = dot(P_xz, self.SI)
 
-        e_r = multivariate_normal(self._mean_z, R, N)
+        e_r = multivariate_normal(self._mean_z, np.asarray(R), N)
         for i in range(N):
             self.sigmas[i] += dot(self.K, z + e_r[i] - sigmas_h[i])
 
