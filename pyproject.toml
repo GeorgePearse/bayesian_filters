@@ -49,6 +49,8 @@ Documentation = "https://georgepearse.github.io/bayesian_filters"
 dev = [
     "pytest>=8.4.0",
     "pytest-cov>=7.0.0",
+    "prek>=0.1.0",
+    "zuban>=0.1.0",
 ]
 docs = [
     "mkdocs>=1.6.0",

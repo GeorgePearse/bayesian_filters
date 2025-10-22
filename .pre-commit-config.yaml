@@ -28,10 +28,14 @@ repos:
     hooks:
       - id: nbstripout
 
-  - repo: https://github.com/RobertCraigie/pyright-python
-    rev: v1.1.405
+  - repo: local
     hooks:
-      - id: pyright
+      - id: zuban
+        name: zuban
+        entry: zuban check
+        language: system
+        types: [python]
+        pass_filenames: false
 
   # Documentation link checker
   - repo: https://github.com/tcort/markdown-link-check
