@@ -261,8 +261,8 @@ class HInfinityFilter(object):
         if np.isscalar(value):
             self._V = np.array([[value]], dtype=float)
         else:
-            self._V = value
-        self._V_inv = linalg.inv(self._V)
+            self._V = np.asarray(value, dtype=float)
+        self._V_inv = np.asarray(linalg.inv(self._V))  # type: ignore[arg-type]
 
     def __repr__(self):
         return "\n".join(

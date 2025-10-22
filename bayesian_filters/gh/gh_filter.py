@@ -21,6 +21,7 @@ for more information.
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+from typing import Union
 import numpy as np
 from numpy import dot
 from bayesian_filters.common import pretty_str
@@ -306,11 +307,11 @@ class GHFilter(object):
         self.x_prediction = self.x
 
         if np.ndim(x) == 0:
-            self.y = 0.0  # residual
-            self.z = 0.0
+            self.y: Union[float, np.ndarray] = 0.0  # residual
+            self.z: Union[float, np.ndarray] = 0.0
         else:
-            self.y = np.zeros(len(x))
-            self.z = np.zeros(len(x))
+            self.y: Union[float, np.ndarray] = np.zeros(len(x))
+            self.z: Union[float, np.ndarray] = np.zeros(len(x))
 
     def update(self, z, g=None, h=None):
         """
@@ -612,11 +613,11 @@ class GHKFilter(object):
         self.k = k
 
         if np.ndim(x) == 0:
-            self.y = 0.0  # residual
-            self.z = 0.0
+            self.y: Union[float, np.ndarray] = 0.0  # residual
+            self.z: Union[float, np.ndarray] = 0.0
         else:
-            self.y = np.zeros(len(x))
-            self.z = np.zeros(len(x))
+            self.y: Union[float, np.ndarray] = np.zeros(len(x))
+            self.z: Union[float, np.ndarray] = np.zeros(len(x))
 
     def update(self, z, g=None, h=None, k=None):
         """
