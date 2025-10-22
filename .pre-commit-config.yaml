@@ -36,6 +36,7 @@ repos:
         language: system
         types: [python]
         pass_filenames: false
+        stages: [manual]  # Run manually with: prek run --hook-stage manual zuban
 
   # Documentation link checker
   - repo: https://github.com/tcort/markdown-link-check
