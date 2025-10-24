@@ -1,4 +1,7 @@
 fail_fast: false
+default_install_hook_types:
+  - pre-commit
+  - commit-msg
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -43,3 +46,10 @@ repos:
       - id: markdown-link-check
         args: ['--config', '.markdown-link-check.json']
         files: ^docs/.*\.md$
+
+  # Commit message linter (Conventional Commits)
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.1.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
