@@ -51,6 +51,7 @@ dev = [
     "pytest-cov>=7.0.0",
     "prek>=0.1.0",
     "zuban>=0.1.0",
+    "tqdm>=4.66.0",
 ]
 docs = [
     "mkdocs>=1.6.0",
