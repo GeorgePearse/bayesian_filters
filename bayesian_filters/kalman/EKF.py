@@ -167,6 +167,12 @@ class ExtendedKalmanFilter(object):
         self.x_post = self.x.copy()
         self.P_post = self.P.copy()
 
+        # Optional function attributes for state transition and measurement
+        # These can be set after initialization if needed for specific applications
+        self.fx = None  # state transition function
+        self.hx = None  # measurement function
+        self.H = None  # Jacobian function (can be set as attribute or passed to methods)
+
     def predict_update(self, z, HJacobian, Hx, args=(), hx_args=(), u=0):
         """Performs the predict/update innovation of the extended Kalman
         filter.

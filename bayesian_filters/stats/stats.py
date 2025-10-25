@@ -1090,6 +1090,9 @@ def plot_covariance(
     if cov is not None:
         ellipse = covariance_ellipse(cov)
 
+    # Type narrowing: at this point, ellipse cannot be None due to validation above
+    assert ellipse is not None, "ellipse must be provided if cov is None"
+
     if axis_equal:
         plt.axis("equal")
 

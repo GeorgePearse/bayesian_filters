@@ -126,8 +126,8 @@ class MMAEFilterBank(object):
 
         except AttributeError:
             self.z = 0
-            self.x = None
-            self.P = None
+            self.x = np.zeros((dim_x, 1))
+            self.P = np.eye(dim_x)
 
         # these will always be a copy of x,P after predict() is called
         self.x_prior = self.x.copy()

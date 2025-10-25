@@ -1743,6 +1743,8 @@ def batch_filter(x, P, zs, Fs, Qs, Hs, Rs, Bs=None, us=None, update_first=False,
     if us is None:
         us = [0.0] * n
         Bs = [0.0] * n
+    elif Bs is None:
+        Bs = [0.0] * n
 
     if update_first:
         for i, (z, F, Q, H, R, B, u) in enumerate(zip(zs, Fs, Qs, Hs, Rs, Bs, us)):
