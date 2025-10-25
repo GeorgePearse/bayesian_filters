@@ -25,7 +25,7 @@ This guide explains how to publish `bayesian-filters` to PyPI.
 Always test your package on TestPyPI before publishing to production PyPI:
 
 ```bash
-./publish-to-test-pypi.sh
+./scripts/publish-to-test-pypi.sh
 ```
 
 This will:
@@ -52,7 +52,7 @@ print(bf.__version__)
 Once you've verified the package works from TestPyPI:
 
 ```bash
-./publish-to-pypi.sh
+./scripts/publish-to-pypi.sh
 ```
 
 This will:
