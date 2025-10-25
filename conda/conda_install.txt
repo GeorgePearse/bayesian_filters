@@ -1,7 +1,7 @@
-This documents how I build filterpy for Anaconda. 
+This documents how I build filterpy for Anaconda.
 
 for some reason the files are being copied into anaconda3 directory, despite
-what the online instructions say. 
+what the online instructions say.
 
 I am following instruction from here:
 
@@ -25,8 +25,3 @@ $ anaconda upload --force linux-32/filterpy-0.1.2-0.tar.bz2
 $ anaconda upload --force osx-64/filterpy-0.1.2-0.tar.bz2
 $ anaconda upload --force win-32/filterpy-0.1.2-0.tar.bz2
 $ anaconda upload --force win-64/filterpy-0.1.2-0.tar.bz2
-
-
-
-
-
