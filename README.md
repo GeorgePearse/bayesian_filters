@@ -98,7 +98,7 @@ The book [Kalman and Bayesian Filters in Python](https://github.com/rlabbe/Kalma
 ## Requirements
 
 This library requires:
-- Python 3.9+
+- Python 3.10+
 - NumPy
 - SciPy
 - Matplotlib
@@ -135,7 +135,6 @@ The original author uses three main reference texts:
 ### Repositories Using FilterPy/Bayesian Filters
 
 - **[rlabbe/filterpy](https://github.com/rlabbe/filterpy)** - The original FilterPy library from which this fork is derived
-- **[mjcarter95/FilterPy](https://github.com/mjcarter95/FilterPy)** - Modern fork with Pythonic Bayesian filtering implementations
 - **[Gavin-Furtado/Kalman-Filter-Simulator](https://github.com/Gavin-Furtado/Kalman-Filter-Simulator)** - Python project simulating sensor tracking with state estimation
 - **[sparshgarg23/object-detection-and-tracking](https://github.com/sparshgarg23/object-detection-and-tracking)** - Object detection pipeline with OpenCV and FilterPy-based Kalman filters
 - **[Norfair](https://github.com/tryolabs/norfair)** - Lightweight Python library for real-time multi-object tracking using Kalman filters
