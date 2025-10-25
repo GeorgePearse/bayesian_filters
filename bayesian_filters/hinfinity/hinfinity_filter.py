@@ -21,10 +21,20 @@ for more information.
 from __future__ import absolute_import, division
 import copy
 import warnings
+from typing import Optional, Protocol
+
 import numpy as np
 from numpy import dot, zeros, eye
 import scipy.linalg as linalg
 from bayesian_filters.common import pretty_str
+
+
+class SaverProtocol(Protocol):
+    """Protocol for Saver objects to avoid circular imports."""
+
+    def save(self) -> None:
+        """Save the current state."""
+        ...
 
 
 class HInfinityFilter(object):
@@ -154,7 +164,7 @@ class HInfinityFilter(object):
         # x = Fx + Bu
         self.x = dot(self.F, self.x) + dot(self.B, u)
 
-    def batch_filter(self, Zs, update_first=False, saver=False):
+    def batch_filter(self, Zs, update_first: bool = False, saver: Optional[SaverProtocol] = None):
         """Batch processes a sequences of measurements.
 
         Parameters

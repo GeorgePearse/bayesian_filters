@@ -1554,7 +1554,7 @@ def update_steadystate(x, z, K, H=None):
     return x + dot(K, y)
 
 
-def predict(x, P, F=1, Q=0, u=0, B=1, alpha=1.0):
+def predict(x, P, F=1, Q=0, u=0, B=1, alpha: float = 1.0):
     """
     Predict next state (prior) using the Kalman filter state propagation
     equations.
@@ -1599,8 +1599,9 @@ def predict(x, P, F=1, Q=0, u=0, B=1, alpha=1.0):
         Prior covariance matrix
     """
 
-    if np.isscalar(F):
-        F = np.array(F)
+    # Convert F to array (keeps 0-D scalar arrays for proper broadcasting)
+    F = np.asarray(F, dtype=float)
+
     x = dot(F, x) + dot(B, u)
     P = (alpha * alpha) * dot(dot(F, P), F.T) + Q
 
@@ -1742,6 +1743,8 @@ def batch_filter(x, P, zs, Fs, Qs, Hs, Rs, Bs=None, us=None, update_first=False,
 
     if us is None:
         us = [0.0] * n
+        Bs = [0.0] * n
+    elif Bs is None:
         Bs = [0.0] * n
 
     if update_first:

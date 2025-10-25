@@ -17,6 +17,8 @@ for more information.
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+from typing import Optional, List
+
 import numpy as np
 from numpy import dot, zeros, eye
 from scipy.linalg import inv
@@ -81,7 +83,7 @@ class FixedLagSmoother(object):
 
     """
 
-    def __init__(self, dim_x, dim_z, N=None):
+    def __init__(self, dim_x: int, dim_z: int, N: Optional[int] = None) -> None:
         """Create a fixed lag Kalman filter smoother. You are responsible for
         setting the various state variables to reasonable values; the defaults
         below will not give you a functional filter.
@@ -105,31 +107,32 @@ class FixedLagSmoother(object):
             using smooth_batch() function. Required if calling smooth()
         """
 
-        self.dim_x = dim_x
-        self.dim_z = dim_z
-        self.N = N
+        self.dim_x: int = dim_x
+        self.dim_z: int = dim_z
+        self.N: Optional[int] = N
 
-        self.x = zeros((dim_x, 1))  # state
-        self.x_s = zeros((dim_x, 1))  # smoothed state
-        self.P = eye(dim_x)  # uncertainty covariance
-        self.Q = eye(dim_x)  # process uncertainty
-        self.F = eye(dim_x)  # state transition matrix
-        self.H = eye(dim_z, dim_x)  # Measurement function
-        self.R = eye(dim_z)  # state uncertainty
-        self.K = zeros((dim_x, 1))  # kalman gain
-        self.y = zeros((dim_z, 1))
-        self.B = 0.0
-        self.S = zeros((dim_z, dim_z))
+        self.x: np.ndarray = zeros((dim_x, 1))  # state
+        self.x_s: np.ndarray = zeros((dim_x, 1))  # smoothed state
+        self.P: np.ndarray = eye(dim_x)  # uncertainty covariance
+        self.Q: np.ndarray = eye(dim_x)  # process uncertainty
+        self.F: np.ndarray = eye(dim_x)  # state transition matrix
+        self.H: np.ndarray = eye(dim_z, dim_x)  # Measurement function
+        self.R: np.ndarray = eye(dim_z)  # state uncertainty
+        self.K: np.ndarray = zeros((dim_x, 1))  # kalman gain
+        self.y: np.ndarray = zeros((dim_z, 1))
+        self.B: float = 0.0
+        self.S: np.ndarray = zeros((dim_z, dim_z))
 
         # identity matrix. Do not alter this.
-        self._I = np.eye(dim_x)
+        self._I: np.ndarray = np.eye(dim_x)
 
-        self.count = 0
+        self.count: int = 0
+        self.xSmooth: List[np.ndarray] = []
 
         if N is not None:
             self.xSmooth = []
 
-    def smooth(self, z, u=None):
+    def smooth(self, z: np.ndarray | float, u: Optional[np.ndarray] = None) -> None:
         """Smooths the measurement using a fixed lag smoother.
 
         On return, self.xSmooth is populated with the N previous smoothed
@@ -155,7 +158,18 @@ class FixedLagSmoother(object):
 
         u : ndarray, optional
             If provided, control input to the filter
+
+        Raises
+        ------
+        ValueError
+            If N was not provided in __init__
         """
+
+        if self.N is None:
+            raise ValueError(
+                "N must be provided in __init__ to use smooth() method. "
+                "Use smooth_batch() instead for batch processing without N."
+            )
 
         # take advantage of the fact that np.array are assigned by reference.
         H = self.H
@@ -165,7 +179,7 @@ class FixedLagSmoother(object):
         x = self.x
         Q = self.Q
         B = self.B
-        N = self.N
+        N: int = self.N  # Now guaranteed to be int, not Optional[int]
 
         k = self.count
 
