@@ -1,0 +1,4 @@
+# file: /home/georgepearse/bayesian_filters_worktrees/remove-pyright/bayesian_filters/examples/radar_sim.py
+# hypothesis_version: 6.141.1
+
+[0.0, 0.05, 0.5, 100.0, 1000.0]

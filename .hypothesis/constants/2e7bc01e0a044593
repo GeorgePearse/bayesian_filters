@@ -1,0 +1,4 @@
+# file: /home/georgepearse/bayesian_filters_worktrees/remove-pyright/bayesian_filters/kalman/UKF.py
+# hypothesis_version: 6.141.1
+
+['K', 'P', 'P_prior', 'Q', 'R', 'S', 'Wc', 'Wm', 'fx', 'h', 'hx', 'likelihood', 'log-likelihood', 'mahalanobis', 'msqrt', 'residual_x', 'residual_z', 'sigmas_f', 'x', 'x_mean', 'x_prior', 'y', 'z_mean', 'zs must be list-like']

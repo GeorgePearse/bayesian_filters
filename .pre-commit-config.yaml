@@ -33,12 +33,6 @@ repos:
     hooks:
       - id: nbstripout
 
-  - repo: https://github.com/RobertCraigie/pyright-python
-    rev: v1.1.405
-    hooks:
-      - id: pyright
-        exclude: ^scripts/
-
   # Documentation link checker
   - repo: https://github.com/tcort/markdown-link-check
     rev: v3.12.2

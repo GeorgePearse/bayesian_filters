@@ -104,8 +104,8 @@ jobs:
           pip install uv
           uv pip install -e ".[dev]" --system
 
-      - name: Run type checking with pyright
-        run: pyright
+      - name: Run type checking with ty
+        run: uv run ty check
         continue-on-error: true
 
       - name: Check code style with ruff
