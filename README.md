@@ -19,10 +19,6 @@ This library provides Kalman filtering and various related optimal and non-optim
 
 This is code originally developed in conjunction with the book [Kalman and Bayesian Filter in Python](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/).
 
-## Design Philosophy
-
-The original author's aim is largely pedagogical - opting for clear code that matches the equations in the relevant texts on a 1-to-1 basis, even when that has a performance cost. There are places where this tradeoff is unclear - for example, writing a small set of equations using linear algebra may be clearer, but NumPy's overhead on small matrices makes it run slower than writing each equation out by hand.
-
 All computations use NumPy and SciPy.
 
 ## Documentation
