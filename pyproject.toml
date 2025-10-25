@@ -49,6 +49,10 @@ Documentation = "https://georgepearse.github.io/bayesian_filters"
 dev = [
     "pytest>=8.4.0",
     "pytest-cov>=7.0.0",
+    "hypothesis>=6.100.0",
+    "pytest-benchmark>=4.0.0",
+    "pytest-xdist>=3.5.0",
+    "pytest-mpl>=0.17.0",
 ]
 docs = [
     "mkdocs>=1.6.0",
@@ -67,7 +71,43 @@ testpaths = ["bayesian_filters"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-addopts = "-v --strict-markers"
+addopts = "-v --strict-markers -ra --tb=short"
+markers = [
+    "unit: Fast, isolated unit tests",
+    "integration: Tests multiple components together",
+    "slow: Tests that take >1 second to run",
+    "benchmark: Performance benchmark tests",
+    "property: Property-based tests (hypothesis)",
+    "numerical: Numerical accuracy tests",
+]
+norecursedirs = [".git", ".tox", "dist", "build", "*.egg", ".venv"]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["bayesian_filters"]
+omit = [
+    "*/__init__.py",
+    "*/tests/*",
+    "**/examples/**",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+skip_covered = false
+skip_empty = true
+precision = 2
 
 [tool.ruff]
 # Exclude test files and examples from most checks
