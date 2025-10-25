@@ -1,0 +1,4 @@
+# file: /home/georgepearse/bayesian_filters_worktrees/bayesian_filters/bayesian_filters/gh/gh_filter.py
+# hypothesis_version: 6.142.3
+
+[0.0, 0.5, 0.8, 1.0, 1.5, 2.0, 'GHFilter object', 'GHFilterOrder object', 'ddx', 'ddx_prediction', 'dt', 'dx', 'dx_prediction', 'g', 'h', 'k', 'order', 'x', 'x_prediction', 'y', 'z']

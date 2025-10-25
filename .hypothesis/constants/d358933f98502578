@@ -1,0 +1,4 @@
+# file: /home/georgepearse/bayesian_filters_worktrees/bayesian_filters/bayesian_filters/leastsq/least_squares.py
+# hypothesis_version: 6.142.3
+
+[0.0, 0.5, 1.0, 2.0, 3.0, 6.0, 12.0, 18.0, 60.0, 720, 'K', '_order', 'dt', 'sigma', 'x']

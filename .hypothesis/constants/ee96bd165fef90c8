@@ -1,0 +1,4 @@
+# file: /home/georgepearse/bayesian_filters_worktrees/bayesian_filters/bayesian_filters/__init__.py
+# hypothesis_version: 6.142.3
+
+['1.4.5', 'common', 'discrete_bayes', 'gh', 'hinfinity', 'kalman', 'leastsq', 'memory', 'monte_carlo', 'stats']

@@ -1,0 +1,4 @@
+# file: /home/georgepearse/bayesian_filters_worktrees/bayesian_filters/bayesian_filters/kalman/EKF.py
+# hypothesis_version: 6.142.3
+
+['F', 'K', 'KalmanFilter object', 'P', 'P_prior', 'Q', 'R', 'S', 'likelihood', 'log-likelihood', 'mahalanobis', 'x', 'x_prior', 'y']

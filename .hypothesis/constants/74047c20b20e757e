@@ -1,0 +1,4 @@
+# file: /home/georgepearse/bayesian_filters_worktrees/bayesian_filters/bayesian_filters/kalman/CubatureKalmanFilter.py
+# hypothesis_version: 6.142.3
+
+['K', 'P', 'Q', 'R', 'dim_x', 'dim_z', 'dt', 'likelihood', 'log-likelihood', 'mahalanobis', 'x', 'y']
