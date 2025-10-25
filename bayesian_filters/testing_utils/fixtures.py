@@ -1,8 +1,12 @@
 """Common pytest fixtures for Bayesian filter testing."""
 
 import numpy as np
-from bayesian_filters.kalman import KalmanFilter, ExtendedKalmanFilter, UnscentedKalmanFilter
-from bayesian_filters.kalman import SigmaPointsBase, MerweScaledSigmaPoints
+from bayesian_filters.kalman import (
+    KalmanFilter,
+    ExtendedKalmanFilter,
+    UnscentedKalmanFilter,
+    MerweScaledSigmaPoints,
+)
 from bayesian_filters.common import Q_discrete_white_noise
 
 
