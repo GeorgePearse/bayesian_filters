@@ -11,13 +11,11 @@ For people new to Kalman filters, they're well explained here https://www.youtub
 [![PyPI Publishing](https://github.com/GeorgePearse/bayesian_filters/actions/workflows/publish-pypi.yml/badge.svg)](https://github.com/GeorgePearse/bayesian_filters/actions/workflows/publish-pypi.yml)
 [![Latest Release](https://img.shields.io/badge/latest%20release-v1.4.5-success)](https://pypi.org/project/bayesian-filters/1.4.5/)
 
-> **Note**: This is a personal fork of the original FilterPy library (now renamed to Bayesian Filters). The original project can be found at https://github.com/rlabbe/filterpy
->
-> Maintained by George Pearse, Lead MLE at [Visia](https://www.visia.ai/)
+Maintained by George Pearse, Lead MLE at [Visia](https://www.visia.ai/)
 
 This library provides Kalman filtering and various related optimal and non-optimal filtering software written in Python. It contains Kalman filters, Extended Kalman filters, Unscented Kalman filters, Kalman smoothers, Least Squares filters, fading memory filters, g-h filters, discrete Bayes, and more.
 
-This is code originally developed in conjunction with the book [Kalman and Bayesian Filter in Python](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/).
+This is a comprehensive implementation of Kalman filters and related estimation algorithms in Python.
 
 All computations use NumPy and SciPy.
 
@@ -93,8 +91,6 @@ The library is broken up into subdirectories:
 
 Each subdirectory contains Python files relating to that form of filter. The functions and methods contain comprehensive docstrings.
 
-The book [Kalman and Bayesian Filters in Python](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/) uses this library and is the best place to learn about Kalman filtering and/or this library.
-
 ## Requirements
 
 This library requires:
@@ -127,14 +123,12 @@ The original author uses three main reference texts:
 
 ### Online Resources
 
-- **[Kalman and Bayesian Filters in Python](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python)** - Free online book with Jupyter notebooks teaching Kalman filtering and Bayesian statistics. Written by the original FilterPy author, this is the companion book to this library and provides excellent intuitive explanations with interactive examples.
 - **[Kalman Filter Background](https://kalmanfilter.net/background.html)** - Comprehensive background and theory on Kalman filtering
 
 ## Tools and Projects Using Kalman Filters
 
-### Repositories Using FilterPy/Bayesian Filters
+### Repositories Using Bayesian Filters
 
-- **[rlabbe/filterpy](https://github.com/rlabbe/filterpy)** - The original FilterPy library from which this fork is derived
 - **[Gavin-Furtado/Kalman-Filter-Simulator](https://github.com/Gavin-Furtado/Kalman-Filter-Simulator)** - Python project simulating sensor tracking with state estimation
 - **[sparshgarg23/object-detection-and-tracking](https://github.com/sparshgarg23/object-detection-and-tracking)** - Object detection pipeline with OpenCV and FilterPy-based Kalman filters
 - **[Norfair](https://github.com/tryolabs/norfair)** - Lightweight Python library for real-time multi-object tracking using Kalman filters

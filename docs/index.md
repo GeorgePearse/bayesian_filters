@@ -65,17 +65,6 @@ The code is written to match equations from textbooks on a 1-to-1 basis, making 
 
 All filters include comprehensive test suites and are used in production systems.
 
-## About This Fork
-
-This is a fork of the original [FilterPy](https://github.com/rlabbe/filterpy) library by Roger Labbe. The main changes:
-
-- Renamed from `filterpy` to `bayesian_filters` for PyPI publication
-- Modern packaging with `uv` and `pyproject.toml`
-- Updated documentation with MkDocs Material theme
-- Automated releases and GitHub Pages deployment
-
-Original project credit goes to Roger Labbe.
-
 ## License
 
 MIT License - see [LICENSE](https://github.com/GeorgePearse/filterpy/blob/master/LICENSE) for details.

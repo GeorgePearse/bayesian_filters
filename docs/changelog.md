@@ -22,11 +22,4 @@ All notable changes to this project will be documented in this file.
 
 ## Legacy Changelog
 
-For changes prior to the fork, see the original [changelog.txt](https://github.com/rlabbe/filterpy/blob/master/filterpy/changelog.txt) in the upstream repository.
-
-## Original FilterPy Releases
-
-The original FilterPy library by Roger R. Labbe Jr can be found at:
-https://github.com/rlabbe/filterpy
-
-This fork maintains compatibility while adding modernizations and improvements.
+For historical context, see the [original FilterPy changelog](https://github.com/rlabbe/filterpy/blob/master/filterpy/changelog.txt).

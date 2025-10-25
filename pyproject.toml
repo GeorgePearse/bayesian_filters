@@ -43,7 +43,6 @@ classifiers = [
 Homepage = "https://github.com/GeorgePearse/bayesian_filters"
 Repository = "https://github.com/GeorgePearse/bayesian_filters"
 Documentation = "https://georgepearse.github.io/bayesian_filters"
-"Original Project" = "https://github.com/rlabbe/filterpy"
 
 [project.optional-dependencies]
 dev = [

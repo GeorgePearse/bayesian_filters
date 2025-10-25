@@ -6,16 +6,16 @@
 
 **🚫 ABSOLUTELY NO PULL REQUESTS TO:** https://github.com/rlabbe/filterpy
 
-This is a **STANDALONE FORK** for independent development.
+This is an **INDEPENDENT PROJECT** for standalone development.
 
 - **ALL PRs MUST target:** https://github.com/GeorgePearse/bayesian_filters (THIS REPOSITORY ONLY)
-- **NEVER** submit changes to the original filterpy repository
-- **NEVER** attempt to upstream changes
-- **NEVER** contribute to https://github.com/rlabbe/filterpy under any circumstances
+- **NEVER** submit changes to external repositories
+- **NEVER** attempt to contribute externally
+- **Focus exclusively on:** https://github.com/GeorgePearse/bayesian_filters
 
 ### Why?
 
-This is a personal/independent fork with its own roadmap, features, and direction. All development work, features, fixes, and improvements are **exclusively for this fork**. There is no intention to contribute back to the original project.
+This is an independent project with its own roadmap, features, and direction. All development work, features, fixes, and improvements are **exclusively for this repository**.
 
 ### Pull Request Checklist
 
