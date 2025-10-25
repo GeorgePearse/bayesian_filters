@@ -1,0 +1,146 @@
+name: Test Coverage and Quality
+
+on:
+  push:
+    branches: [master, testing/infrastructure, testing/kalman-core, testing/kalman-advanced, testing/stats, testing/common, testing/other-modules]
+  pull_request:
+    branches: [master, testing/infrastructure, testing/kalman-core, testing/kalman-advanced, testing/stats, testing/common, testing/other-modules]
+
+jobs:
+  test:
+    name: Test on Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies with uv
+        run: |
+          pip install uv
+          uv pip install -e ".[dev]" --system
+
+      - name: Run tests with coverage
+        run: |
+          pytest \
+            --cov=bayesian_filters \
+            --cov-report=xml \
+            --cov-report=html \
+            --cov-report=term-missing \
+            -v \
+            --tb=short
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella-py${{ matrix.python-version }}
+          fail_ci_if_error: false
+
+      - name: Archive coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report-py${{ matrix.python-version }}
+          path: htmlcov/
+
+  benchmarks:
+    name: Performance Benchmarks
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies with uv
+        run: |
+          pip install uv
+          uv pip install -e ".[dev]" --system
+
+      - name: Run benchmarks
+        run: |
+          pytest \
+            -m benchmark \
+            --benchmark-only \
+            --benchmark-json=.benchmarks/output.json \
+            -v
+
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: 'pytest'
+          output-file-path: .benchmarks/output.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
+        continue-on-error: true
+
+  quality:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies with uv
+        run: |
+          pip install uv
+          uv pip install -e ".[dev]" --system
+
+      - name: Run type checking with pyright
+        run: pyright
+        continue-on-error: true
+
+      - name: Check code style with ruff
+        run: ruff check bayesian_filters tests --select E,W,F
+        continue-on-error: true
+
+  coverage-report:
+    name: Coverage Summary
+    runs-on: ubuntu-latest
+    needs: test
+    if: always()
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies with uv
+        run: |
+          pip install uv
+          uv pip install -e ".[dev]" --system
+
+      - name: Generate coverage report
+        run: |
+          pytest \
+            --cov=bayesian_filters \
+            --cov-report=term-missing \
+            --cov-report=json \
+            -q
+
+      - name: Comment coverage on PR
+        if: github.event_name == 'pull_request'
+        uses: py-cov-action/python-coverage-comment-action@v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
