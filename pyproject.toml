@@ -88,6 +88,7 @@ filterwarnings = [
 
 [tool.coverage.run]
 source = ["bayesian_filters"]
+relative_files = true
 omit = [
     "*/__init__.py",
     "*/tests/*",
