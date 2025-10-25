@@ -19,5 +19,15 @@ linux-64/
 osx-64/
 filterpy/kalman/i.py
 filterpy/inprogress.py
+bayesian_filters/kalman/i.py
+bayesian_filters/inprogress.py
 .pytest_cache
 
+# uv
+.venv/
+uv.lock
+.python-version
+
+# Issue import tracking
+imported-issues.json
+/site/
