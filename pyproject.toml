@@ -53,7 +53,7 @@ dev = [
     "pytest-benchmark>=4.0.0",
     "pytest-xdist>=3.5.0",
     "pytest-mpl>=0.17.0",
-    "zuban>=0.1.0",
+    "ty>=0.1.0",
 ]
 docs = [
     "mkdocs>=1.6.0",
@@ -134,26 +134,19 @@ select = ["E", "F", "W"]
 # Allow undefined names in examples (they may be defined elsewhere)
 "**/examples/**" = ["F821"]
 
-[tool.mypy]
-# Type checking configuration for zuban (mypy-compatible)
-# Zuban reads this [mypy] section for configuration
-# Initially, all files are ignored to allow gradual adoption of type annotations
-# As we add type annotations to modules, they will be enabled one at a time
+[tool.ty]
+# Type checking configuration for ty
+# Ty will check all Python files under the bayesian_filters package
+# We'll configure ty to enforce type annotations for a gradual migration
 
-# Ignore all files by default - enable specific modules as they get typed
-ignore_patterns = ["^bayesian_filters/.*"]
+[tool.ty.src]
+# Include all Python files in the bayesian_filters package
+include = ["bayesian_filters/**/*.py"]
+# Exclude test and example files for now (we'll enable them progressively)
+exclude = ["bayesian_filters/**/tests/**", "bayesian_filters/examples/**"]
+# Respect .gitignore and similar files
+respect-ignore-files = true
 
-# Allow untyped function definitions initially
-allow_untyped_defs = true
-
-# Don't require type annotations on functions
-allow_incomplete_defs = true
-
-# Allow imports without type stubs
-ignore_missing_imports = true
-
-# Report unused type ignore comments (we can enable this later when strict)
-warn_unused_ignores = false
-
-# Suppress errors for untyped globals
-allow_untyped_globals = true
+[tool.ty.environment]
+# Python version we're targeting
+python-version = "3.11"

@@ -21,6 +21,8 @@ for more information.
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+from typing import Optional
+
 import numpy as np
 from numpy import dot
 from bayesian_filters.common import pretty_str
@@ -105,28 +107,41 @@ class GHFilterOrder(object):
 
     """
 
-    def __init__(self, x0, dt, order, g, h=None, k=None):
+    def __init__(
+        self,
+        x0: float | np.ndarray,
+        dt: float,
+        order: int,
+        g: float,
+        h: Optional[float] = None,
+        k: Optional[float] = None,
+    ) -> None:
         """Creates a g-h filter of order 0, 1, or 2."""
 
         if order < 0 or order > 2:
             raise ValueError("order must be between 0 and 2")
 
+        if order == 2 and k is None:
+            raise ValueError("k parameter is required for order 2 filters")
+
         if np.isscalar(x0):
-            self.x = np.zeros(order + 1)
+            self.x: np.ndarray = np.zeros(order + 1)
             self.x[0] = x0
         else:
-            self.x = np.copy(x0.astype(float))
+            self.x = np.copy(np.asarray(x0, dtype=float))
 
-        self.dt = dt
-        self.order = order
+        self.dt: float = dt
+        self.order: int = order
 
-        self.g = g
-        self.h = h
-        self.k = k
-        self.y = np.zeros(len(self.x))  # residual
-        self.z = np.zeros(len(self.x))  # last measurement
+        self.g: float = g
+        self.h: Optional[float] = h
+        self.k: Optional[float] = k
+        self.y: np.ndarray = np.zeros(len(self.x))  # residual
+        self.z: np.ndarray = np.zeros(len(self.x))  # last measurement
 
-    def update(self, z, g=None, h=None, k=None):
+    def update(
+        self, z: float | np.ndarray, g: Optional[float] = None, h: Optional[float] = None, k: Optional[float] = None
+    ) -> None:
         """
         Update the filter with measurement z. z must be the same type
         or treatable as the same type as self.x[0].
@@ -151,7 +166,7 @@ class GHFilterOrder(object):
             self.x[0] = x + dxdt + g * self.y
             self.x[1] = dx + h * self.y / self.dt
 
-            self.z = z
+            self.z = np.asarray(z)
 
         else:  # order == 2
             if g is None:
@@ -160,6 +175,9 @@ class GHFilterOrder(object):
                 h = self.h
             if k is None:
                 k = self.k
+
+            # At this point, k is guaranteed to be float due to __init__ validation
+            assert k is not None, "k must not be None for order 2 filter"
 
             x = self.x[0]
             dx = self.x[1]

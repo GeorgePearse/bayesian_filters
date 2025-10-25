@@ -1554,7 +1554,7 @@ def update_steadystate(x, z, K, H=None):
     return x + dot(K, y)
 
 
-def predict(x, P, F=1, Q=0, u=0, B=1, alpha=1.0):
+def predict(x, P, F=1, Q=0, u=0, B=1, alpha: float = 1.0):
     """
     Predict next state (prior) using the Kalman filter state propagation
     equations.
@@ -1599,8 +1599,12 @@ def predict(x, P, F=1, Q=0, u=0, B=1, alpha=1.0):
         Prior covariance matrix
     """
 
-    if np.isscalar(F):
-        F = np.array(F)
+    # Ensure F is a proper numpy array for dot products
+    if isscalar(F):
+        F = np.atleast_2d(np.asarray(F, dtype=float))
+    else:
+        F = np.asarray(F)
+
     x = dot(F, x) + dot(B, u)
     P = (alpha * alpha) * dot(dot(F, P), F.T) + Q
 
