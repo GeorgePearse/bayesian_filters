@@ -1,0 +1,113 @@
+site_name: Bayesian Filters
+site_description: Kalman filtering and optimal estimation library
+site_author: Roger Labbe
+site_url: https://georgepearse.github.io/bayesian_filters
+
+repo_name: GeorgePearse/bayesian_filters
+repo_url: https://github.com/GeorgePearse/bayesian_filters
+edit_uri: edit/master/docs/
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotation
+    - content.code.copy
+  language: en
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: numpy
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+            heading_level: 2
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.mark
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quick-start.md
+  - Filters:
+      - Kalman Filter: filters/kalman-filter.md
+      - Extended Kalman Filter: filters/extended-kalman-filter.md
+      - Unscented Kalman Filter: filters/unscented-kalman-filter.md
+      - Ensemble Kalman Filter: filters/ensemble-kalman-filter.md
+      - Information Filter: filters/information-filter.md
+      - Square Root Filter: filters/square-root-filter.md
+      - Fading Kalman Filter: filters/fading-kalman-filter.md
+      - H-Infinity Filter: filters/h-infinity-filter.md
+      - IMM Estimator: filters/imm-estimator.md
+      - MMAE Filter Bank: filters/mmae-filter-bank.md
+  - Other Algorithms:
+      - GH Filter: algorithms/gh-filter.md
+      - Discrete Bayes: algorithms/discrete-bayes.md
+      - Least Squares: algorithms/least-squares.md
+      - Monte Carlo: algorithms/monte-carlo.md
+  - API Reference:
+      - Kalman: api/kalman.md
+      - Common: api/common.md
+      - Stats: api/stats.md
+      - GH: api/gh.md
+      - Discrete Bayes: api/discrete-bayes.md
+      - Least Squares: api/leastsq.md
+      - Monte Carlo: api/monte-carlo.md
+  - Research: research.md
+  - Examples: examples.md
+  - Contributing: contributing.md
+  - Changelog: changelog.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/GeorgePearse/filterpy
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/bayesian-filters/
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+copyright: Copyright &copy; 2014-2025 Roger R. Labbe
