@@ -1,0 +1,4 @@
+# file: /home/georgepearse/bayesian_filters_worktrees/remove-pyright/bayesian_filters/common/kinematic.py
+# hypothesis_version: 6.141.1
+
+[0.0, 0.5, 1.0, 'dim must be >= 1', 'dim_z must be >= 1', 'order must be >= 0']

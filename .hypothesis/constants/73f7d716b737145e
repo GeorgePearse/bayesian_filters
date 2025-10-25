@@ -1,0 +1,4 @@
+# file: /home/georgepearse/bayesian_filters_worktrees/remove-pyright/bayesian_filters/hinfinity/hinfinity_filter.py
+# hypothesis_version: 6.141.1
+
+['F', 'K', 'P', 'Q', 'V', 'W', 'dim_u', 'dim_x', 'dim_z', 'gamma', 'x', 'y']

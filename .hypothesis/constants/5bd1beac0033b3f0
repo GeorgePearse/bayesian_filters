@@ -1,0 +1,4 @@
+# file: /home/georgepearse/bayesian_filters_worktrees/remove-pyright/bayesian_filters/testing_utils/fixtures.py
+# hypothesis_version: 6.141.1
+
+[0.0, 1e-10, 0.1, 1.0, 2.0, 10.0, 100.0]

@@ -1,0 +1,4 @@
+# file: /home/georgepearse/bayesian_filters_worktrees/remove-pyright/bayesian_filters/common/discretization.py
+# hypothesis_version: 6.141.1
+
+[0.25, 0.5, 1.0, 2.0, 3.0, 6.0, 8.0, 20.0, 24.0, 30.0, 72.0, 252.0]
