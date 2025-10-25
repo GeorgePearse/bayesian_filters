@@ -959,7 +959,6 @@ def test_linear_rts():
 
     assert np.allclose(dx, 0, atol=1e-7)
     assert np.allclose(dxx, 0, atol=1e-6)
-    return ukf
 
 
 def _test_log_likelihood():
