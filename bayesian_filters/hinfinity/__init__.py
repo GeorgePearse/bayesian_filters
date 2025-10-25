@@ -20,4 +20,5 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 __all__ = ["hinfinity_filter"]
 
+# H-infinity filter implementation
 from .hinfinity_filter import *

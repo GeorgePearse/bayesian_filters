@@ -24,7 +24,7 @@ Steps to Create Release
 
 * push tags to origin with git push origin --tags
 
-* Update pypi.org with 'bash pypi-install.sh'
+* Update pypi.org with 'bash scripts/pypi-install.sh'
 
 * You need to manually update the documentation code at pythonhosted, PyPi's documentation server.
 
