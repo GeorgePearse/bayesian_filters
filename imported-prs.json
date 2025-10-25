@@ -1,0 +1,104 @@
+{
+  "imported": {
+    "314": {
+      "status": "pr_created",
+      "fork_pr_url": "https://github.com/GeorgePearse/bayesian_filters/pull/115",
+      "upstream_pr_url": "https://github.com/rlabbe/filterpy/pull/314",
+      "integration_date": "2025-10-25T10:03:45.411194",
+      "had_conflicts": false,
+      "validation_passed": true,
+      "branch_name": "upstream-pr-314-update-setupcfg",
+      "is_draft": false
+    },
+    "313": {
+      "status": "pr_created",
+      "fork_pr_url": "https://github.com/GeorgePearse/bayesian_filters/pull/116",
+      "upstream_pr_url": "https://github.com/rlabbe/filterpy/pull/313",
+      "integration_date": "2025-10-25T10:03:50.447649",
+      "had_conflicts": false,
+      "validation_passed": true,
+      "branch_name": "upstream-pr-313-replace-use-of-nparraycopyf",
+      "is_draft": false
+    },
+    "310": {
+      "status": "pr_created",
+      "fork_pr_url": "https://github.com/GeorgePearse/bayesian_filters/pull/117",
+      "upstream_pr_url": "https://github.com/rlabbe/filterpy/pull/310",
+      "integration_date": "2025-10-25T10:03:55.432304",
+      "had_conflicts": false,
+      "validation_passed": true,
+      "branch_name": "upstream-pr-310-fix-examples-in-kalmanfilter",
+      "is_draft": false
+    },
+    "303": {
+      "status": "pr_created",
+      "fork_pr_url": "https://github.com/GeorgePearse/bayesian_filters/pull/118",
+      "upstream_pr_url": "https://github.com/rlabbe/filterpy/pull/303",
+      "integration_date": "2025-10-25T10:04:00.343299",
+      "had_conflicts": false,
+      "validation_passed": true,
+      "branch_name": "upstream-pr-303-avoid-deprecation-warning",
+      "is_draft": false
+    },
+    "301": {
+      "status": "pr_created",
+      "fork_pr_url": "https://github.com/GeorgePearse/bayesian_filters/pull/119",
+      "upstream_pr_url": "https://github.com/rlabbe/filterpy/pull/301",
+      "integration_date": "2025-10-25T10:04:05.478347",
+      "had_conflicts": false,
+      "validation_passed": true,
+      "branch_name": "upstream-pr-301-make-ekf-more-generic-and-add-",
+      "is_draft": false
+    },
+    "297": {
+      "status": "pr_created",
+      "fork_pr_url": "https://github.com/GeorgePearse/bayesian_filters/pull/120",
+      "upstream_pr_url": "https://github.com/rlabbe/filterpy/pull/297",
+      "integration_date": "2025-10-25T10:04:10.854593",
+      "had_conflicts": false,
+      "validation_passed": true,
+      "branch_name": "upstream-pr-297-correct-matrix-description-in-",
+      "is_draft": false
+    },
+    "279": {
+      "status": "pr_created",
+      "fork_pr_url": "https://github.com/GeorgePearse/bayesian_filters/pull/121",
+      "upstream_pr_url": "https://github.com/rlabbe/filterpy/pull/279",
+      "integration_date": "2025-10-25T10:04:16.339139",
+      "had_conflicts": false,
+      "validation_passed": true,
+      "branch_name": "upstream-pr-279-fix-process-noise-handling-in-",
+      "is_draft": false
+    },
+    "263": {
+      "status": "pr_created",
+      "fork_pr_url": "https://github.com/GeorgePearse/bayesian_filters/pull/122",
+      "upstream_pr_url": "https://github.com/rlabbe/filterpy/pull/263",
+      "integration_date": "2025-10-25T10:04:21.740247",
+      "had_conflicts": false,
+      "validation_passed": true,
+      "branch_name": "upstream-pr-263-feature-support-masked-array",
+      "is_draft": false
+    },
+    "261": {
+      "status": "pr_created",
+      "fork_pr_url": "https://github.com/GeorgePearse/bayesian_filters/pull/123",
+      "upstream_pr_url": "https://github.com/rlabbe/filterpy/pull/261",
+      "integration_date": "2025-10-25T10:04:27.154325",
+      "had_conflicts": false,
+      "validation_passed": true,
+      "branch_name": "upstream-pr-261-add-multi-extended-kalman-filt",
+      "is_draft": false
+    },
+    "189": {
+      "status": "pr_created",
+      "fork_pr_url": "https://github.com/GeorgePearse/bayesian_filters/pull/124",
+      "upstream_pr_url": "https://github.com/rlabbe/filterpy/pull/189",
+      "integration_date": "2025-10-25T10:04:32.803427",
+      "had_conflicts": false,
+      "validation_passed": true,
+      "branch_name": "upstream-pr-189-fixfactorize-the-estimated-",
+      "is_draft": false
+    }
+  }
+}
