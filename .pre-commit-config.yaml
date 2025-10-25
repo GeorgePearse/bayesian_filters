@@ -1,0 +1,55 @@
+fail_fast: false
+default_install_hook_types:
+  - pre-commit
+  - commit-msg
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-added-large-files
+        args: ["--maxkb=3000"]
+      - id: requirements-txt-fixer
+      - id: check-merge-conflict
+
+  # Python hooks
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.13.2
+    hooks:
+      # Run the linter.
+      - id: ruff
+        args: [--fix, --config=pyproject.toml]
+        exclude: ^scripts/
+      # Run the formatter.
+      - id: ruff-format
+        args: [--config=pyproject.toml]
+        exclude: ^scripts/
+
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.8.1
+    hooks:
+      - id: nbstripout
+
+  - repo: https://github.com/RobertCraigie/pyright-python
+    rev: v1.1.405
+    hooks:
+      - id: pyright
+        exclude: ^scripts/
+
+  # Documentation link checker
+  - repo: https://github.com/tcort/markdown-link-check
+    rev: v3.12.2
+    hooks:
+      - id: markdown-link-check
+        args: ['--config', '.markdown-link-check.json']
+        files: ^docs/.*\.md$
+
+  # Commit message linter (Conventional Commits)
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.1.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
