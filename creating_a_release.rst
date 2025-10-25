@@ -24,13 +24,13 @@ Steps to Create Release
 
 * push tags to origin with git push origin --tags
 
-* Update pypi.org with 'bash pypi-install.sh'
+* Update pypi.org with 'bash scripts/pypi-install.sh'
 
 * You need to manually update the documentation code at pythonhosted, PyPi's documentation server.
 
     cd /docs/_build/html
     zip -r filterpy.zip *.*
-    
+
     add all files to a zip file (index.html must be at base)
     go to https://pypi.python.org/pypi?%3Aaction=pkg_edit&name=filterpy
     scroll to bottom, add the zip file you just made
@@ -38,7 +38,3 @@ Steps to Create Release
 
     it usually takes several minutes for the documentation to show up here:
     https://pythonhosted.org/filterpy/
-    
-    
-    
-
