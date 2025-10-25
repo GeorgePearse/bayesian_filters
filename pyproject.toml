@@ -1,57 +1,25 @@
 [build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-# requires is a list of packages that are needed to build your package.
-# You don’t need to install them;
-# build frontends like pip will install them automatically in a temporary,
-# isolated virtual environment for use during the build process
-requires = ["setuptools", "setuptools-scm", "wheel"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools.packages.find]
-where = ["filterpy"]
-
-[tool.setuptools.package-data]
-"filterpy" = ["README.rst", "filterpy/changelog.txt", "LICENSE", "filterpy/kalman/tests/*.py"]
-
-[tool.flake8]
-max-line-length = 120
-extend-ignore = ["E265"]
-# Ignore block comment should start with '# ' because it causes issues with environment definition for scripts
-
-[tool.autopep8]
-max_line_length = 120
-in-place = 1
-aggressive = 1
-ignore = ""
-
-# this is the [project] table
 [project]
-# add the distribution name of the package, the tar ball and python wheel use this name, this name goes the /home/$USER/.local/lib/python3.8/site-packages/
-name = "filterpy"
-
-dynamic = ["dependencies", "optional-dependencies"]
-
-# version is the package version. See the version specifier specification
-# for more details on versions. Some build backends allow it to be
-# specified another way, such as from a file or a git tag.
-version = "0.2.0"
-authors = [
-  { name="Roger Labbe", email="rlabbejr@gmail.com" }
-]
+name = "bayesian-filters"
+dynamic = ["version"]
 description = "Kalman filtering and optimal estimation library"
-readme = "README.rst"
-license = { file="LICENSE" }
-
-# installers like pip use this to check for matching python versions
-requires-python = ">=3.7"
+readme = "README.md"
+authors = [
+    { name = "Roger Labbe", email = "rlabbejr@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=2.3.0",
+    "scipy>=1.16.0",
+    "matplotlib>=3.10.0",
+]
+keywords = ["Kalman", "filters", "filtering", "optimal", "estimation", "tracking", "Bayesian"]
+license = { text = "MIT" }
 classifiers = [
-    # How mature is this project? Common values are
-    #   3 - Alpha
-    #   4 - Beta
-    #   5 - Production/Stable
     "Development Status :: 5 - Production/Stable",
-
-    # Indicate who your project is intended for
     "Intended Audience :: Developers",
     "Intended Audience :: Education",
     "Intended Audience :: Science/Research",
@@ -59,25 +27,67 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Mathematics",
     "Topic :: Scientific/Engineering :: Physics",
     "Topic :: Utilities",
-
-
-    # Pick your license as you wish (should match "license" above)
     "License :: OSI Approved :: MIT License",
-
-    # Specify the Python versions you support here. In particular, ensure
-    # that you indicate whether you support Python 2, Python 3 or both.
-    "Programming Language :: Python :: 3.7",
-    
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX",
     "Operating System :: Unix",
-    "Operating System :: MacOS"
+    "Operating System :: MacOS",
 ]
 
-[tool.setuptools.dynamic]
-dependencies = {file = ["requirements.txt"]}
-optional-dependencies.readthedocs = {file = ["requirements.readthedocs.txt"]}
-
 [project.urls]
-"Homepage" = "http://github.com/rlabbe/filterpy"
-"Bug Tracker" = "http://github.com/rlabbe/filterpy/issues/"
+Homepage = "https://github.com/GeorgePearse/bayesian_filters"
+Repository = "https://github.com/GeorgePearse/bayesian_filters"
+Documentation = "https://georgepearse.github.io/bayesian_filters"
+"Original Project" = "https://github.com/rlabbe/filterpy"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.4.0",
+    "pytest-cov>=7.0.0",
+]
+docs = [
+    "mkdocs>=1.6.0",
+    "mkdocs-material>=9.6.0",
+    "mkdocstrings[python]>=0.30.0",
+]
+
+[tool.hatch.version]
+path = "bayesian_filters/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["bayesian_filters"]
+
+[tool.pytest.ini_options]
+testpaths = ["bayesian_filters"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --strict-markers"
+
+[tool.ruff]
+# Exclude test files and examples from most checks
+extend-exclude = ["bayesian_filters/kalman/tests/ukf2.py"]
+line-length = 120
+
+[tool.ruff.lint]
+# Ignore star import warnings (F403, F405) as they're part of the library's API design
+# Ignore E402 (module level import not at top) for examples
+# Ignore E741 (ambiguous variable names) for mathematical code using I for identity matrix
+# Ignore E501 (line too long) as this is legacy code
+# Ignore E722 (bare except) as this is legacy error handling code that would need major refactoring
+# Ignore F401 (unused imports) for re-exports in __init__ files
+ignore = ["F403", "F405", "E402", "E741", "E501", "E722", "F401"]
+
+# Still check for:
+# - F821: undefined names (actual bugs)
+# - F841: unused variables
+select = ["E", "F", "W"]
+
+[tool.ruff.lint.per-file-ignores]
+# Allow undefined names in examples (they may be defined elsewhere)
+"**/examples/**" = ["F821"]
