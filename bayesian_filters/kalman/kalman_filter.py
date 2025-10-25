@@ -1599,11 +1599,8 @@ def predict(x, P, F=1, Q=0, u=0, B=1, alpha: float = 1.0):
         Prior covariance matrix
     """
 
-    # Ensure F is a proper numpy array for dot products
-    if isscalar(F):
-        F = np.atleast_2d(np.asarray(F, dtype=float))
-    else:
-        F = np.asarray(F)
+    # Convert F to array (keeps 0-D scalar arrays for proper broadcasting)
+    F = np.asarray(F, dtype=float)
 
     x = dot(F, x) + dot(B, u)
     P = (alpha * alpha) * dot(dot(F, P), F.T) + Q
