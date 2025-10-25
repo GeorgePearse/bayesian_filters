@@ -10,6 +10,7 @@ For people new to Kalman filters, they're well explained here https://www.youtub
 [![Documentation Status](https://img.shields.io/badge/docs-online-brightgreen)](https://georgepearse.github.io/bayesian_filters)
 [![PyPI Publishing](https://github.com/GeorgePearse/bayesian_filters/actions/workflows/publish-pypi.yml/badge.svg)](https://github.com/GeorgePearse/bayesian_filters/actions/workflows/publish-pypi.yml)
 [![Latest Release](https://img.shields.io/badge/latest%20release-v1.4.5-success)](https://pypi.org/project/bayesian-filters/1.4.5/)
+[![codecov](https://codecov.io/gh/GeorgePearse/bayesian_filters/branch/master/graph/badge.svg)](https://codecov.io/gh/GeorgePearse/bayesian_filters)
 
 Maintained by George Pearse, Lead MLE at [Visia](https://www.visia.ai/)
 
