@@ -52,7 +52,7 @@ dev = [
     "pytest-benchmark>=4.0.0",
     "pytest-xdist>=3.5.0",
     "pytest-mpl>=0.17.0",
-    "ty>=0.1.0",
+    "ty>=0.0.1a24",
 ]
 docs = [
     "mkdocs>=1.6.0",
