@@ -1,4 +1,0 @@
-# file: /home/georgepearse/bayesian_filters_worktrees/remove-pyright/bayesian_filters/kalman/mmae.py
-# hypothesis_version: 6.141.1
-
-['P', 'dim_x', 'dim_x must be >= 1', 'log-p', 'x']

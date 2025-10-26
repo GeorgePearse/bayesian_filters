@@ -1,4 +1,0 @@
-# file: /home/georgepearse/bayesian_filters_worktrees/remove-pyright/bayesian_filters/kalman/IMM.py
-# hypothesis_version: 6.141.1
-
-['IMMEstimator object', 'M', 'N', 'P', 'P_post', 'P_prior', 'cbar', 'likelihood', 'mu', 'omega', 'x', 'x_post', 'x_prior']

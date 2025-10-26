@@ -1,4 +1,0 @@
-# file: /home/georgepearse/bayesian_filters_worktrees/remove-pyright/bayesian_filters/kalman/information_filter.py
-# hypothesis_version: 6.141.1
-
-[0.0, 'B', 'F', 'H', 'K', 'P_inv', 'P_inv_prior', 'Q', 'R_inv', 'S', '_F_inv', 'dim_u', 'dim_x', 'dim_z', 'inv', 'likelihood', 'log-likelihood', 'mahalanobis', 'x', 'x_prior', 'y', 'z']
