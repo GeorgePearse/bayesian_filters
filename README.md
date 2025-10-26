@@ -14,7 +14,7 @@ For people new to Kalman filters, they're well explained here https://www.youtub
 
 Maintained by George Pearse, Lead MLE at [Visia](https://www.visia.ai/)
 
-This is the fork of the original and excellent filterpy (https://github.com/rlabbe/filterpy), only forked because of the pull requests left without response for essential upgrades to packaging to support python 3.12+ etc. etc. 99% of the functionality remains identical, but I'm adding testing and typing etc. so that the repo is ready for lower cost upgrades.
+This is the fork of the original and excellent filterpy (https://github.com/rlabbe/filterpy), only forked because of the pull requests left without response for essential upgrades to packaging to support python 3.12+ and the coming deprecation in setuptools. etc. 99% of the functionality remains identical, but I'm adding testing and typing etc. so that the repo is ready for lower cost upgrades.
 
 This library provides Kalman filtering and various related optimal and non-optimal filtering software written in Python. It contains Kalman filters, Extended Kalman filters, Unscented Kalman filters, Kalman smoothers, Least Squares filters, fading memory filters, g-h filters, discrete Bayes, and more.
 
