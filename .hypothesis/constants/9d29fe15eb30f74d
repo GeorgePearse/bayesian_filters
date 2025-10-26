@@ -1,4 +1,0 @@
-# file: /home/georgepearse/bayesian_filters_worktrees/remove-pyright/conftest.py
-# hypothesis_version: 6.141.1
-
-['benchmark', 'markers', 'property', 'pytest_benchmark']

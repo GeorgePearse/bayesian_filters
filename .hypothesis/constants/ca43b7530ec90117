@@ -1,4 +1,0 @@
-# file: /home/georgepearse/bayesian_filters_worktrees/remove-pyright/bayesian_filters/kalman/kalman_filter.py
-# hypothesis_version: 6.141.1
-
-[0.0, 0.5, 1.0, 'B', 'F', 'H', 'K', 'KalmanFilter object', 'M', 'P', 'P_post', 'P_prior', 'Q', 'R', 'S', 'SI', 'alpha', 'dim_u', 'dim_x', 'dim_z', 'inv', 'likelihood', 'log-likelihood', 'mahalanobis', 'x', 'x_post', 'x_prior', 'y', 'z']
