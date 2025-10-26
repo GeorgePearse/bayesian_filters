@@ -33,8 +33,6 @@ uv pip install bayesian-filters
 
 ## Basic Usage
 
-Full documentation is at https://georgepearse.github.io/bayesian_filters
-
 ### Import the filters
 
 ```python
