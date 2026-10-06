@@ -25,7 +25,6 @@ bayesian_filters/inprogress.py
 
 # uv
 .venv/
-uv.lock
 .python-version
 
 # Issue import tracking

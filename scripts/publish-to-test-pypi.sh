@@ -10,7 +10,7 @@ rm -rf dist/ build/ *.egg-info
 
 # Build the package using uv
 echo "Building package with uv..."
-uv build
+uv build --no-sources
 
 # Check the built distribution
 echo ""

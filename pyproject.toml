@@ -53,6 +53,7 @@ dev = [
     "pytest-xdist>=3.5.0",
     "pytest-mpl>=0.17.0",
     "ty>=0.0.1a24",
+    "ruff>=0.13.2",
 ]
 docs = [
     "mkdocs>=1.6.0",
@@ -151,4 +152,4 @@ respect-ignore-files = true
 python-version = "3.11"
 
 [tool.uv]
-required-version = "==0.12.10"
+required-version = "==0.12.23"
