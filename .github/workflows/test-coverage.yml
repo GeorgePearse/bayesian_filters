@@ -23,14 +23,14 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v10.0.1
+        uses: astral-sh/setup-uv@v10.2.0
 
       - name: Install dependencies with uv
-        run: uv pip install -e ".[dev]" --system
+        run: uv sync --locked --extra dev
 
       - name: Run tests with coverage
         run: |
-          pytest \
+          uv run --locked pytest \
             --cov=bayesian_filters \
             --cov-report=xml \
             --cov-report=html \
@@ -67,14 +67,14 @@ jobs:
           python-version: '3.11'
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v10.0.1
+        uses: astral-sh/setup-uv@v10.2.0
 
       - name: Install dependencies with uv
-        run: uv pip install -e ".[dev]" --system
+        run: uv sync --locked --extra dev
 
       - name: Run benchmarks
         run: |
-          pytest \
+          uv run --locked pytest \
             -m benchmark \
             --benchmark-only \
             --benchmark-json=.benchmarks/output.json \
@@ -102,17 +102,17 @@ jobs:
           python-version: '3.11'
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v10.0.1
+        uses: astral-sh/setup-uv@v10.2.0
 
       - name: Install dependencies with uv
-        run: uv pip install -e ".[dev]" --system
+        run: uv sync --locked --extra dev
 
       - name: Run type checking with ty
-        run: uv run ty check
+        run: uv run --locked ty check
         continue-on-error: true
 
       - name: Check code style with ruff
-        run: ruff check bayesian_filters tests --select E,W,F
+        run: uv run --locked ruff check bayesian_filters --select E,W,F
         continue-on-error: true
 
   coverage-report:
@@ -130,14 +130,14 @@ jobs:
           python-version: '3.11'
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v10.0.1
+        uses: astral-sh/setup-uv@v10.2.0
 
       - name: Install dependencies with uv
-        run: uv pip install -e ".[dev]" --system
+        run: uv sync --locked --extra dev
 
       - name: Generate coverage report
         run: |
-          pytest \
+          uv run --locked pytest \
             --cov=bayesian_filters \
             --cov-report=term-missing \
             --cov-report=json \

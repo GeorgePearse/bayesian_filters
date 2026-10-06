@@ -29,6 +29,7 @@ Documentation is available at https://georgepearse.github.io/bayesian_filters
 ## Installation
 
 ```bash
+uv venv
 uv pip install bayesian-filters
 ```
 
@@ -162,3 +163,25 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+## Development with uv
+
+The project pins uv 0.12.23 in `pyproject.toml`; GitHub Actions reads that same
+constraint. Install that version with `uv self update 0.12.23` (or your original
+installation method), then use the committed lockfile:
+
+```bash
+uv sync --locked --extra dev
+uv run --locked pytest --benchmark-disable
+uv sync --locked --extra docs
+uv run --locked mkdocs serve
+uv build
+```
+
+The project supports Python 3.11 and newer. To select an interpreter explicitly,
+add `--python 3.13` to `uv sync`. CI tests Python 3.11–3.14 in isolated project
+environments; it does not install project dependencies into the system Python.
+
+After intentionally editing dependencies, run `uv lock` and commit `uv.lock`.
+Use `uv lock --upgrade-package PACKAGE` for a targeted refresh. CI uses `--locked`
+so undeclared lockfile changes fail instead of silently resolving new versions.
