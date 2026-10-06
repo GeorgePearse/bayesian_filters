@@ -30,3 +30,9 @@ bayesian_filters/inprogress.py
 # Issue import tracking
 imported-issues.json
 /site/
+
+# Native build outputs
+rust/target/
+*.so
+native-wheels/
+.hypothesis/

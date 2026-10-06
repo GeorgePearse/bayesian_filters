@@ -1,0 +1,41 @@
+name: Rust backend prototype
+on:
+  pull_request:
+    paths:
+      - rust/**
+      - bayesian_filters/rust.py
+      - bayesian_filters/backends.py
+      - scratch_files/rust_backend/**
+      - .github/workflows/rust-prototype.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.11', '3.13']
+        threads: ['1', '4']
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MPLBACKEND: Agg
+      BAYESIAN_FILTERS_RUST_THREADS: ${{ matrix.threads }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: astral-sh/setup-uv@v10.2.0
+      - run: uv venv
+      - run: uv pip install -e '.[dev]' 'maturin>=1.9,<2'
+      - run: uv run --no-sync maturin build --release --locked --manifest-path rust/Cargo.toml --interpreter .venv/bin/python --out native-wheels
+      - run: uv pip install native-wheels/*.whl
+      - run: uv run --no-sync pytest scratch_files/rust_backend/test_native.py --benchmark-disable
+      - run: uv run --no-sync pytest --benchmark-disable
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rust-wheel-py${{ matrix.python }}-threads${{ matrix.threads }}
+          path: native-wheels/*.whl

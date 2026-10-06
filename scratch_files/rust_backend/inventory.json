@@ -1,0 +1,675 @@
+[
+  {
+    "module": "bayesian_filters/common/discretization.py",
+    "status": "not ported; evaluate separately",
+    "public_definitions": [
+      {
+        "name": "order_by_derivative",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "Q_discrete_white_noise",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "Q_continuous_white_noise",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "van_loan_discretization",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "linear_ode_discretation",
+        "kind": "function",
+        "methods": []
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/common/helpers.py",
+    "status": "not ported; evaluate separately",
+    "public_definitions": [
+      {
+        "name": "Saver",
+        "kind": "class",
+        "methods": [
+          "save",
+          "keys",
+          "to_array",
+          "flatten"
+        ]
+      },
+      {
+        "name": "runge_kutta4",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "pretty_str",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "pprint",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "reshape_z",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "inv_diagonal",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "outer_product_sum",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "compare_kf",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "copy_states",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "repr_string",
+        "kind": "function",
+        "methods": []
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/common/kinematic.py",
+    "status": "not ported; evaluate separately",
+    "public_definitions": [
+      {
+        "name": "kinematic_state_transition",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "kinematic_kf",
+        "kind": "function",
+        "methods": []
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/discrete_bayes/discrete_bayes.py",
+    "status": "native 1D update and integer-offset wrap prediction; normalize/other modes remain reference",
+    "public_definitions": [
+      {
+        "name": "normalize",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "update",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "predict",
+        "kind": "function",
+        "methods": []
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/gh/gh_filter.py",
+    "status": "native scalar GH batch only; GHK/order variants and stateful methods not ported",
+    "public_definitions": [
+      {
+        "name": "GHFilterOrder",
+        "kind": "class",
+        "methods": [
+          "update"
+        ]
+      },
+      {
+        "name": "GHFilter",
+        "kind": "class",
+        "methods": [
+          "update",
+          "batch_filter",
+          "VRF_prediction",
+          "VRF"
+        ]
+      },
+      {
+        "name": "GHKFilter",
+        "kind": "class",
+        "methods": [
+          "update",
+          "batch_filter",
+          "VRF_prediction",
+          "bias_error",
+          "VRF"
+        ]
+      },
+      {
+        "name": "optimal_noise_smoothing",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "least_squares_parameters",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "critical_damping_parameters",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "benedict_bornder_constants",
+        "kind": "function",
+        "methods": []
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/hinfinity/hinfinity_filter.py",
+    "status": "not ported; evaluate separately",
+    "public_definitions": [
+      {
+        "name": "SaverProtocol",
+        "kind": "class",
+        "methods": [
+          "save"
+        ]
+      },
+      {
+        "name": "HInfinityFilter",
+        "kind": "class",
+        "methods": [
+          "update",
+          "predict",
+          "batch_filter",
+          "get_prediction",
+          "residual_of",
+          "measurement_of_state",
+          "V",
+          "V"
+        ]
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/kalman/CubatureKalmanFilter.py",
+    "status": "not ported; evaluate separately",
+    "public_definitions": [
+      {
+        "name": "spherical_radial_sigmas",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "ckf_transform",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "CubatureKalmanFilter",
+        "kind": "class",
+        "methods": [
+          "predict",
+          "update",
+          "log_likelihood",
+          "likelihood",
+          "mahalanobis"
+        ]
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/kalman/EKF.py",
+    "status": "not ported; evaluate separately",
+    "public_definitions": [
+      {
+        "name": "ExtendedKalmanFilter",
+        "kind": "class",
+        "methods": [
+          "predict_update",
+          "update",
+          "predict_x",
+          "predict",
+          "log_likelihood",
+          "likelihood",
+          "mahalanobis"
+        ]
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/kalman/IMM.py",
+    "status": "not ported; evaluate separately",
+    "public_definitions": [
+      {
+        "name": "IMMEstimator",
+        "kind": "class",
+        "methods": [
+          "update",
+          "predict"
+        ]
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/kalman/UKF.py",
+    "status": "not ported; evaluate separately",
+    "public_definitions": [
+      {
+        "name": "UnscentedKalmanFilter",
+        "kind": "class",
+        "methods": [
+          "predict",
+          "update",
+          "cross_variance",
+          "compute_process_sigmas",
+          "batch_filter",
+          "rts_smoother",
+          "log_likelihood",
+          "likelihood",
+          "mahalanobis"
+        ]
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/kalman/ensemble_kalman_filter.py",
+    "status": "restricted native predict/update and fixed-matrix batch; full class API not ported",
+    "public_definitions": [
+      {
+        "name": "EnsembleKalmanFilter",
+        "kind": "class",
+        "methods": [
+          "initialize",
+          "update",
+          "predict"
+        ]
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/kalman/fading_memory.py",
+    "status": "not ported; evaluate separately",
+    "public_definitions": [
+      {
+        "name": "FadingKalmanFilter",
+        "kind": "class",
+        "methods": [
+          "update",
+          "predict",
+          "batch_filter",
+          "get_prediction",
+          "residual_of",
+          "measurement_of_state",
+          "alpha",
+          "log_likelihood",
+          "likelihood",
+          "mahalanobis"
+        ]
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/kalman/fixed_lag_smoother.py",
+    "status": "not ported; evaluate separately",
+    "public_definitions": [
+      {
+        "name": "FixedLagSmoother",
+        "kind": "class",
+        "methods": [
+          "smooth",
+          "smooth_batch"
+        ]
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/kalman/information_filter.py",
+    "status": "not ported; evaluate separately",
+    "public_definitions": [
+      {
+        "name": "InformationFilter",
+        "kind": "class",
+        "methods": [
+          "update",
+          "predict",
+          "log_likelihood",
+          "likelihood",
+          "mahalanobis",
+          "batch_filter",
+          "F",
+          "F",
+          "P"
+        ]
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/kalman/kalman_filter.py",
+    "status": "restricted native predict/update and fixed-matrix batch; full class API not ported",
+    "public_definitions": [
+      {
+        "name": "KalmanFilter",
+        "kind": "class",
+        "methods": [
+          "predict",
+          "update",
+          "predict_steadystate",
+          "update_steadystate",
+          "update_correlated",
+          "update_sequential",
+          "batch_filter",
+          "rts_smoother",
+          "get_prediction",
+          "get_update",
+          "residual_of",
+          "measurement_of_state",
+          "log_likelihood",
+          "likelihood",
+          "mahalanobis",
+          "alpha",
+          "log_likelihood_of",
+          "alpha",
+          "test_matrix_dimensions"
+        ]
+      },
+      {
+        "name": "update",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "update_steadystate",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "predict",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "predict_steadystate",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "batch_filter",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "rts_smoother",
+        "kind": "function",
+        "methods": []
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/kalman/mmae.py",
+    "status": "not ported; evaluate separately",
+    "public_definitions": [
+      {
+        "name": "MMAEFilterBank",
+        "kind": "class",
+        "methods": [
+          "predict",
+          "update"
+        ]
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/kalman/sigma_points.py",
+    "status": "not ported; evaluate separately",
+    "public_definitions": [
+      {
+        "name": "MerweScaledSigmaPoints",
+        "kind": "class",
+        "methods": [
+          "num_sigmas",
+          "sigma_points"
+        ]
+      },
+      {
+        "name": "JulierSigmaPoints",
+        "kind": "class",
+        "methods": [
+          "num_sigmas",
+          "sigma_points"
+        ]
+      },
+      {
+        "name": "SimplexSigmaPoints",
+        "kind": "class",
+        "methods": [
+          "num_sigmas",
+          "sigma_points"
+        ]
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/kalman/square_root.py",
+    "status": "not ported; evaluate separately",
+    "public_definitions": [
+      {
+        "name": "SquareRootKalmanFilter",
+        "kind": "class",
+        "methods": [
+          "update",
+          "predict",
+          "residual_of",
+          "measurement_of_state",
+          "Q",
+          "Q1_2",
+          "Q",
+          "P",
+          "P_prior",
+          "P_post",
+          "P1_2",
+          "P",
+          "R",
+          "R1_2",
+          "R",
+          "S",
+          "SI"
+        ]
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/kalman/unscented_transform.py",
+    "status": "native default weighted moments; custom callbacks use Python reference",
+    "public_definitions": [
+      {
+        "name": "unscented_transform",
+        "kind": "function",
+        "methods": []
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/leastsq/least_squares.py",
+    "status": "not ported; evaluate separately",
+    "public_definitions": [
+      {
+        "name": "LeastSquaresFilter",
+        "kind": "class",
+        "methods": [
+          "reset",
+          "update",
+          "errors"
+        ]
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/memory/fading_memory.py",
+    "status": "not ported; evaluate separately",
+    "public_definitions": [
+      {
+        "name": "FadingMemoryFilter",
+        "kind": "class",
+        "methods": [
+          "update"
+        ]
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/monte_carlo/resampling.py",
+    "status": "native systematic/stratified traversal; NumPy RNG; residual/multinomial remain reference",
+    "public_definitions": [
+      {
+        "name": "residual_resample",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "stratified_resample",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "systematic_resample",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "multinomial_resample",
+        "kind": "function",
+        "methods": []
+      }
+    ]
+  },
+  {
+    "module": "bayesian_filters/stats/stats.py",
+    "status": "not ported; plotting remains Python by design; numerical statistics unmeasured",
+    "public_definitions": [
+      {
+        "name": "mahalanobis",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "log_likelihood",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "likelihood",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "logpdf",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "gaussian",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "mul",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "mul_pdf",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "add",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "multivariate_gaussian",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "multivariate_multiply",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "plot_discrete_cdf",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "plot_gaussian_cdf",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "plot_gaussian_pdf",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "plot_gaussian",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "covariance_ellipse",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "plot_3d_covariance",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "plot_covariance_ellipse",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "plot_covariance",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "norm_cdf",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "rand_student_t",
+        "kind": "function",
+        "methods": []
+      },
+      {
+        "name": "NEES",
+        "kind": "function",
+        "methods": []
+      }
+    ]
+  }
+]

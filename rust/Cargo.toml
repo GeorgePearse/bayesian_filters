@@ -1,0 +1,21 @@
+[package]
+name = "bayesian-filters-rust"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+
+[lib]
+name = "_bayesian_filters_rust"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.29", features = ["extension-module"] }
+numpy = "0.29"
+nalgebra = "0.35"
+wide = "1.7"
+rayon = "1.12"
+gemm = { version = "0.19", default-features = false, features = ["std", "rayon", "x86-v4"] }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
