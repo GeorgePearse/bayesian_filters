@@ -185,3 +185,9 @@ environments; it does not install project dependencies into the system Python.
 After intentionally editing dependencies, run `uv lock` and commit `uv.lock`.
 Use `uv lock --upgrade-package PACKAGE` for a targeted refresh. CI uses `--locked`
 so undeclared lockfile changes fail instead of silently resolving new versions.
+
+## Experimental Rust backend
+
+See the [Rust backend investigation](scratch_files/RUST_BACKEND.md) for optional
+native kernels, numerical parity tests, reproducible speed comparisons, and the
+full API migration assessment. This prototype does not replace the existing backend.
