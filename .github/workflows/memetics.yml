@@ -1,0 +1,44 @@
+name: Memetics sync
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Secrets cannot be referenced in a job-level `if`, so gate on an env var
+      # instead. Without ANTHROPIC_API_KEY the run skips cleanly rather than failing.
+      - id: key
+        name: Check for ANTHROPIC_API_KEY
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "ANTHROPIC_API_KEY secret not set; skipping memetics sync." >> "$GITHUB_STEP_SUMMARY"
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - id: memetics
+        if: steps.key.outputs.present == 'true'
+        uses: GeorgePearse/memetics@main
+        with:
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - uses: peter-evans/create-pull-request@v6
+        if: steps.key.outputs.present == 'true' && steps.memetics.outputs.changed == 'true'
+        with:
+          title: 'Memetics: sync with upstream changes'
+          body: ${{ steps.memetics.outputs.summary }}
+          branch: memetics/auto-sync
+          commit-message: 'Sync with upstream pattern changes (memetics)'
+          labels: memetics
